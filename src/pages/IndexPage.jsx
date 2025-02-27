@@ -891,6 +891,7 @@ function IndexPage() {
                   </div>
                 </div>
                 <div className="swiper-slide">
+                  
                   <div className="wine-card p-6 p-lg-12">
                     <div className="decoration pb-5 mb-6">
                       <div className="wrap"></div>

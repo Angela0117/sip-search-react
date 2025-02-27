@@ -42,9 +42,10 @@
 
   .navItem {
     opacity: 1;
-  }
-  .navItem:hover {
-    opacity: 0.6;
+
+    &:active {
+      color: #743200 !important;
+    }
   }
 
   .nav-custom-border {

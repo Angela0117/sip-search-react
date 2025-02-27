@@ -7,62 +7,53 @@ import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function RecipesSearch() {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const cardsPerPage = 6;
+  const [allProducts, setAllProducts] = useState([]); // 存放所有資料
+const [products, setProducts] = useState([]); // 存放當前頁面資料
+const [searchTerm, setSearchTerm] = useState("");
+const [currentPage, setCurrentPage] = useState(1);
+const cardsPerPage = 6;
 
-  const getProducts = async (page = 1) => {
-    try {
-      const res = await axios.get(
-        `${baseUrl}/recipes?_page=${page}&_per_page=${cardsPerPage}`
-      );
-      console.log("取得產品成功", res.data);
-      setProducts(res.data.data);
-      setCurrentPage(page);
-    } catch (error) {
-      console.error("取得產品失敗", error);
-      alert("取得產品失敗");
-    }
-  };
+// 取得所有產品（不分頁）
+const getAllProducts = async () => {
+  try {
+    const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+    console.log("取得所有產品成功", res.data);
+    setAllProducts(res.data);
+    setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+  } catch (error) {
+    console.error("取得產品失敗", error);
+    alert("取得產品失敗");
+  }
+};
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+// 搜尋功能
+const handleSearch = () => {
+  if (!searchTerm) {
+    setProducts(allProducts.slice(0, cardsPerPage)); // 沒搜尋時回復原始分頁
+    setCurrentPage(1);
+    return;
+  }
+  const lowerSearch = searchTerm.toLowerCase();
+  const filtered = allProducts.filter((product) =>
+    [product.title, product.title_en, product.content]
+      .filter(Boolean)
+      .some((field) => field.toLowerCase().includes(lowerSearch))
+  );
 
-  const filterProducts = (products, searchTerm) => {
-    if (!searchTerm) return products;
-    const lowerSearch = searchTerm.toLowerCase();
-    return products.filter((product) => {
-      const title = product.title ? product.title.toLowerCase() : "";
-      const titleEn = product.title_en ? product.title_en.toLowerCase() : "";
-      const content = product.content ? product.content.toLowerCase() : "";
-      return (
-        title.includes(lowerSearch) ||
-        titleEn.includes(lowerSearch) ||
-        content.includes(lowerSearch)
-      );
-    });
-  };
+  setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
+  setCurrentPage(1);
+ 
+};
 
-  const handleSearch = () => {
-    if (!searchTerm) {
-      getProducts(currentPage);
-    } else {
-      const filteredProducts = filterProducts(products, searchTerm);
-      if (filteredProducts.length > 0) {
-        setProducts(filteredProducts);
-      } else {
-        getProducts(1); // 這裡強制回到第 1 頁，避免搜尋後的分頁錯亂
-      }
-    }
-  };
+// 分頁功能
+const handlePageChange = (page) => {
+  setCurrentPage(page);
+  setProducts(allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage));
+};
 
-  //分頁
-  const handlePageChange = (page) => {
-    console.log(page);
-    getProducts(page);
-  };
+useEffect(() => {
+  getAllProducts();
+}, []);
 
   //swiper
   useEffect(() => {
@@ -134,6 +125,7 @@ function RecipesSearch() {
                 aria-label="立即搜尋"
                 aria-describedby="button-addon2"
                 value={searchTerm}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
