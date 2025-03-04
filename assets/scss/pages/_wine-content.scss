@@ -6,7 +6,7 @@
 
 
 .wine-content-title {
-  margin-bottom: 120px;
+  margin-bottom: 80px;
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -19,12 +19,16 @@
 }
 
 .methods-item-1 {
-  max-width: 447px;
+  max-width: 343px;
+  flex: 1;
   @media (max-width: 768px) {
     margin: 0 auto;
     max-width: 237px;
   }
   &-img {
+    border-radius: 180px 180px 0 0;
+    object-fit: cover;
+    display: block;
     @media (max-width: 768px) {
       height: 285px;
     }
@@ -39,17 +43,18 @@
   margin-bottom: 0px;
   @media (max-width: 768px) {
     gap: 4px;
-    padding: 14px 24px;
+    padding: 9px 14px;
   }
   &-btn {
     width: 40px;
     //height: 42px;
     text-align: center;
     font-size: 36px;
+    
     @media (max-width: 768px) {
       font-size: 12px;
       width: 16px;
-      margin-right: 4px;
+      margin-right: 12px;
     }
     &:hover {
       font-variation-settings: "FILL" 1;
@@ -58,7 +63,7 @@
 
   &-item {
     align-items: center;
-    gap: 12px;
+    gap: 4px;
     @media (max-width: 768px) {
       gap: 0px;
       width: 100%;
@@ -74,7 +79,10 @@
 //}
 
 .wine-content-methods {
-  gap: 96px;
+  gap: 72px;
+  //align-items: center;
+  justify-content: center;
+  
 }
 
 .methods-tags {
@@ -99,7 +107,8 @@
 }
 
 .methods-item-2 {
-  max-width: 753px;
+  max-width: 785px;
+  flex: 1;
   &-step {
     border: 1px solid $primary-3;
     //position: relative;

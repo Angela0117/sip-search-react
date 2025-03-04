@@ -7,7 +7,7 @@ function WineContent() {
     {/* 第一區 */}
       <div className="container">
         <section className="wine-content-intro">
-          <ol className="breadcrumb fs-8 fs-lg-6 text-primary-1 pages-box section-breadcrumb" >
+          <ol className="breadcrumb fs-8 fs-lg-7 text-primary-1 pages-box section-breadcrumb" >
             <li className="breadcrumb-item"><a href="#">酒譜區</a></li>
             <li className="breadcrumb-item active">
               <a href="#">琴酒</a>
@@ -15,22 +15,22 @@ function WineContent() {
           </ol>
 
           <div className="wine-content-title text-primary-1 text-center" data-aos="fade-down">
-            <h1 className="fs-6 fs-md-1" data-aos="zoom-in-up">
+            <h1 className="fs-6 fs-md-5 fs-lg-3 " data-aos="zoom-in-up">
               <span className="me-6">尼格羅尼</span>
               <span className="eng-font">Negroni</span>
             </h1>
           </div>
 
           <div className="wine-content-methods d-flex">
-            <div className="methods-item-1" data-aos="flip-right" data-aos-duration="1000">
+            <div className="methods-item-1 ms-lg-11" data-aos="flip-right" data-aos-duration="1000">
               <img
                 className="methods-item-1-img"
-                src="../assets/images/Negroni._2608654png.png"
+                src="../assets/images/winecontent-negroni.png"
                 alt="Negroni"
               />
 
               <ul
-                className="methods-icon fs-9 fs-md-6 bg-primary-3 text-neutral-1 d-flex"
+                className="methods-icon fs-9 fs-md-8 bg-primary-3 text-neutral-1 d-flex"
               >
                 <li className="methods-icon-item d-flex">
                   <a className="material-symbols-outlined methods-icon-btn" href="#">
@@ -55,14 +55,14 @@ function WineContent() {
               </ul>
             </div>
 
-            <div className="methods-item-2" data-aos="fade-up-left" data-aos-duration="1000">
+            <div className="methods-item-2 me-lg-11" data-aos="fade-up-left" data-aos-duration="1000">
               <div className="methods-item-2-text">
-                <div className="methods-tags fs-10 fs-md-7 text-primary-3 d-flex">
+                <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
                   <a href="#" className="btn-tags">金巴利</a>
                   <a href="#" className="btn-tags">甜苦艾酒</a>
                   <a href="#" className="btn-tags">琴酒</a>
                 </div>
-                <p className="fs-9 fs-md-6 text-neutral-1 mt-2 mt-md-10">
+                <p className="fs-9 fs-md-8 text-neutral-1 mt-2 mt-md-10">
                   義大利人使用 <span className="eng-font">Negroni</span>來當開胃酒，或是清潔口腔味道的飲品 <span className="eng-font">Negroni</span>
                   苦甜的味道，很適合作成餐前酒，讓嘴巴內的味道可以被沖淡，苦甜的味道讓你在用餐時味覺變的更敏銳。適合的喜歡苦甜平衡口感的人，酒精濃度約24-28%。
                 </p>
@@ -70,10 +70,10 @@ function WineContent() {
 
               <div className="methods-item-2-step text-neutral-1 mt-6 mt-md-11">
                 <div className="methods-item-2-step-title px-8 px-md-11 py-2 py-md-4">
-                  <h5 className="fs-8 fs-md-5">調酒作法</h5>
+                  <h5 className="fs-8 fs-md-6">調酒作法</h5>
                 </div>
                 <ul
-                  className="methods-item-2-step-content p-4 p-md-10 fs-9 fs-md-6 p-5 p-md-10"
+                  className="methods-item-2-step-content  fs-9 fs-md-8 ps-12 pe-10 pt-5 pb-5"
                 >
                   <li>
                     <p>
@@ -102,7 +102,7 @@ function WineContent() {
     <div className="container">
       <section className="wine-comments" data-aos="zoom-in-up">
         <div className="text-center m-15">
-          <h2 className="fs-7 fs-md-2 text-primary-1" data-aos="zoom-in-up">品酒討論</h2>
+          <h2 className="fs-6 fs-md-5 fs-lg-3 text-primary-1" data-aos="zoom-in-up">品酒討論</h2>
         </div>
 
         <div class="wine-comments-section bg-primary-1 px-6 py-10 p-md-13">
@@ -198,7 +198,7 @@ function WineContent() {
     <div className="container special-list">
         <div className="text-center mb-6 mb-lg-13 pt-10 pt-lg-15" data-aos="zoom-in-up">
           <p className="eng-font fs-8 fs-md-5 text-primary-1 mb-4">Specials</p>
-          <h2 className="fs-7 fs-md-2 text-primary-1">還想來點特別的</h2>
+          <h2 className="fs-6 fs-md-5 fs-lg-3 text-primary-1">還想來點特別的</h2>
         </div>
 
         <a className="d-block mb-6 mb-md-10" href="#">
