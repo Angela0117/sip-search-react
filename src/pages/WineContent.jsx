@@ -21,7 +21,7 @@ function WineContent() {
             </h1>
           </div>
 
-          <div className="wine-content-methods d-flex">
+          <div className="wine-content-methods d-flex pb-lg-10">
             <div className="methods-item-1 ms-lg-11" data-aos="flip-right" data-aos-duration="1000">
               <img
                 className="methods-item-1-img"
@@ -101,19 +101,19 @@ function WineContent() {
     {/* 第二區 */}
     <div className="container">
       <section className="wine-comments" data-aos="zoom-in-up">
-        <div className="text-center m-15">
+        <div className="text-center m-13">
           <h2 className="fs-6 fs-md-5 fs-lg-3 text-primary-1" data-aos="zoom-in-up">品酒討論</h2>
         </div>
 
-        <div class="wine-comments-section bg-primary-1 px-6 py-10 p-md-13">
+        <div class="wine-comments-section bg-primary-1 px-6 px-md-15 py-10 py-md-11">
           <div className="user-info" data-aos="fade-right">
             <img
               src="../assets/images/Ellipse 9.png"
               alt="Angela's avatar"
               className="avatar"
             />
-            <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold">Angela</span>
-            <span className="fs-9 fs-md-8 text-neutral-3">09-23-2024</span>
+            <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">Angela</span>
+            <span className="fs-9 fs-md-9 text-neutral-3">09-23-2024</span>
           </div>
           <div className="comments-box" data-aos="fade-right">
             <textarea placeholder="分享你調酒的經驗、喜好和看法吧！"maxLength="500"></textarea>
@@ -125,7 +125,7 @@ function WineContent() {
             </div>
           </div>
 
-          <ul className="wine-comments-list d-flex">
+          <ul className="wine-comments-list mt-6 mb-10 my-md-11 d-flex">
             <li className="wine-comments-list-item d-flex" data-aos="fade-right">
               <div className="wine-comments-list-info d-flex align-items-center">
                 <img
@@ -133,14 +133,14 @@ function WineContent() {
                   alt="Nate's avatar"
                   className="avatar"
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Nate</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">酸甜好滋味！！喝起來很順口</p>
+                <p className="fs-9 fs-md-8">酸甜好滋味！！喝起來很順口</p>
               </div>
             </li>
             <li className="wine-comments-list-item d-flex" data-aos="fade-right">
@@ -150,14 +150,14 @@ function WineContent() {
                   alt="Chris's avatar"
                   className="avatar"
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Chris</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">
+                <p className="fs-9 fs-md-8">
                   適合新手的酒譜，上手容易，味道和專業酒吧差不多
                 </p>
               </div>
@@ -169,22 +169,22 @@ function WineContent() {
                   alt="Kasie's avatar"
                   className="avatar"
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Kasie</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">材料準備容易，適合夏天晚上小酌</p>
+                <p className="fs-9 fs-md-8">材料準備容易，適合夏天晚上小酌</p>
               </div>
             </li>
           </ul>
           <a className="d-block" href="#">
             <div
               className="wine-comments-btn d-flex justify-content-center align-items-center">
-              <p className="fs-8 fs-md-5 me-2 me-md-6">查看更多</p>
-              <span className="material-symbols-outlined fs-8 fs-md-5 me-6">
+              <p className="fs-8 fs-md-7 me-2 me-md-3">查看更多</p>
+              <span className="material-symbols-outlined fs-8 fs-md-7 ">
                 arrow_forward_ios
               </span>
             </div>

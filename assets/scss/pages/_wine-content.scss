@@ -136,7 +136,7 @@
 //品酒討論區
 
 .wine-comments {
-  padding: 120px 0px;
+  //padding: 120px 0px;
   @media (max-width: 768px) {
     padding: 40px 0px;
   }
@@ -177,8 +177,8 @@
     //border: none; //隱藏留言框線
     resize: none; //隱藏留言框下拉圖示
     //outline: 1px solid $primary-4; //隱藏點擊時的框線
-    padding: 10px;
-    font-size: 20px; //手機12px
+    padding: 20px;
+    font-size: 16px; //手機12px
     color: #888;
     display: flex; //讓留言框和父層高度一致
   }
@@ -209,9 +209,7 @@
 
 .wine-comments-list {
   flex-direction: column;
-  gap: 40px;
-  margin-top: 48px;
-  margin-bottom: 72px;
+  gap: 24px;
   
   &-area {
     background: $primary-3;
