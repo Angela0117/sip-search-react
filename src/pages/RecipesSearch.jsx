@@ -3,57 +3,88 @@ import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import axios from "axios";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
+import { type } from "jquery";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function RecipesSearch() {
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
-const [products, setProducts] = useState([]); // 存放當前頁面資料
-const [searchTerm, setSearchTerm] = useState("");
-const [currentPage, setCurrentPage] = useState(1);
-const cardsPerPage = 6;
+  const [products, setProducts] = useState([]); // 存放當前頁面資料
+  const [searchTerm, setSearchTerm] = useState(""); //搜索
+  const [sortType, setSortType] = useState("default"); //熱門排序
+  const [activeSort, setActiveSort] = useState(""); // 新增狀態來保存當前的排序類型
+  const [currentPage, setCurrentPage] = useState(1); //分頁
+  const cardsPerPage = 6;
 
-// 取得所有產品（不分頁）
-const getAllProducts = async () => {
-  try {
-    const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
-    console.log("取得所有產品成功", res.data);
-    setAllProducts(res.data);
-    setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
-  } catch (error) {
-    console.error("取得產品失敗", error);
-    alert("取得產品失敗");
-  }
-};
+  // 取得所有產品（不分頁）
+  const getAllProducts = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+      console.log("取得所有產品成功", res.data);
+      setAllProducts(res.data);
+      setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+    } catch (error) {
+      console.error("取得產品失敗", error);
+      alert("取得產品失敗");
+    }
+  };
 
-// 搜尋功能
-const handleSearch = () => {
-  if (!searchTerm) {
-    setProducts(allProducts.slice(0, cardsPerPage)); // 沒搜尋時回復原始分頁
+  // 搜尋功能
+  const handleSearch = () => {
+    if (!searchTerm) {
+      setProducts(allProducts.slice(0, cardsPerPage)); // 沒搜尋時回復原始分頁
+      setCurrentPage(1);
+      return;
+    }
+    const lowerSearch = searchTerm.toLowerCase();
+    const filtered = allProducts.filter((product) =>
+      [product.title, product.title_en, product.content]
+        .filter(Boolean)
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+
+    setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
     setCurrentPage(1);
-    return;
-  }
-  const lowerSearch = searchTerm.toLowerCase();
-  const filtered = allProducts.filter((product) =>
-    [product.title, product.title_en, product.content]
-      .filter(Boolean)
-      .some((field) => field.toLowerCase().includes(lowerSearch))
-  );
+  };
 
-  setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
-  setCurrentPage(1);
- 
-};
+  //熱門/按讚排序功能
+  const handleSort = (type) => {
+    setSortType(type);
+    setActiveSort(type); //點擊後變色
+    let sortedProducts = [...allProducts];
+    if (type === "favorite") {
+      sortedProducts.sort((a, b) => b.favorite - a.favorite);
+    } else if (type === "likes") {
+      sortedProducts.sort((a, b) => b.likes - a.likes);
+    } else {
+      sortedProducts.sort((a, b) => a.id - b.id);
+    }
+    setAllProducts(sortedProducts);
+    setProducts(sortedProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
+  //清除排序功能
+  const handleClearSort = () => {
+    setSortType("default");
+    setActiveSort("");
+    let sortedProducts = [...allProducts];
+    sortedProducts.sort((a, b) => a.id - b.id);
+    setAllProducts(sortedProducts);
+    setProducts(allProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
 
-// 分頁功能
-const handlePageChange = (page) => {
-  setCurrentPage(page);
-  setProducts(allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage));
-};
+  // 分頁功能
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setProducts(
+      allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+    );
+  };
 
-useEffect(() => {
-  getAllProducts();
-}, []);
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   //swiper
   useEffect(() => {
@@ -79,7 +110,7 @@ useEffect(() => {
     });
   }, []);
 
-  //bar左右滑動
+  //tag bar左右滑動
   const scrollContainerRef1 = useRef(null);
   const scrollContainerRef2 = useRef(null);
   const scrollContainerRef3 = useRef(null);
@@ -475,15 +506,39 @@ useEffect(() => {
                 </div>
 
                 <div className="col-4 d-flex align-items-center justify-content-end text-nowrap">
-                  <p className="text-primary-1 me-lg-6 me-3 ms-10 fs-lg-8 fs-10">
+                  <button
+                    type="button"
+                    className="text-primary-1 me-lg-6 me-3 ms-10 fs-lg-8 fs-10 btn-no-bg"
+                    onClick={handleClearSort}
+                  >
                     清除所有條件
-                  </p>
+                  </button>
                   <p className="text-white me-lg-4 d-none d-md-block">排序：</p>
                   <p className="text-white me-lg-4 me-3 d-none d-md-block">
-                    <a href="#">熱門程度</a>
+                    <button
+                      type="button"
+                      className={`btn-no-bg ${
+                        activeSort === "favorite"
+                          ? "text-primary-3"
+                          : "text-primary-1"
+                      }`}
+                      onClick={() => handleSort("favorite")}
+                    >
+                      熱門程度
+                    </button>
                   </p>
                   <p className="text-neutral-3 border-0 border-start border-neutral-3 ps-lg-4 d-none d-md-block">
-                    <a href="#">按讚數</a>
+                    <button
+                      type="button"
+                      className={`btn-no-bg ${
+                        activeSort === "likes"
+                          ? "text-primary-3"
+                          : "text-primary-1"
+                      }`}
+                      onClick={() => handleSort("likes")}
+                    >
+                      按讚數
+                    </button>
                   </p>
                 </div>
                 <div className="custom-list-rs d-md-none d-flex justify-content-end">
@@ -498,14 +553,14 @@ useEffect(() => {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <a className="dropdown-item text-white" href="#">
+                        <button type="button" className="dropdown-item text-white" onClick={() => handleSort("favorite")} >
                           熱門程度
-                        </a>
+                        </button>
                       </li>
                       <li>
-                        <a className="dropdown-item text-white" href="#">
+                        <button type="button" className="dropdown-item text-white" onClick={() => handleSort("likes")}>
                           按讚數
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>
