@@ -10,14 +10,14 @@ function WineContent() {
           <ol className="breadcrumb fs-8 fs-lg-7 text-primary-1 pages-box section-breadcrumb" >
             <li className="breadcrumb-item"><a href="#">酒譜區</a></li>
             <li className="breadcrumb-item active">
-              <a href="#">琴酒</a>
+              <a href="#">{recipes[0].flavor}</a>
             </li>
           </ol>
 
           <div className="wine-content-title text-primary-1 text-center" data-aos="fade-down">
             <h1 className="fs-6 fs-md-5 fs-lg-3 " data-aos="zoom-in-up">
-              <span className="me-6">尼格羅尼</span>
-              <span className="eng-font">Negroni</span>
+              <span className="me-6">{recipes[0].title}</span>
+              <span className="eng-font">{recipes[0]._en}</span>
             </h1>
           </div>
 
@@ -36,14 +36,14 @@ function WineContent() {
                   <a className="material-symbols-outlined methods-icon-btn" href="#">
                     thumb_up
                   </a>
-                  <p>122</p>
+                  <p>{recipes[0].likes}</p>
                 </li>
 
                 <li className="methods-icon-item d-flex">
                   <a className="material-symbols-outlined methods-icon-btn" href="#">
                     favorite
                   </a>
-                  <p>88</p>
+                  <p>{recipes[0].favorite}</p>
                 </li>
 
                 <li className="methods-icon-item d-flex">
@@ -58,13 +58,12 @@ function WineContent() {
             <div className="methods-item-2 me-lg-11" data-aos="fade-up-left" data-aos-duration="1000">
               <div className="methods-item-2-text">
                 <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
-                  <a href="#" className="btn-tags">金巴利</a>
-                  <a href="#" className="btn-tags">甜苦艾酒</a>
-                  <a href="#" className="btn-tags">琴酒</a>
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
                 </div>
                 <p className="fs-9 fs-md-8 text-neutral-1 mt-2 mt-md-10">
-                  義大利人使用 <span className="eng-font">Negroni</span>來當開胃酒，或是清潔口腔味道的飲品 <span className="eng-font">Negroni</span>
-                  苦甜的味道，很適合作成餐前酒，讓嘴巴內的味道可以被沖淡，苦甜的味道讓你在用餐時味覺變的更敏銳。適合的喜歡苦甜平衡口感的人，酒精濃度約24-28%。
+                {recipes[0].content}
                 </p>
               </div>
 
@@ -79,18 +78,18 @@ function WineContent() {
                     <p>
                       材料比例：
                       <br />
-                      琴酒 30<span className="eng-font">ml</span>、甜苦艾酒 30<span className="eng-font">ml</span> 、金巴利 30 <span className="eng-font">ml</span>
+                      {recipes[0].ingredients[0].ingredient} <span className="eng-font">{recipes[0].ingredients[0].amount}</span>、{recipes[0].ingredients[0].ingredient} <span className="eng-font">{recipes[0].ingredients[0].amount}</span> 、{recipes[0].ingredients[0].ingredient}  <span className="eng-font">{recipes[0].ingredients[0].amount}</span>
                     </p>
                   </li>
                   <li>
                     <p>
                       步驟：
                       <br />
-                      將琴酒、甜苦艾酒和金巴利倒入攪拌杯，按1:1:1的比例調製而成加冰塊攪拌均勻，過濾倒入冰鎮過的岩石杯中，最後用橙片裝飾。
+                      {recipes[0].instructions}
                     </p>
                   </li>
                   <li>
-                    <p>裝飾物：橙片</p>
+                    <p>{recipes[0].garnish}</p>
                   </li>
                 </ul>
               </div>
