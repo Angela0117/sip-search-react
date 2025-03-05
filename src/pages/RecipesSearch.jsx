@@ -7,62 +7,108 @@ import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function RecipesSearch() {
-  const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [allProducts, setAllProducts] = useState([]); // 存放所有資料
+  const [products, setProducts] = useState([]); // 存放當前頁面資料
+  const [searchTerm, setSearchTerm] = useState(""); //搜索
+  const [sortType, setSortType] = useState("default"); //熱門排序
+  const [activeSort, setActiveSort] = useState(""); // 排序的類型狀態切換
+  const [selectedTags, setSelectedTags] = useState([]); //tag篩選
+  const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 6;
 
-  const getProducts = async (page = 1) => {
+  // 取得所有產品（不分頁）
+  const getAllProducts = async () => {
     try {
-      const res = await axios.get(
-        `${baseUrl}/recipes?_page=${page}&_per_page=${cardsPerPage}`
-      );
-      console.log("取得產品成功", res.data);
-      setProducts(res.data.data);
-      setCurrentPage(page);
+      const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+      console.log("取得所有產品成功", res.data);
+      setAllProducts(res.data);
+      setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
     } catch (error) {
       console.error("取得產品失敗", error);
       alert("取得產品失敗");
     }
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  const filterProducts = (products, searchTerm) => {
-    if (!searchTerm) return products;
-    const lowerSearch = searchTerm.toLowerCase();
-    return products.filter((product) => {
-      const title = product.title ? product.title.toLowerCase() : "";
-      const titleEn = product.title_en ? product.title_en.toLowerCase() : "";
-      const content = product.content ? product.content.toLowerCase() : "";
-      return (
-        title.includes(lowerSearch) ||
-        titleEn.includes(lowerSearch) ||
-        content.includes(lowerSearch)
-      );
-    });
-  };
-
+  // 搜尋功能
   const handleSearch = () => {
     if (!searchTerm) {
-      getProducts(currentPage);
-    } else {
-      const filteredProducts = filterProducts(products, searchTerm);
-      if (filteredProducts.length > 0) {
-        setProducts(filteredProducts);
-      } else {
-        getProducts(1); // 這裡強制回到第 1 頁，避免搜尋後的分頁錯亂
-      }
+      setProducts(allProducts.slice(0, cardsPerPage)); // 沒搜尋時回復原始分頁
+      setCurrentPage(1);
+      return;
     }
+    const lowerSearch = searchTerm.toLowerCase();
+    const filtered = allProducts.filter((product) =>
+      [product.title, product.title_en, product.content]
+        .filter(Boolean)
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+
+    setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
+    setCurrentPage(1);
   };
 
-  //分頁
-  const handlePageChange = (page) => {
-    console.log(page);
-    getProducts(page);
+  // tag篩選功能
+  const handleTagSelect = (tag) => {
+    let updatedTags = [...selectedTags];
+    if (updatedTags.includes(tag)) {
+      //存在移除
+      updatedTags = updatedTags.filter((t) => t !== tag); //t代表所有元素
+    } else {
+      //不存在新增
+      updatedTags.push(tag);
+    }
+    setSelectedTags(updatedTags);
+
+    //當沒有選擇tag時，顯示所有產品
+    if (updatedTags.length === 0) {
+      setProducts(allProducts.slice(0, cardsPerPage));
+    } else {
+      const filteredProducts = allProducts.filter((product) =>
+        updatedTags.every((tag) => product.tags.includes(tag))
+      );
+      setProducts(filteredProducts.slice(0, cardsPerPage));
+    }
+    setCurrentPage(1);
   };
+
+  //熱門/按讚排序功能
+  const handleSort = (type) => {
+    setSortType(type);
+    setActiveSort(type); //點擊後變色
+    let sortedProducts = [...allProducts];
+    if (type === "favorite") {
+      sortedProducts.sort((a, b) => b.favorite - a.favorite);
+    } else if (type === "likes") {
+      sortedProducts.sort((a, b) => b.likes - a.likes);
+    } else {
+      sortedProducts.sort((a, b) => a.id - b.id);
+    }
+    setAllProducts(sortedProducts);
+    setProducts(sortedProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
+  //清除排序功能
+  const handleClearSort = () => {
+    setSortType("default");
+    setActiveSort("");
+    let sortedProducts = [...allProducts];
+    sortedProducts.sort((a, b) => a.id - b.id);
+    setAllProducts(sortedProducts);
+    setProducts(allProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
+
+  // 分頁功能
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setProducts(
+      allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+    );
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
 
   //swiper
   useEffect(() => {
@@ -88,7 +134,7 @@ function RecipesSearch() {
     });
   }, []);
 
-  //bar左右滑動
+  //tag bar左右滑動
   const scrollContainerRef1 = useRef(null);
   const scrollContainerRef2 = useRef(null);
   const scrollContainerRef3 = useRef(null);
@@ -134,6 +180,7 @@ function RecipesSearch() {
                 aria-label="立即搜尋"
                 aria-describedby="button-addon2"
                 value={searchTerm}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <button
@@ -187,72 +234,28 @@ function RecipesSearch() {
                         role="group"
                         aria-label="Basic outlined example"
                       >
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          琴酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          伏特加
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          白蘭地
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          蘭姆酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          龍舌蘭
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          威士忌
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          琴酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          伏特加
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          白蘭地
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          白蘭地
-                        </button>
+                        {[
+                          "琴酒",
+                          "伏特加",
+                          "白蘭地",
+                          "蘭姆酒",
+                          "龍舌蘭",
+                          "威士忌",
+                          "苦艾酒",
+                          "金酒",
+                          "金巴利",
+                        ].map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
+                              selectedTags.includes(tag) ? "active" : ""
+                            }`}
+                            onClick={() => handleTagSelect(tag)}
+                          >
+                            {tag}
+                          </button>
+                        ))}
                       </div>
                     </div>
                     <button
@@ -296,54 +299,25 @@ function RecipesSearch() {
                         role="group"
                         aria-label="Basic outlined example"
                       >
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          啤酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          甜酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          葡萄酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          蘭姆酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          龍舌蘭
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          威士忌
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          苦艾酒
-                        </button>
+                        {[
+                          "啤酒",
+                          "甜酒",
+                          "葡萄酒",
+                          "苦味橙酒",
+                          "金酒",
+                          "金巴利",
+                        ].map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
+                              selectedTags.includes(tag) ? "active" : ""
+                            }`}
+                            onClick={() => handleTagSelect(tag)}
+                          >
+                            {tag}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
@@ -386,54 +360,30 @@ function RecipesSearch() {
                         role="group"
                         aria-label="Basic outlined example"
                       >
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          水果
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          果汁
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          可可粉
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          蘭姆酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          龍舌蘭
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          威士忌
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1"
-                        >
-                          苦艾酒
-                        </button>
+                        {[
+                          "鳳梨",
+                          "果汁",
+                          "檸檬",
+                          "桃子",
+                          "可可粉",
+                          "玫瑰",
+                          "蜂蜜",
+                          "水果",
+                          "葡萄",
+                          "葡萄柚",
+                          "熱情果",
+                        ].map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
+                              selectedTags.includes(tag) ? "active" : ""
+                            }`}
+                            onClick={() => handleTagSelect(tag)}
+                          >
+                            {tag}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
@@ -452,46 +402,56 @@ function RecipesSearch() {
               <div className="row mb-lg-11 justify-content-between">
                 <div className="col-8 col-lg-7 ms-lg-14 d-flex">
                   <div role="group" aria-label="Basic outlined example">
-                    <button
-                      type="button"
-                      className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
-                    >
-                      琴酒
-                      <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
-                        close
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
-                    >
-                      甜酒
-                      <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
-                        close
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
-                    >
-                      水果
-                      <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
-                        close
-                      </span>
-                    </button>
+                    {selectedTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
+                        onClick={() => handleTagSelect(tag)}
+                      >
+                        {tag}
+                        <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
+                          close
+                        </span>
+                      </button>
+                    ))}
                   </div>
                 </div>
 
                 <div className="col-4 d-flex align-items-center justify-content-end text-nowrap">
-                  <p className="text-primary-1 me-lg-6 me-3 ms-10 fs-lg-8 fs-10">
+                  <button
+                    type="button"
+                    className="text-primary-1 me-lg-6 me-3 ms-10 fs-lg-8 fs-10 btn-no-bg"
+                    onClick={handleClearSort}
+                  >
                     清除所有條件
-                  </p>
+                  </button>
                   <p className="text-white me-lg-4 d-none d-md-block">排序：</p>
                   <p className="text-white me-lg-4 me-3 d-none d-md-block">
-                    <a href="#">熱門程度</a>
+                    <button
+                      type="button"
+                      className={`btn-no-bg ${
+                        activeSort === "favorite"
+                          ? "text-primary-3"
+                          : "text-primary-1"
+                      }`}
+                      onClick={() => handleSort("favorite")}
+                    >
+                      熱門程度
+                    </button>
                   </p>
                   <p className="text-neutral-3 border-0 border-start border-neutral-3 ps-lg-4 d-none d-md-block">
-                    <a href="#">按讚數</a>
+                    <button
+                      type="button"
+                      className={`btn-no-bg ${
+                        activeSort === "likes"
+                          ? "text-primary-3"
+                          : "text-primary-1"
+                      }`}
+                      onClick={() => handleSort("likes")}
+                    >
+                      按讚數
+                    </button>
                   </p>
                 </div>
                 <div className="custom-list-rs d-md-none d-flex justify-content-end">
@@ -506,14 +466,22 @@ function RecipesSearch() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <a className="dropdown-item text-white" href="#">
+                        <button
+                          type="button"
+                          className="dropdown-item text-white"
+                          onClick={() => handleSort("favorite")}
+                        >
                           熱門程度
-                        </a>
+                        </button>
                       </li>
                       <li>
-                        <a className="dropdown-item text-white" href="#">
+                        <button
+                          type="button"
+                          className="dropdown-item text-white"
+                          onClick={() => handleSort("likes")}
+                        >
                           按讚數
-                        </a>
+                        </button>
                       </li>
                     </ul>
                   </div>
