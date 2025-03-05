@@ -7,43 +7,43 @@ function WineContent() {
     {/* 第一區 */}
       <div className="container">
         <section className="wine-content-intro">
-          <ol className="breadcrumb fs-8 fs-lg-6 text-primary-1 pages-box section-breadcrumb" >
+          <ol className="breadcrumb fs-8 fs-lg-7 text-primary-1 pages-box section-breadcrumb" >
             <li className="breadcrumb-item"><a href="#">酒譜區</a></li>
             <li className="breadcrumb-item active">
-              <a href="#">琴酒</a>
+              <a href="#">{recipes[0].flavor}</a>
             </li>
           </ol>
 
           <div className="wine-content-title text-primary-1 text-center" data-aos="fade-down">
-            <h1 className="fs-6 fs-md-1" data-aos="zoom-in-up">
-              <span className="me-6">尼格羅尼</span>
-              <span className="eng-font">Negroni</span>
+            <h1 className="fs-6 fs-md-5 fs-lg-3 " data-aos="zoom-in-up">
+              <span className="me-6">{recipes[0].title}</span>
+              <span className="eng-font">{recipes[0]._en}</span>
             </h1>
           </div>
 
-          <div className="wine-content-methods d-flex">
-            <div className="methods-item-1" data-aos="flip-right" data-aos-duration="1000">
+          <div className="wine-content-methods d-flex pb-lg-10">
+            <div className="methods-item-1 ms-lg-11" data-aos="flip-right" data-aos-duration="1000">
               <img
                 className="methods-item-1-img"
-                src="../assets/images/Negroni._2608654png.png"
+                src="../assets/images/winecontent-negroni.png"
                 alt="Negroni"
               />
 
               <ul
-                className="methods-icon fs-9 fs-md-6 bg-primary-3 text-neutral-1 d-flex"
+                className="methods-icon fs-9 fs-md-8 bg-primary-3 text-neutral-1 d-flex"
               >
                 <li className="methods-icon-item d-flex">
                   <a className="material-symbols-outlined methods-icon-btn" href="#">
                     thumb_up
                   </a>
-                  <p>122</p>
+                  <p>{recipes[0].likes}</p>
                 </li>
 
                 <li className="methods-icon-item d-flex">
                   <a className="material-symbols-outlined methods-icon-btn" href="#">
                     favorite
                   </a>
-                  <p>88</p>
+                  <p>{recipes[0].favorite}</p>
                 </li>
 
                 <li className="methods-icon-item d-flex">
@@ -55,42 +55,41 @@ function WineContent() {
               </ul>
             </div>
 
-            <div className="methods-item-2" data-aos="fade-up-left" data-aos-duration="1000">
+            <div className="methods-item-2 me-lg-11" data-aos="fade-up-left" data-aos-duration="1000">
               <div className="methods-item-2-text">
-                <div className="methods-tags fs-10 fs-md-7 text-primary-3 d-flex">
-                  <a href="#" className="btn-tags">金巴利</a>
-                  <a href="#" className="btn-tags">甜苦艾酒</a>
-                  <a href="#" className="btn-tags">琴酒</a>
+                <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
+                  <a href="#" className="btn-tags">{recipes[0].tags}</a>
                 </div>
-                <p className="fs-9 fs-md-6 text-neutral-1 mt-2 mt-md-10">
-                  義大利人使用 <span className="eng-font">Negroni</span>來當開胃酒，或是清潔口腔味道的飲品 <span className="eng-font">Negroni</span>
-                  苦甜的味道，很適合作成餐前酒，讓嘴巴內的味道可以被沖淡，苦甜的味道讓你在用餐時味覺變的更敏銳。適合的喜歡苦甜平衡口感的人，酒精濃度約24-28%。
+                <p className="fs-9 fs-md-8 text-neutral-1 mt-2 mt-md-10">
+                {recipes[0].content}
                 </p>
               </div>
 
               <div className="methods-item-2-step text-neutral-1 mt-6 mt-md-11">
                 <div className="methods-item-2-step-title px-8 px-md-11 py-2 py-md-4">
-                  <h5 className="fs-8 fs-md-5">調酒作法</h5>
+                  <h5 className="fs-8 fs-md-6">調酒作法</h5>
                 </div>
                 <ul
-                  className="methods-item-2-step-content p-4 p-md-10 fs-9 fs-md-6 p-5 p-md-10"
+                  className="methods-item-2-step-content  fs-9 fs-md-8 ps-12 pe-10 pt-5 pb-5"
                 >
                   <li>
                     <p>
                       材料比例：
                       <br />
-                      琴酒 30<span className="eng-font">ml</span>、甜苦艾酒 30<span className="eng-font">ml</span> 、金巴利 30 <span className="eng-font">ml</span>
+                      {recipes[0].ingredients[0].ingredient} <span className="eng-font">{recipes[0].ingredients[0].amount}</span>、{recipes[0].ingredients[0].ingredient} <span className="eng-font">{recipes[0].ingredients[0].amount}</span> 、{recipes[0].ingredients[0].ingredient}  <span className="eng-font">{recipes[0].ingredients[0].amount}</span>
                     </p>
                   </li>
                   <li>
                     <p>
                       步驟：
                       <br />
-                      將琴酒、甜苦艾酒和金巴利倒入攪拌杯，按1:1:1的比例調製而成加冰塊攪拌均勻，過濾倒入冰鎮過的岩石杯中，最後用橙片裝飾。
+                      {recipes[0].instructions}
                     </p>
                   </li>
                   <li>
-                    <p>裝飾物：橙片</p>
+                    <p>{recipes[0].garnish}</p>
                   </li>
                 </ul>
               </div>
@@ -101,19 +100,18 @@ function WineContent() {
     {/* 第二區 */}
     <div className="container">
       <section className="wine-comments" data-aos="zoom-in-up">
-        <div className="text-center m-15">
-          <h2 className="fs-7 fs-md-2 text-primary-1" data-aos="zoom-in-up">品酒討論</h2>
+        <div className="text-center m-13">
+          <h2 className="fs-6 fs-md-5 fs-lg-3 text-primary-1" data-aos="zoom-in-up">品酒討論</h2>
         </div>
 
-        <div class="wine-comments-section bg-primary-1 px-6 py-10 p-md-13">
+        <div class="wine-comments-section bg-primary-1 px-6 px-md-15 py-10 py-md-11 mx-md-11">
           <div className="user-info" data-aos="fade-right">
             <img
               src="../assets/images/Ellipse 9.png"
-              alt="Angela's avatar"
-              className="avatar"
+              alt="Angela's avatar"             
             />
-            <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold">Angela</span>
-            <span className="fs-9 fs-md-8 text-neutral-3">09-23-2024</span>
+            <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">Angela</span>
+            <span className="fs-9 fs-md-9 text-neutral-3">09-23-2024</span>
           </div>
           <div className="comments-box" data-aos="fade-right">
             <textarea placeholder="分享你調酒的經驗、喜好和看法吧！"maxLength="500"></textarea>
@@ -125,39 +123,37 @@ function WineContent() {
             </div>
           </div>
 
-          <ul className="wine-comments-list d-flex">
+          <ul className="wine-comments-list mt-6 mb-10 my-md-11 d-flex">
             <li className="wine-comments-list-item d-flex" data-aos="fade-right">
               <div className="wine-comments-list-info d-flex align-items-center">
                 <img
                   src="/assets/images/Ellipse 11.png"
-                  alt="Nate's avatar"
-                  className="avatar"
+                  alt="Nate's avatar"                 
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Nate</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">酸甜好滋味！！喝起來很順口</p>
+                <p className="fs-9 fs-md-8">酸甜好滋味！！喝起來很順口</p>
               </div>
             </li>
             <li className="wine-comments-list-item d-flex" data-aos="fade-right">
               <div className="wine-comments-list-info d-flex align-items-center">
                 <img
                   src="/assets/images/Ellipse 8.png"
-                  alt="Chris's avatar"
-                  className="avatar"
+                  alt="Chris's avatar"                 
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Chris</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">
+                <p className="fs-9 fs-md-8">
                   適合新手的酒譜，上手容易，味道和專業酒吧差不多
                 </p>
               </div>
@@ -166,25 +162,24 @@ function WineContent() {
               <div className="wine-comments-list-info d-flex align-items-center">
                 <img
                   src="/assets/images/Ellipse 10.png"
-                  alt="Kasie's avatar"
-                  className="avatar"
+                  alt="Kasie's avatar"                  
                 />
-                <span className="eng-font fs-8 fs-md-6 text-primary-4 fw-bold pt-1"
+                <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1"
                   >Kasie</span>
                 <span
                   className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3"
                   >09-23-2024</span>
               </div>
               <div className="wine-comments-list-area">
-                <p className="fs-9 fs-md-7">材料準備容易，適合夏天晚上小酌</p>
+                <p className="fs-9 fs-md-8">材料準備容易，適合夏天晚上小酌</p>
               </div>
             </li>
           </ul>
           <a className="d-block" href="#">
             <div
               className="wine-comments-btn d-flex justify-content-center align-items-center">
-              <p className="fs-8 fs-md-5 me-2 me-md-6">查看更多</p>
-              <span className="material-symbols-outlined fs-8 fs-md-5 me-6">
+              <p className="fs-8 fs-md-7 me-2 me-md-3">查看更多</p>
+              <span className="material-symbols-outlined fs-8 fs-md-7 ">
                 arrow_forward_ios
               </span>
             </div>
@@ -196,25 +191,25 @@ function WineContent() {
     {/* 第三區 */}
 
     <div className="container special-list">
-        <div className="text-center mb-6 mb-lg-13 pt-10 pt-lg-15" data-aos="zoom-in-up">
+        <div className="text-center mb-6 mb-lg-11 pt-10 pt-lg-13" data-aos="zoom-in-up">
           <p className="eng-font fs-8 fs-md-5 text-primary-1 mb-4">Specials</p>
-          <h2 className="fs-7 fs-md-2 text-primary-1">還想來點特別的</h2>
+          <h2 className="fs-6 fs-md-5 fs-lg-3 text-primary-1">還想來點特別的</h2>
         </div>
 
         <a className="d-block mb-6 mb-md-10" href="#">
           <div
             className="special-list-btn d-flex justify-content-end align-items-center"
           >
-            <p className="fs-8 fs-md-5 me-2 me-md-6">查看更多</p>
+            <p className="fs-8 fs-md-7 me-2 me-md-6">查看更多</p>
             <span className="material-symbols-outlined fs-8 fs-md-5 me-6">
               arrow_forward_ios
             </span>
           </div>
         </a>
 
-    {/* 酒譜卡片 */}
+    {/* 酒譜卡片 此處需套用emma的卡片元件 尚未修改*/}
 
-    <div className="row gx-lg-13 gy-lg-13 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-15" data-aos="zoom-in">
+    <div className="row gx-lg-13 gy-lg-13 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13" data-aos="zoom-in">
       <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
         <div className="card-container">
           <div className="card special-list-card-bg position-relative">

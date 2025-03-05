@@ -8,6 +8,7 @@ import MemberSignup from '../pages/MemberSignup';
 import MemberLogin from '../pages/MemberLogin';
 import NotFound from '../pages/NotFound';
 import WineContent from '../pages/WineContent';
+import BarContent from '../pages/BarContent';
 // 導入其他頁面...
 
 const routesConfig = [
@@ -42,6 +43,10 @@ const routesConfig = [
       {
         path: 'winecontent',
         element: <WineContent />,
+      },
+      {
+        path: 'barcontent',
+        element: <BarContent />,
       },
       
       // 添加其他路由...
