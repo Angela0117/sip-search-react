@@ -1,54 +1,64 @@
-import React from 'react';
-import Layout from '../components/Layout';
-import IndexPage from '../pages/IndexPage';
-import AboutPage from '../pages/AboutPage';
-import RecipesSearch from '../pages/RecipesSearch';
-import BarFinder from '../pages/BarFinder';
-import MemberSignup from '../pages/MemberSignup';
-import MemberLogin from '../pages/MemberLogin';
-import NotFound from '../pages/NotFound';
-import WineContent from '../pages/WineContent';
+import React from "react";
+import Layout from "../components/Layout";
+import IndexPage from "../pages/IndexPage";
+import AboutPage from "../pages/AboutPage";
+import RecipesSearch from "../pages/RecipesSearch";
+import BarFinder from "../pages/BarFinder";
+import MemberSignup from "../pages/MemberSignup";
+import MemberLogin from "../pages/MemberLogin";
+import NotFound from "../pages/NotFound";
+import WineContent from "../pages/WineContent";
+import BarContent from "../pages/BarContent";
+import BarSearch from "../pages/BarSearch";
 // 導入其他頁面...
 
 const routesConfig = [
   {
-    path: '/',
+    path: "/",
     element: <Layout />,
     children: [
       {
-        path: '',
+        path: "/",
         element: <IndexPage />,
       },
       {
-        path: 'about',
+        path: "about",
         element: <AboutPage />,
       },
       {
-        path: 'recipessearch',
+        path: "recipessearch",
         element: <RecipesSearch />,
       },
       {
-        path: 'barfinder',
+        path: "barfinder",
         element: <BarFinder />,
       },
       {
-        path: 'membersignup',
+        path: "membersignup",
         element: <MemberSignup />,
       },
       {
-        path: 'memberlogin',
+        path: "memberlogin",
         element: <MemberLogin />,
       },
       {
-        path: 'winecontent',
+        path: "winecontent",
         element: <WineContent />,
       },
-      
+      {
+        path: "barcontent",
+        element: <BarContent />,
+      },
+      {
+        path: "barsearch",
+        element: <BarSearch />,
+      },
+
       // 添加其他路由...
     ],
   },
   {
-    path: '*',
+    path: "*",
     element: <NotFound />,
   },
 ];

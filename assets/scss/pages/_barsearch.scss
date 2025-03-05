@@ -34,11 +34,10 @@ $x-large: 1200px;
     }
 
     .main-content {
-
       // display: flex;
       // justify-content: center;
       .input-group {
-        max-width: 730px;
+        max-width: 430px;
 
         @include respond-to($medium) {
           max-width: 200px;
@@ -49,7 +48,7 @@ $x-large: 1200px;
         }
 
         .form-control:focus,
-        .form-control:focus+.input-group-text {
+        .form-control:focus + .input-group-text {
           border-color: $primary-3;
           // box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* 藍色陰影效果 */
           box-shadow: none;
@@ -59,9 +58,9 @@ $x-large: 1200px;
       .search-input {
         border-right: none;
 
-        &::placeholder {
+        & ::placeholder {
           color: $primary-1;
-          font-size: 24px;
+          font-size: 20px;
 
           @include respond-to($medium) {
             font-size: 12px;
@@ -186,7 +185,6 @@ $x-large: 1200px;
   }
 
   .swiper {
-
     // width: 100%;
     .swiper-wrapper {
       .swiper-slide {
@@ -424,7 +422,6 @@ $x-large: 1200px;
   .swiper-wrapper .swiper-slide {
     margin: 0 auto;
     width: auto;
-
   }
 
   .nearby-card {
