@@ -42,7 +42,7 @@ const routesConfig = [
         element: <MemberLogin />,
       },
       {
-        path: "winecontent",
+        path: "wine/:id",
         element: <WineContent />,
       },
       {
