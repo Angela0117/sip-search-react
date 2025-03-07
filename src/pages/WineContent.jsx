@@ -8,6 +8,8 @@ const baseUrl = import.meta.env.VITE_BASE_URL;
 function WineContent() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
+  const [comment, setComment] = useState([]);
+
 
   //取得商品資訊
   useEffect(() => {
@@ -16,10 +18,24 @@ function WineContent() {
         const res = await axios.get(`${baseUrl}/recipes/${id}`);
         setRecipe(res.data);
       } catch (error) {
-        console.error(error);
+        console.error("取得產品失敗",error);
       }
     };
     fetchRecipe();
+  }, [id]);
+
+  //取得酒譜評論
+  useEffect(() => {
+    const getRecipeComments = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/recipscomments?recipeId=${id}`);
+        setComment(res.data); // 設定評論為該酒譜的評論
+      } catch (error) {
+        console.error("取得評論失敗", error);
+        alert("取得評論失敗");
+      }
+    };
+    getRecipeComments();
   }, [id]);
 
   //每次跳轉都在頁面上方
@@ -71,7 +87,7 @@ function WineContent() {
               <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">
                 Angela
               </span>
-              <span className="fs-9 fs-md-9 text-neutral-3">09-23-2024</span>
+              <span className="fs-9 fs-md-9 text-neutral-3">03-16-2025</span>
             </div>
             <div className="comments-box" data-aos="fade-right">
               <textarea
@@ -87,68 +103,29 @@ function WineContent() {
             </div>
 
             <ul className="wine-comments-list mt-6 mb-10 my-md-11 d-flex">
-              <li
-                className="wine-comments-list-item d-flex"
-                data-aos="fade-right"
-              >
-                <div className="wine-comments-list-info d-flex align-items-center">
-                  <img
-                    src="/assets/images/Ellipse 11.png"
-                    alt="Nate's avatar"
-                  />
-                  <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
-                    Nate
-                  </span>
-                  <span className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3">
-                    09-23-2024
-                  </span>
-                </div>
-                <div className="wine-comments-list-area">
-                  <p className="fs-9 fs-md-8">酸甜好滋味！！喝起來很順口</p>
-                </div>
-              </li>
-              <li
-                className="wine-comments-list-item d-flex"
-                data-aos="fade-right"
-              >
-                <div className="wine-comments-list-info d-flex align-items-center">
-                  <img
-                    src="/assets/images/Ellipse 8.png"
-                    alt="Chris's avatar"
-                  />
-                  <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
-                    Chris
-                  </span>
-                  <span className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3">
-                    09-23-2024
-                  </span>
-                </div>
-                <div className="wine-comments-list-area">
-                  <p className="fs-9 fs-md-8">
-                    適合新手的酒譜，上手容易，味道和專業酒吧差不多
-                  </p>
-                </div>
-              </li>
-              <li
-                className="wine-comments-list-item d-flex"
-                data-aos="fade-right"
-              >
-                <div className="wine-comments-list-info d-flex align-items-center">
-                  <img
-                    src="/assets/images/Ellipse 10.png"
-                    alt="Kasie's avatar"
-                  />
-                  <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
-                    Kasie
-                  </span>
-                  <span className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3">
-                    09-23-2024
-                  </span>
-                </div>
-                <div className="wine-comments-list-area">
-                  <p className="fs-9 fs-md-8">材料準備容易，適合夏天晚上小酌</p>
-                </div>
-              </li>
+            {comment.map((comment, index) => (
+                <li
+                  key={index}
+                  className="wine-comments-list-item d-flex"
+                  data-aos="fade-right"
+                >
+                  <div className="wine-comments-list-info d-flex align-items-center">
+                    <img
+                      src={"/assets/images/Ellipse 11.png"}
+                      alt="User's avatar"
+                    />
+                    <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
+                      {/* 留空的名字 */}
+                    </span>
+                    <span className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3">
+                      {/* 留空的日期 */}
+                    </span>
+                  </div>
+                  <div className="wine-comments-list-area">
+                    <p className="fs-9 fs-md-8">{comment.content}</p>
+                  </div>
+                </li>
+              ))}
             </ul>
             <a className="d-block" href="#">
               <div className="wine-comments-btn d-flex justify-content-center align-items-center">
