@@ -1,7 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const WineCard = ({recipe}) => {
+        //用navigate導回去recipessearch
+        const navigate = useNavigate();
+
+        const handleTagClick = (tag) => {
+            navigate(`/recipessearch?tag=${tag}`);
+        };
+
     return(<>
      <div
             className="wine-content-title text-primary-1 text-center"
@@ -66,7 +74,7 @@ const WineCard = ({recipe}) => {
               <div className="methods-item-2-text">
                 <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
                   {recipe.tags?.map((tag, index) => (
-                    <a key={index}  className="btn-tags">
+                    <a key={index}  className="btn-tags" onClick={() => handleTagClick(tag)}>
                       {tag}
                     </a>
                   ))}

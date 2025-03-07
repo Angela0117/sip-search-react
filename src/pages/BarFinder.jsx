@@ -1,6 +1,116 @@
 import React, {useRef} from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 
 function BarFinder() {
+  const [allProducts, setAllProducts] = useState([]); // 存放所有資料
+  const [products, setProducts] = useState([]); // 存放當前頁面資料
+  const [searchTerm, setSearchTerm] = useState(""); //搜索
+  const [sortType, setSortType] = useState("default"); //熱門排序
+  const [activeSort, setActiveSort] = useState(""); // 排序的類型狀態切換
+  const [selectedTags, setSelectedTags] = useState([]); //tag篩選
+  const [currentPage, setCurrentPage] = useState(1); //分頁
+  const cardsPerPage = 6;
+ 
+
+  // 取得所有產品
+  const getAllProducts = async (tag) => {
+    try {
+      const res = await axios.get(`${baseUrl}/bars`); // 取得所有資料
+      console.log("取得所有產品成功", res.data);
+      setAllProducts(res.data);
+
+      setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+    } catch (error) {
+      console.error("取得產品失敗", error);
+      alert("取得產品失敗");
+    }
+  };
+
+  // 搜尋功能
+  const handleSearch = () => {
+    if (!searchTerm) {
+      setProducts(allProducts.slice(0, cardsPerPage)); // 沒搜尋時回復原始分頁
+      setCurrentPage(1);
+      return;
+    }
+    const lowerSearch = searchTerm.toLowerCase();
+    const filtered = allProducts.filter((product) =>
+      [product.title, product.title_en, product.content]
+        .filter(Boolean)
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+
+    setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
+    setCurrentPage(1);
+  };
+
+  // tag篩選功能
+  const handleTagSelect = (tag) => {
+    let updatedTags = [...selectedTags];
+    if (updatedTags.includes(tag)) {
+      //存在移除
+      updatedTags = updatedTags.filter((t) => t !== tag); //t代表所有元素
+    } else {
+      //不存在新增
+      updatedTags.push(tag);
+    }
+    setSelectedTags(updatedTags);
+
+    //當沒有選擇tag時，顯示所有產品
+    if (updatedTags.length === 0) {
+      setProducts(allProducts.slice(0, cardsPerPage));
+    } else {
+      const filteredProducts = allProducts.filter((product) =>
+        updatedTags.every((tag) => product.tags.includes(tag))
+      );
+      setProducts(filteredProducts.slice(0, cardsPerPage));
+    }
+    setCurrentPage(1);
+  };
+
+  //熱門/按讚排序功能
+  const handleSort = (type) => {
+    setSortType(type);
+    setActiveSort(type); //點擊後變色
+    let sortedProducts = [...allProducts];
+    if (type === "favorite") {
+      sortedProducts.sort((a, b) => b.favorite - a.favorite);
+    } else if (type === "likes") {
+      sortedProducts.sort((a, b) => b.likes - a.likes);
+    } else {
+      sortedProducts.sort((a, b) => a.id - b.id);
+    }
+    setAllProducts(sortedProducts);
+    setProducts(sortedProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
+  //清除排序功能
+  const handleClearSort = () => {
+    setSortType("default");
+    setActiveSort("");
+    let sortedProducts = [...allProducts];
+    sortedProducts.sort((a, b) => a.id - b.id);
+    setAllProducts(sortedProducts);
+    setProducts(allProducts.slice(0, cardsPerPage));
+    setCurrentPage(1);
+  };
+
+  // 分頁功能
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    setProducts(
+      allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+    );
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+  
  //bar點擊左右滑動
   const scrollContainerRef1 = useRef(null);
   const scrollContainerRef2 = useRef(null);
