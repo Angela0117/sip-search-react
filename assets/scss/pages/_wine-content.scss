@@ -4,7 +4,6 @@
   //outline: 1px solid rgb(110, 131, 5);
 }
 
-
 .wine-content-title {
   margin-bottom: 80px;
   @media (max-width: 768px) {
@@ -50,7 +49,7 @@
     //height: 42px;
     text-align: center;
     font-size: 36px;
-    
+
     @media (max-width: 768px) {
       font-size: 12px;
       width: 16px;
@@ -82,7 +81,6 @@
   gap: 72px;
   //align-items: center;
   justify-content: center;
-  
 }
 
 .methods-tags {
@@ -101,8 +99,8 @@
   @media (max-width: 768px) {
     padding: 4px 8px;
   }
-  &:hover{
-    background:$primary-1;
+  &:hover {
+    background: $primary-1;
   }
 }
 
@@ -150,7 +148,7 @@
   }
 }
 
-//使用者信息區塊 
+//使用者信息區塊
 .user-info {
   display: flex;
   align-items: center;
@@ -158,7 +156,7 @@
   margin-bottom: 16px;
 }
 
-//留言框區塊 
+//留言框區塊
 .comments-box {
   border: 1px solid $primary-3;
   border-radius: 5px;
@@ -205,7 +203,7 @@
 .wine-comments-list {
   flex-direction: column;
   gap: 24px;
-  
+
   &-area {
     background: $primary-3;
     padding: 12px 24px;
@@ -222,13 +220,12 @@
       align-items: start;
     }
   }
-  &-info{
+  &-info {
     gap: 20px;
     @media (max-width: 768px) {
       gap: 8px;
     }
   }
-
 
   &-area {
     @media (max-width: 768px) {
@@ -249,47 +246,46 @@
     opacity: 0.6;
   }
   //&:active {
-    //color: $neutral-3;
+  //color: $neutral-3;
   //}
 }
 
 // 第三區 -推薦酒譜
 
-
-.special-list{
- 
-  .card-container{
-      @media (max-width: 768px) {
-      height: 420px;
+.special-list {
+  .card {
+    background-color: #ecdec3;
   }
-  
-}
+  .card-container {
+    @media (max-width: 768px) {
+      height: 420px;
+    }
+  }
   .cardImg {
     @media (max-width: 768px) {
-    max-width: 128px;
-    height: 190px;
-    margin: 24px 16px 24px 16px;
-    object-fit: cover;
+      max-width: 128px;
+      height: 190px;
+      margin: 24px 16px 24px 16px;
+      object-fit: cover;
+    }
   }
-}
 
-&-card-bg {
-  background: $primary-4;
-}
-
-&-btn {
-  color: $primary-1;
-  &:hover {
-    opacity: 0.6;
+  &-card-bg {
+    background: $primary-1;
   }
-  //&:active {
+
+  &-btn {
+    color: $primary-1;
+    &:hover {
+      opacity: 0.6;
+    }
+    //&:active {
     //color: $neutral-3;
-  //}
-}
-&-material-symbols-outlined{
-  color: $primary-4;
-}
-
+    //}
+  }
+  &-material-symbols-outlined {
+    color: $primary-4;
+  }
 }
 
 .scrollBar::-webkit-scrollbar {

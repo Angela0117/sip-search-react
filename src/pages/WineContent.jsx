@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import WineCard from "../components/WineCard";
+import { get } from "jquery";
+import RecipeCard from "../components/RecipeCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -9,7 +11,7 @@ function WineContent() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [comment, setComment] = useState([]);
-
+  const [specialsRecipe, setSpecialsRecipe] = useState([]);
 
   //取得商品資訊
   useEffect(() => {
@@ -18,7 +20,7 @@ function WineContent() {
         const res = await axios.get(`${baseUrl}/recipes/${id}`);
         setRecipe(res.data);
       } catch (error) {
-        console.error("取得產品失敗",error);
+        console.error("取得產品失敗", error);
       }
     };
     fetchRecipe();
@@ -38,22 +40,33 @@ function WineContent() {
     getRecipeComments();
   }, [id]);
 
+  //取得特別酒譜推薦
+  useEffect(() => {
+    const getRecipeCard = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/recipes`);
+        setSpecialsRecipe(res.data.slice(0, 3));
+      } catch (error) {
+        console.error("取得產品失敗", error);
+      }
+    };
+    getRecipeCard();
+  }, []);
+
   //每次跳轉都在頁面上方
   useEffect(() => {
     window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
   }, []);
-
 
   //如果沒取到產品
   if (!recipe) {
     return <div>Loading...</div>;
   }
 
-
   return (
     <>
-       {/* 第一區 */}
-       <div className="container">
+      {/* 第一區 */}
+      <div className="container">
         <section className="wine-content-intro">
           <ol className="breadcrumb fs-8 fs-lg-7 text-primary-1 pages-box section-breadcrumb">
             <li className="breadcrumb-item">
@@ -67,7 +80,6 @@ function WineContent() {
           <WineCard key={recipe.id} recipe={recipe} />
         </section>
       </div>
-
 
       {/* 第二區 */}
       <div className="container">
@@ -103,7 +115,7 @@ function WineContent() {
             </div>
 
             <ul className="wine-comments-list mt-6 mb-10 my-md-11 d-flex">
-            {comment.map((comment, index) => (
+              {comment.map((comment, index) => (
                 <li
                   key={index}
                   className="wine-comments-list-item d-flex"
@@ -167,326 +179,7 @@ function WineContent() {
           className="row gx-lg-13 gy-lg-13 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13"
           data-aos="zoom-in"
         >
-          <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-            <div className="card-container">
-              <div className="card special-list-card-bg position-relative">
-                <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-                  <div className="card-body mt-lg-5 text-center">
-                    <h5 className="card-title text-primary-1 fs-6 fs-md-5 mb-lg-3 ">
-                      花花公子
-                    </h5>
-
-                    <img
-                      src="/assets/images/image-Boulevardier.png"
-                      className="card-img-bottom cardImg"
-                      alt="image-Boulevardier"
-                    />
-                    <div className="d-flex justify-content-end me-lg-9 me-6">
-                      <a
-                        href="#"
-                        className="cardBtn btn btn-primary-1 rounded-circle"
-                      >
-                        <span className="material-symbols-outlined align-baseline text-primary-4">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-hover">
-                <div className="card-hover-content mt-8">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-
-                  <div className="card-body m-lg-6 m-4">
-                    <h4 className="eng-font text-primary-4 fs-lg-4 fs-6">
-                      Boulevardier
-                    </h4>
-                    <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                      花花公子
-                    </h6>
-                    <div className="col my-lg-6 my-3">
-                      <div
-                        className="btn-group"
-                        role="group"
-                        aria-label="Basic outlined example"
-                      >
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          琴酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          甜苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                        >
-                          鳳梨
-                        </button>
-                      </div>
-                    </div>
-                    <p className="fs-lg-9 fs-10">
-                      一款風格時尚的雞尾酒，通常以伏特加或龍舌蘭為基底，加入蔓越莓汁、橙酒與檸檬汁調製而成。酸甜清爽的口感，搭配鮮豔的顏色，為派對增添一抹活力和誘惑。
-                    </p>
-                    <div className="d-flex justify-content-between">
-                      <img
-                        className="cardImg-hover card-hoverImg mb-lg-3"
-                        src="/assets/images/image-Boulevardier.png"
-                        alt="image-Boulevardier"
-                      />
-                      <a
-                        href="#"
-                        className="cardBtn cardBtn-primary-4 rounded-circle mt-auto"
-                      >
-                        <span className="material-symbols-outlined align-baseline">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-            <div className="card-container">
-              <div className="card special-list-card-bg">
-                <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-                  <div className="card-body mt-lg-5 text-center">
-                    <h5 className="card-title text-primary-1 fs-6 fs-md-5 mb-lg-3">
-                      阿佩羅雞尾酒
-                    </h5>
-
-                    <img
-                      src="/assets/images/image-AperolSpritz.png"
-                      className="card-img-bottom cardImg"
-                      alt="image-Boulevardier"
-                    />
-                    <div className="d-flex justify-content-end me-lg-9 me-6">
-                      <a
-                        href="#"
-                        className="cardBtn btn btn-primary-1 rounded-circle"
-                      >
-                        <span className="material-symbols-outlined align-baseline text-primary-4">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-hover">
-                <div className="card-hover-content mt-8">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-
-                  <div className="card-body m-lg-6 m-4">
-                    <h4 className="eng-font text-primary-4 fs-lg-4 fs-6">
-                      Aperol Spritz
-                    </h4>
-                    <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                      阿佩羅雞尾酒
-                    </h6>
-                    <div className="col my-lg-6 my-3">
-                      <div
-                        className="btn-group"
-                        role="group"
-                        aria-label="Basic outlined example"
-                      >
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          琴酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          甜苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                        >
-                          鳳梨
-                        </button>
-                      </div>
-                    </div>
-                    <p className="fs-lg-9 fs-10">
-                      一款清爽的義大利經典雞尾酒，由阿佩羅苦味酒、氣泡酒（通常是普羅賽克）和蘇打水調製而成。其橙色外觀與微苦的果香口感，完美適合作為夏日午後的輕飲選擇。
-                    </p>
-                    <div className="d-flex justify-content-between">
-                      <img
-                        className="cardImg-hover card-hoverImg mb-lg-3"
-                        src="/assets/images/image-AperolSpritz.png"
-                        alt="image-Boulevardier"
-                      />
-                      <a
-                        href="#"
-                        className="cardBtn cardBtn-primary-4 rounded-circle mt-auto"
-                      >
-                        <span className="material-symbols-outlined align-baseline">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-            <div className="card-container">
-              <div className="card special-list-card-bg">
-                <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-                  <div className="card-body mt-lg-5 text-center">
-                    <h5 className="card-title text-primary-1 fs-6 fs-md-5 mb-lg-3">
-                      奧林匹克
-                    </h5>
-
-                    <img
-                      src="/assets/images/image-olympic.png"
-                      className="card-img-bottom cardImg"
-                      alt="image-Boulevardier"
-                    />
-                    <div className="d-flex justify-content-end me-lg-9 me-6">
-                      <a
-                        href="#"
-                        className="cardBtn btn btn-primary-1 rounded-circle"
-                      >
-                        <span className="material-symbols-outlined align-baseline text-primary-4">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-hover">
-                <div className="card-hover-content mt-8">
-                  <div className="cross-container">
-                    <div className="cross-1">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                    <div className="cross-2">
-                      <div className="cross-line horizontal"></div>
-                      <div className="cross-line vertical"></div>
-                    </div>
-                  </div>
-
-                  <div className="card-body m-lg-6 m-4">
-                    <h4 className="eng-font text-primary-4 fs-lg-4 fs-6">
-                      Olympic
-                    </h4>
-                    <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                      奧林匹克
-                    </h6>
-                    <div className="col my-lg-6 my-3">
-                      <div
-                        className="btn-group"
-                        role="group"
-                        aria-label="Basic outlined example"
-                      >
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          琴酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                        >
-                          甜苦艾酒
-                        </button>
-                        <button
-                          type="button"
-                          className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                        >
-                          鳳梨
-                        </button>
-                      </div>
-                    </div>
-                    <p className="fs-lg-9 fs-10">
-                      優雅的經典雞尾酒，由白蘭地、橙酒和新鮮橙汁調製而成。口感圓潤，融合了果香和濃郁的酒體，讓人感受到層次分明的滋味，是一款適合各種場合的經典選擇。
-                    </p>
-                    <div className="d-flex justify-content-between">
-                      <img
-                        className="cardImg-hover card-hoverImg mb-lg-3"
-                        src="/assets/images/image-olympic.png"
-                        alt="image-Boulevardier"
-                      />
-                      <a
-                        href="#"
-                        className="cardBtn cardBtn-primary-4 rounded-circle mt-auto"
-                      >
-                        <span className="material-symbols-outlined align-baseline">
-                          arrow_forward
-                        </span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+         {specialsRecipe.map((recipe) => (<RecipeCard key={recipe.id} recipe={recipe}/>))}
         </div>
       </div>
     </>
