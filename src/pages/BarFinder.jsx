@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import BarCard from "../components/BarCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -12,10 +13,10 @@ function BarFinder() {
   const [activeSort, setActiveSort] = useState(""); // 排序的類型狀態切換
   const [selectedTags, setSelectedTags] = useState([]); //tag篩選
   const [currentPage, setCurrentPage] = useState(1); //分頁
-  const cardsPerPage = 6;
+  const cardsPerPage = 12;
 
   // 取得所有產品
-  const getAllProducts = async (tag) => {
+  const getAllProducts = async () => {
     try {
       const res = await axios.get(`${baseUrl}/bars`); // 取得所有資料
       console.log("取得所有產品成功", res.data);
@@ -47,14 +48,14 @@ function BarFinder() {
   };
 
   // tag篩選功能
-  const handleTagSelect = (tag) => {
+  const handleTagSelect = (region) => {
     let updatedTags = [...selectedTags];
-    if (updatedTags.includes(tag)) {
+    if (updatedTags.includes(region)) {
       //存在移除
-      updatedTags = updatedTags.filter((t) => t !== tag); //t代表所有元素
+      updatedTags = updatedTags.filter((t) => t !== region); //t代表所有元素
     } else {
       //不存在新增
-      updatedTags.push(tag);
+      updatedTags.push(region);
     }
     setSelectedTags(updatedTags);
 
@@ -63,7 +64,7 @@ function BarFinder() {
       setProducts(allProducts.slice(0, cardsPerPage));
     } else {
       const filteredProducts = allProducts.filter((product) =>
-        updatedTags.every((tag) => product.tags.includes(tag))
+        updatedTags.every((region) => product.tags.includes(region))
       );
       setProducts(filteredProducts.slice(0, cardsPerPage));
     }
@@ -75,10 +76,10 @@ function BarFinder() {
     setSortType(type);
     setActiveSort(type); //點擊後變色
     let sortedProducts = [...allProducts];
-    if (type === "favorite") {
-      sortedProducts.sort((a, b) => b.favorite - a.favorite);
-    } else if (type === "likes") {
-      sortedProducts.sort((a, b) => b.likes - a.likes);
+    if (type === "favoriteCount") {
+      sortedProducts.sort((a, b) => b.favoriteCount - a.favoriteCount);
+    } else if (type === "likeCount") {
+      sortedProducts.sort((a, b) => b.likeCount - a.likeCount);
     } else {
       sortedProducts.sort((a, b) => a.id - b.id);
     }
@@ -98,12 +99,12 @@ function BarFinder() {
   };
 
   // 分頁功能
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    setProducts(
-      allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
-    );
-  };
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  //   setProducts(
+  //     allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+  //   );
+  // };
 
   useEffect(() => {
     getAllProducts();
@@ -369,7 +370,7 @@ function BarFinder() {
               <div className="row mb-lg-11 justify-content-between">
                 <div className="col-8 col-lg-7 ms-lg-14 d-flex">
                   <div role="group" aria-label="Basic outlined example">
-                  {selectedTags.map((tag) => (
+                    {selectedTags.map((tag) => (
                       <button
                         key={tag}
                         type="button"
@@ -398,11 +399,11 @@ function BarFinder() {
                     <button
                       type="button"
                       className={`btn-no-bg ${
-                        activeSort === "favorite"
+                        activeSort === "favoriteCount"
                           ? "text-primary-3"
                           : "text-primary-1"
                       }`}
-                      onClick={() => handleSort("favorite")}
+                      onClick={() => handleSort("favoriteCount")}
                     >
                       熱門程度
                     </button>
@@ -411,11 +412,11 @@ function BarFinder() {
                     <button
                       type="button"
                       className={`btn-no-bg ${
-                        activeSort === "likes"
+                        activeSort === "likeCount"
                           ? "text-primary-3"
                           : "text-primary-1"
                       }`}
-                      onClick={() => handleSort("likes")}
+                      onClick={() => handleSort("likeCount")}
                     >
                       按讚數
                     </button>
@@ -433,26 +434,25 @@ function BarFinder() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                      <button
+                        <button
                           type="button"
                           className="dropdown-item text-white"
-                          onClick={() => handleSort("favorite")}
+                          onClick={() => handleSort("favoriteCount")}
                         >
                           熱門程度
                         </button>
                       </li>
                       <li>
-                      <button
+                        <button
                           type="button"
                           className="dropdown-item text-white"
-                          onClick={() => handleSort("likes")}
+                          onClick={() => handleSort("likeCount")}
                         >
                           按讚數
                         </button>
                       </li>
                     </ul>
                   </div>
-                      
                 </div>
               </div>
             </div>
@@ -463,372 +463,17 @@ function BarFinder() {
         <div className="container mt-lg-11 pb-lg-11 pb-9">
           <div className="search-result mb-lg-11 mb-6 d-flex justify-content-start">
             <h5 className="text-primary-1 pe-lg-6 fs-8 fs-md-5">搜尋結果</h5>
-            <p className="fs-lg-7 text-primary-1 d-none d-md-block">共39筆</p>
+            <p className="fs-lg-7 text-primary-1 d-none d-md-block">12</p>
           </div>
           <div className="row row-cols-2 row-cols-lg-3 gy-lg-9 gy-6 ps-lg-11 mb-lg-9 mb-8">
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <a
-                    className="card-title fs-lg-7 text-neutral-1"
-                    href="google.com"
-                  >
-                    貓下去敦北俱樂部
-                  </a>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="col bar-card">
-              <img src="/assets/images/barfinder/image1.png" alt="img1" />
-              <div className="card-body p-lg-9 py-5 px-3 d-flex flex-column justify-content-between">
-                <div className="d-flex justify-content-between align-items-center">
-                  <p className="card-title fs-lg-7 text-neutral-1">
-                    貓下去敦北俱樂部
-                  </p>
-                  <span className="material-symbols-outlined text-neutral-1 fs-8 fs-lg-6">
-                    favorite
-                  </span>
-                </div>
-                <div>
-                  <p className="card-text text-neutral-1 pb-lg-3 fs-10 fs-md-8">
-                    令人放鬆的餐館，供應麵食與台式牛排等在地美食，以及葡萄酒和啤酒。
-                  </p>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    臺北市
-                  </button>
-                  <button
-                    type="button"
-                    className="btn card-btn-primary-1 rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 text-nowrap"
-                  >
-                    可供訂位
-                  </button>
-                </div>
-              </div>
-            </div>
+          {products && products.length > 0 ? (
+              products.map((bar) => (
+                <BarCard key={bar.id} bar={bar} />
+              ))
+            ) : (
+              <p>沒有找到產品</p>
+            )}
+            
           </div>
           <div className="row mb-lg-11 mb-8">
             <div className="col d-flex justify-content-end me-lg-4">
