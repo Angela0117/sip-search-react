@@ -38,11 +38,17 @@ function BarFinder() {
     }
     const lowerSearch = searchTerm.toLowerCase();
     const filtered = allProducts.filter((product) =>
-      [product.title, product.title_en, product.content]
+      [product.name, product.description, product.type, product.region]
         .filter(Boolean)
-        .some((field) => field.toLowerCase().includes(lowerSearch))
+        .some((field) => {
+          if (Array.isArray(field)) {
+            // 如果是陣列，將其轉換為字串來進行搜尋
+            return field.join(' ').toLowerCase().includes(lowerSearch);
+          }
+          // 否則直接檢查字串
+          return typeof field === 'string' && field.toLowerCase().includes(lowerSearch);
+        })
     );
-
     setProducts(filtered.slice(0, cardsPerPage)); // 先顯示第一頁
     setCurrentPage(1);
   };
@@ -99,12 +105,12 @@ function BarFinder() {
   };
 
   // 分頁功能
-  // const handlePageChange = (page) => {
-  //   setCurrentPage(page);
-  //   setProducts(
-  //     allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
-  //   );
-  // };
+    const handlePageChange = (page) => {
+      setCurrentPage(page);
+      setProducts(
+        allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+      );
+    };
 
   useEffect(() => {
     getAllProducts();
@@ -224,16 +230,16 @@ function BarFinder() {
                           "臺東縣",
                           "花蓮縣",
                           "宜蘭縣",
-                        ].map((tag) => (
+                        ].map((region) => (
                           <button
-                            key={tag}
+                            key={region}
                             type="button"
                             className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedTags.includes(tag) ? "active" : ""
+                              selectedTags.includes(region) ? "active" : ""
                             }`}
-                            onClick={() => handleTagSelect(tag)}
+                            onClick={() => handleTagSelect(region)}
                           >
-                            {tag}
+                            {region}
                           </button>
                         ))}
                       </div>
@@ -370,14 +376,14 @@ function BarFinder() {
               <div className="row mb-lg-11 justify-content-between">
                 <div className="col-8 col-lg-7 ms-lg-14 d-flex">
                   <div role="group" aria-label="Basic outlined example">
-                    {selectedTags.map((tag) => (
+                    {selectedTags.map((region) => (
                       <button
-                        key={tag}
+                        key={region}
                         type="button"
                         className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
-                        onClick={() => handleTagSelect(tag)}
+                        onClick={() => handleTagSelect(region)}
                       >
-                        {tag}
+                        {region}
                         <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
                           close
                         </span>
@@ -487,33 +493,22 @@ function BarFinder() {
                   role="group"
                   aria-label="First group"
                 >
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-primary-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    2
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    3
-                  </button>
-
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 d-flex align-items-center justify-content-center"
-                  >
-                    <span className="material-symbols-outlined text-primary-1 fs-lg-8 fs-9 align-middle">
-                      <a href="#"> arrow_forward_ios</a>
-                    </span>
-                  </button>
+                 {[...Array(Math.ceil(14 / cardsPerPage)).keys()].map(
+                    (page) => (
+                      <button
+                        key={page + 1}
+                        type="button"
+                        className={`pageBtn btn ${
+                          currentPage === page + 1
+                            ? "btn-primary-3"
+                            : "btn-neutral-3"
+                        } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
             </div>

@@ -51,7 +51,7 @@ function Layout() {
                 <li className="nav-item">
                   <NavLink
                     className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
-                    to="/latest-events"
+                    to="/barsearch"
                   >
                     最新活動
                   </NavLink>
