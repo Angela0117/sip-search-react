@@ -16,20 +16,21 @@
 
   &-content {
     margin: 0 auto;
-    max-width: 1011px;
-    padding-top: 464px;
-    padding-bottom: 287px;
+    max-width: 744px;
+    padding-top: 308px;
+    padding-bottom: 214px;
   }
 
   &-title {
-    font-size: 72px;
+    font-size: 40px;
     padding-bottom: 48px;
     text-align: center;
     color: $primary-1;
   }
 
   &-btn {
-    padding: 24px 40px;
+    padding: 12px 20px;
+
 
     &:focus {
       background: $primary-4;
@@ -40,12 +41,10 @@
 
 @media (max-width: 992px) {
   .banner {
-    &-title {
-      font-size: 48px;
-    }
 
     &-btn {
-      padding: 12px 16px;
+      padding: 8px 12px;
+      font-size: 12px;
     }
   }
 }
@@ -60,30 +59,23 @@
 
     &-title {
       max-width: 253px;
-      font-size: 24px;
+      font-size: 20px;
       padding-bottom: 24px;
     }
 
-    &-btn {
-      font-size: 12px;
-      padding: 8px 12px;
-    }
   }
 }
 
 .banner-selector-section {
   max-width: 596px;
-
-  .btn {
-    width: 110px;
-  }
 }
 
 .banner-category {
   background: $neutral-3;
-  font-size: 24px;
+  font-size: 20px;
   padding-left: 18px;
   color: white;
+
 }
 
 .banner-selector-input {
@@ -93,13 +85,13 @@
 
     .form-control {
       background-color: transparent;
-      padding: 24px;
+      padding: 12px 24px;
       border: none;
       color: $primary-1;
 
       &::placeholder {
         color: $primary-2;
-        font-size: 24px;
+        font-size: 20px;
       }
 
       &:focus {
@@ -158,14 +150,17 @@
 }
 
 .webinfo-1 {
-  padding-top: 120px;
-  padding-bottom: 120px;
   background-image: url(/assets/images/index-info.png);
 
   background-size: cover;
   background-position: center;
   position: relative;
   z-index: 1;
+
+  .content {
+    margin: 0 auto;
+    max-width: 744px;
+  }
 
   .discover-container {
     padding: 48px 64px;
@@ -194,7 +189,7 @@
   }
 
   .discover-cocktail {
-    padding-bottom: 120px;
+    padding-bottom: 64px;
   }
 
   .discover-img {
@@ -209,16 +204,27 @@
 
   .discover-text {
     width: 50%;
-    line-height: 1.2;
+    line-height: 1.5;
 
     .btn-md {
-      max-width: 248px;
+      max-width: 180px;
       // background: $primary-3;
       display: flex;
       justify-content: center;
       border-width: 2px;
       border-style: solid;
       border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
+
+      .btn-search {
+        font-size: 20px;
+        padding: 16px 20px;
+
+        @media (max-width: 992px) {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+
+      }
 
       a {
         width: 248px;
@@ -283,8 +289,17 @@
     padding-top: 40px;
     padding-bottom: 40px;
 
+    .content {
+      max-width: 351px;
+    }
+
     .discover-container {
       padding: 16px;
+      gap: 32px;
+
+      .discover-text {
+        line-height: 1.7;
+      }
     }
 
     .discover-cocktail {
@@ -312,13 +327,17 @@
 // }
 
 .webinfo-2 {
+
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
     url(/assets/images/webinfo-3.jpg);
 
-  padding-top: 325px;
-  padding-bottom: 325px;
   background-size: cover;
   background-position: center;
+
+  .join-text {
+    padding-top: 156px;
+    padding-bottom: 156px;
+  }
 
   .join-input {
     &-text {
@@ -341,7 +360,7 @@
 
         &::placeholder {
           color: $primary-1;
-          font-size: 24px;
+          font-size: 20px;
         }
       }
     }
@@ -349,7 +368,7 @@
     &-btn {
       // color: $primary-1;
       // background: $primary-3;
-      padding: 24px 40px;
+      padding: 16px 20px;
       border: 1px solid $primary-3;
       border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
       margin-left: 40px;
@@ -361,10 +380,14 @@
   }
 }
 
+
 @media (max-width: 767px) {
   .webinfo-2 {
-    padding-top: 40px;
-    padding-bottom: 40px;
+
+    .join-text {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
 
     .join-input {
       width: 223px;
@@ -398,7 +421,7 @@ $x-large: 1200px;
 
 //swiper共用
 .section {
-  padding: 120px 0px;
+  padding: 48px 0px;
 
   @include respond-to($large) {
     padding: 40px 0 0;
@@ -411,13 +434,13 @@ $x-large: 1200px;
 
 //熱門酒譜
 .section-popular-recipes {
-  .main-title {
-    h2 {
-      @include respond-to($large) {
-        font-size: 20px;
-      }
-    }
-  }
+  // .main-title {
+  //   h2 {
+  //     @include respond-to($large) {
+  //       font-size: 20px;
+  //     }
+  //   }
+  // }
 
   .decoration {
     .wrap {
@@ -454,6 +477,7 @@ $x-large: 1200px;
 
   .swiper {
     width: 100%;
+
   }
 
   .swiper-slide {
@@ -498,45 +522,45 @@ $x-large: 1200px;
         width: auto;
       }
 
-      .wine-name {
-        h4 {
-          @include respond-to($large) {
-            font-size: 24px;
-          }
-        }
+      // .wine-name {
+      //   h4 {
+      //     @include respond-to($large) {
+      //       font-size: 24px;
+      //     }
+      //   }
+    }
+
+    .wine-tags {
+      font-size: 20px;
+
+      @include respond-to($large) {
+        font-size: 10px;
       }
 
-      .wine-tags {
-        font-size: 20px;
-
-        @include respond-to($large) {
-          font-size: 10px;
-        }
-
-        span {
-          display: flex;
-          align-items: center;
-        }
-      }
-
-      .wine-intro {
-        font-size: 24px;
-
-        @include respond-to($large) {
-          font-size: 12px;
-        }
+      span {
+        display: flex;
+        align-items: center;
       }
     }
-  }
 
-  .pic {
-    width: 50%;
+    .wine-intro {
+      font-size: 20px;
 
-    @include respond-to($large) {
-      width: auto;
+      @include respond-to($large) {
+        font-size: 12px;
+      }
     }
   }
 }
+
+.pic {
+  width: 50%;
+
+  @include respond-to($large) {
+    width: auto;
+  }
+}
+
 
 .arrow {
   right: 48px;
@@ -600,131 +624,168 @@ $x-large: 1200px;
     padding: 96px 64px;
 
     @include respond-to($large) {
-      padding: 64px 24px;
+      padding: 32px 24px;
     }
 
     .txt-content {
-      div {
+      .introduce {
         width: 50%;
 
         @include respond-to($large) {
-          width: auto;
+          width: 100%;
         }
       }
-    }
-  }
 
-  .material-symbols-outlined {
-    color: $primary-1;
-  }
+      .btn-md {
+        height: 62px;
+        display: flex;
+        justify-content: center;
+        align-self: flex-end;
+        max-width: 180px;
+        border-width: 2px;
+        border-style: solid;
+        border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
 
-  .button-row {
-    margin-top: 20px;
-    margin-bottom: 24px;
+        @media (max-width: 992px) {
 
-    // padding: 0 100px;
-    @include respond-to($large) {
-      margin-top: 24px;
-      margin-bottom: 20px;
-    }
-
-    .swiper-button {
-      display: block;
-      position: relative;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 2px solid #7f7973;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: 0.3s;
-
-      @include respond-to($large) {
-        width: 40px;
-        height: 40px;
-      }
-
-      &:hover {
-        background-color: $primary-3;
-      }
-    }
-
-    .swiper-button-prev::after,
-    .swiper-button-next::after {
-      display: none;
-    }
-  }
-
-  .swiper {
-    // min-height: 530px;
-    display: flex;
-    flex-direction: column;
-
-    // padding: 0 100px;
-    .swiper-wrapper {
-      flex-grow: 1;
-      height: auto;
-
-      // flex-direction: column; //swiper已經有下display:flex
-      .swiper-slide {
-        height: 800px;
-        text-align: start;
-
-        @include respond-to($large) {
-          height: auto;
-          min-height: 530px;
+          width: 114px;
+          height: 34px;
         }
+
+        .btn-search {
+          font-size: 20px;
+          padding: 16px 20px;
+
+          @media (max-width: 992px) {
+            font-size: 12px;
+            padding: 8px 12px;
+          }
+
+        }
+
+        a {
+          width: 248px;
+          align-items: center;
+        }
+
       }
+
     }
-
-    img {
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .tag {
-      width: fit-content;
-      color: $primary-4;
-      font-size: 24px;
-      padding: 12px 24px;
-      background-color: $primary-1;
-
-      @include respond-to($large) {
-        font-size: 10px;
-        padding: 4px 8px;
-      }
-    }
-
-    .bar-pic {
-      filter: brightness(0.7);
-    }
-  }
-
-  .btn-big {
-    transition: 0.5s;
-    width: fit-content;
   }
 }
+
+.material-symbols-outlined {
+  color: $primary-1;
+}
+
+.button-row {
+  margin-top: 20px;
+  margin-bottom: 24px;
+
+  // padding: 0 100px;
+  @include respond-to($large) {
+    margin-top: 24px;
+    margin-bottom: 20px;
+  }
+
+  .swiper-button {
+    display: block;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #7f7973;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+
+    @include respond-to($large) {
+      width: 28px;
+      height: 28px;
+    }
+
+    &:hover {
+      background-color: $primary-3;
+    }
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    display: none;
+  }
+}
+
+.swiper {
+  // min-height: 530px;
+  display: flex;
+  flex-direction: column;
+
+  // padding: 0 100px;
+  .swiper-wrapper {
+    flex-grow: 1;
+    height: auto;
+
+    // flex-direction: column; //swiper已經有下display:flex
+    .swiper-slide {
+      // height: 800px;
+      text-align: start;
+
+      @include respond-to($large) {
+        height: auto;
+        // min-height: 530px;
+      }
+    }
+  }
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tag {
+    width: fit-content;
+    color: $primary-4;
+    font-size: 20px;
+    padding: 12px 24px;
+    background-color: $primary-1;
+
+    @include respond-to($large) {
+      font-size: 10px;
+      padding: 4px 8px;
+    }
+  }
+
+  .bar-pic {
+    filter: brightness(0.7);
+  }
+}
+
+.btn-big {
+  transition: 0.5s;
+  width: fit-content;
+}
+
 
 //活動
 
 .event {
-  padding: 120px 0px;
+  padding-top: 48px;
+  padding-bottom: 164px;
 
-  @media (max-width: 768px) {
-    padding-top: 40px;
-    padding-bottom: 0px;
+  @media (max-width: 992px) {
+    padding-top: 32px;
+    padding-bottom: 32px;
   }
 
   &-title {
-    margin-bottom: 120px;
+    margin-bottom: 80px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       margin-bottom: 24px;
     }
   }
@@ -732,56 +793,64 @@ $x-large: 1200px;
   &-content {
     display: flex;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       flex-direction: column;
     }
   }
 
   &-bg {
     width: 476px;
-    background-image: linear-gradient(
-        180.02deg,
+    background-image: linear-gradient(180.02deg,
         rgba(0, 0, 0, 0.8) 0.01%,
         rgba(0, 0, 0, 0) 50.5%,
-        rgba(0, 0, 0, 0.8) 99.99%
-      ),
+        rgba(0, 0, 0, 0.8) 99.99%),
       url(../images/index-event-bg.png);
-    //background-size: cover;
+    background-size: cover;
     background-size: 450% auto;
-    background-position: right -650px top -200px;
-    background-repeat: no-repeat;
-    height: 1181px;
+    background-position: right -650px top -50px;
+    // background-repeat: no-repeat;
+    // height: 1181px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       width: 100%;
       height: 300px;
       background-size: cover;
-      //background-size: 100% auto;
+      // background-size: 450% auto;
+      // background-position: right -650px top -200px;
+      background-repeat: no-repeat;
       background-position: center;
+    }
+
+    .event-theme {
+      padding-top: 72px;
+      padding-left: 40px;
+
+      @media (max-width: 768px) {
+        padding-top: 32px;
+        padding-left: 32px;
+      }
+
     }
   }
 
   &-list {
     width: 820px;
-    height: 1209px;
-    margin-top: -14px;
-    margin-bottom: -14px;
+    // height: 1209px;
+    padding: 48px;
 
-    padding: 80px;
-
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       width: 100%;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      height: auto;
+      // margin-top: 0px;
+      // margin-bottom: 0px;
+      // height: auto;
       padding: 32px 24px;
     }
 
     &-content {
-      gap: 32px;
+      gap: 20px;
       display: flex;
       flex-direction: column;
-      margin-bottom: 120px;
+      margin-bottom: 80px;
 
       @media (max-width: 768px) {
         gap: 12px;
@@ -804,7 +873,7 @@ $x-large: 1200px;
     }
 
     &-card-date {
-      width: 160px;
+      width: 142px;
       padding: 12px 24px;
       margin-bottom: 16px;
 
@@ -832,14 +901,14 @@ $x-large: 1200px;
 //留言
 
 .comments {
-  padding: 120px 0px;
+  padding: 48px 0px;
 
   @media (max-width: 768px) {
     padding: 40px 0px;
   }
 
   &-title {
-    margin-bottom: 120px;
+    margin-bottom: 80px;
 
     @media (max-width: 768px) {
       margin-bottom: 24px;
@@ -847,16 +916,16 @@ $x-large: 1200px;
   }
 
   &-icon {
-    color: #af1010;
+    color: $primary-4;
   }
 
   &-list {
-    padding: 120px 80px;
+    padding: 48px;
     flex-wrap: wrap;
-    row-gap: 80px;
+    row-gap: 60px;
     column-gap: 34px;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       flex-wrap: nowrap;
       flex-direction: column;
       padding: 32px 24px;
@@ -868,8 +937,9 @@ $x-large: 1200px;
       width: calc(50% - 36px);
       padding: 24px 32px;
 
-      @media (max-width: 768px) {
+      @media (max-width: 992px) {
         width: 100%;
+        padding: 16px;
         //margin-top: 32px;
         //margin-bottom: 32px;
       }
@@ -877,19 +947,33 @@ $x-large: 1200px;
       &-title img {
         width: 80px;
         height: 80px;
+
+        @media (max-width: 768px) {
+          width: 48px;
+          height: 48px;
+        }
+
       }
 
       &-name {
         width: 100%;
-      }
 
-      &-text {
-        height: 216px;
-
-        @media (max-width: 768px) {
-          height: 90px;
+        .material-symbols-outlined {
+          font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
         }
       }
+
+      // &-text {
+      //   height: 216px;
+
+      //   @media (max-width: 768px) {
+      //     height: 90px;
+      //   }
+      // }
     }
   }
 
@@ -899,7 +983,7 @@ $x-large: 1200px;
     border: 0.5px solid rgba(181, 101, 14, 1);
     margin: auto 0px; //使間隔線居中
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       height: 0px;
       border: 1.5px solid rgba(181, 101, 14, 1);
     }
@@ -912,7 +996,7 @@ $x-large: 1200px;
     margin: auto 0px; //使間隔線居中
     display: none;
 
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       display: block;
       height: 0px;
       border: 1.5px solid rgba(181, 101, 14, 1);
@@ -921,27 +1005,26 @@ $x-large: 1200px;
 }
 
 .comments-list-item-btn {
-  max-width: 223px;
+  max-width: 160px;
   display: block;
   background: $primary-3;
   transition: 0.5s;
   color: $primary-1;
   border: 1px solid;
-  border-image-source: linear-gradient(
-    100.25deg,
-    #ffc93d 4.04%,
-    #b5650e 97.53%
-  );
+  border-image-source: linear-gradient(100.25deg,
+      #ffc93d 4.04%,
+      #b5650e 97.53%);
   border-image-slice: 1; //圖像切片設置
   justify-content: center;
   align-items: center;
   margin-left: auto;
-  padding: 24px 40px;
+  padding: 8px 12px;
+  font-size: 12px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 992px) {
     max-width: 102px;
-    padding: 8px 12px;
-    font-size: 12px;
+    // padding: 8px 12px;
+
   }
 
   &:hover {
@@ -958,6 +1041,10 @@ $x-large: 1200px;
 //彈出視窗
 .custom-modal-width {
   max-width: 700px;
+
+  @include respond-to($large) {
+    max-width: 300px;
+  }
 }
 
 .modal-border-primary-1 {
@@ -968,6 +1055,10 @@ $x-large: 1200px;
 .modalImg {
   height: 124px;
   object-fit: contain;
+
+  @include respond-to($large) {
+    height: 38px;
+  }
 }
 
 .decoration {

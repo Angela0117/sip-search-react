@@ -1,7 +1,7 @@
 //首頁按鈕
 .btn-index {
   font-size: 24px;
-  padding: 24px 40px;
+  padding: 16px 20px;
 
   @media (max-width: 992px) {
     font-size: 12px;
@@ -56,7 +56,7 @@
 
 .index-rounded-btn {
   background-color: $primary-1;
-  padding: 6px 8px;
+  padding: 4px 8px;
 
   &:hover {
     filter: brightness(80%);
@@ -345,8 +345,7 @@ $line-thickness: 1px;
 }
 
 //響應式
-@media (max-width: 992px) {
-}
+@media (max-width: 992px) {}
 
 @media (max-width: 768px) {
   .wineBtn {
@@ -384,6 +383,7 @@ $line-thickness: 1px;
 }
 
 @media (max-width: 768px) {
+
   .sectionPopularBars .tag,
   .section-unique-bars .tag,
   .section-barContent .tag,
