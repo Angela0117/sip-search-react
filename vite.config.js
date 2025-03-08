@@ -6,6 +6,8 @@ import { glob } from "glob";
 
 import liveReload from "vite-plugin-live-reload";
 
+import react from '@vitejs/plugin-react';
+
 function moveOutputPlugin() {
   return {
     name: "move-output",
@@ -23,6 +25,7 @@ function moveOutputPlugin() {
 }
 
 export default defineConfig({
+  plugins: [react()],
   // base 的寫法：
   // base: '/Repository 的名稱/'
   base: "/sip-search-react/",
@@ -52,3 +55,4 @@ export default defineConfig({
     outDir: "dist",
   },
 });
+

@@ -70,16 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 點擊左側選單時切換內容
   var navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(function(link) {
-    link.addEventListener('click', function() {
-      // 隱藏所有內容區域
-      clearAllContents();
+  // navLinks.forEach(function(link) {
+  //   link.addEventListener('click', function() {
+  //     // 隱藏所有內容區域
+  //     clearAllContents();
 
-      // 顯示對應的內容區域
-      var targetId = this.getAttribute('data-target');
-      showContent(targetId);
-    });
-  });
+  //     // 顯示對應的內容區域
+  //     var targetId = this.getAttribute('data-target');
+  //     showContent(targetId);
+  //   });
+  // });
 
   // 清除所有內容區域的函數
   function clearAllContents() {
@@ -89,9 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // 顯示指定內容區域的函數
-  function showContent(targetId) {
-    document.getElementById(targetId).classList.add('active-section');
-  }
+  // function showContent(targetId) {
+  //   document.getElementById(targetId).classList.add('active-section');
+  // }
 
   $('.notify-toggle-switch').click(function() {
     const input = $(this).find('input');

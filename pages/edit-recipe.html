@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理中心-編輯酒譜</title>
+
+</head>
+
+<body>
+    <%- include("./layout/header.ejs" ) -%>
+
+        <div class="admin-bg border border-neutral-3">
+            <div class="container text-primary-1 d-flex align-items-center py-8 gap-6">
+                <span class="material-symbols-outlined fs-1">
+                    settings
+                </span>
+                <h2 class="fs-8 fs-lg-3">管理中心</h2>
+            </div>
+        </div>
+
+        <div class="admin-content-bg">
+            <div class="container">
+                <div class="admin-info pt-8 pt-lg-13 text-primary-1">
+                    <!--<div class="memberinfo-list">              
+                    </div>
+                    <div class="memberinfo-desc"></div>-->
+
+                    <div class="row">
+                        <!-- 左側選單 -->
+                        <div class="col-md-3">
+
+                            <!-- 其他選單項目 -->
+                            <ul class="nav flex-column mt-3">
+                                <li class="nav-item">
+                                    <a class="nav-link-admin" data-target="collection-content">會員管理中心</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link-admin" data-target="collection-content">酒譜</a>
+                                </li>
+                                <li>
+                                    <!-- 手風琴元件 -->
+                                    <div class="accordion" id="profileAccordion">
+                                        <div class="accordion-item ">
+                                            <h2 class="accordion-header" id="headingProfile">
+                                                <button class="admin-btn accordion-button" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseProfile"
+                                                    aria-expanded="false" aria-controls="collapseProfile">
+                                                    編輯酒譜
+                                                </button>
+                                            </h2>
+                                            <div id="collapseProfile" class="accordion-collapse collapse"
+                                                aria-labelledby="headingProfile" data-bs-parent="#profileAccordion">
+                                                <div class="accordion-body  memberinfo-accordion">
+                                                    <ul class="nav flex-column memberinfo-list text-center">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link-admin"
+                                                                data-target="account-content">新增酒譜</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link-admin"
+                                                                data-target="notification-content">酒譜草稿</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link-admin" data-target="bar-content">酒吧</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 右側內容區 -->
+                        <div class="col-md-9">
+                            <div class="content-section active-section">
+                                <div class="bg-primary-1 p-3 mb-4 d-flex">
+                                    <h3 class="text-primary-4 fs-7 fs-lg-8">所有酒譜</h3>
+                                    <section class="input-group bg-neutral-1">
+                                        <input type="text" class="form-control bg-neutral-1 fs-9" placeholder="搜尋酒譜"
+                                            aria-label="搜尋酒譜" aria-describedby="button-addon2">
+                                        <button class="btn " type="button" id="button-addon2"><span href="#"
+                                                class="material-symbols-outlined align-middle fs-5">search</span>
+                                        </button>
+                                    </section>
+                                </div>
+                                <div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="text-primary-1 fs-7">序號</th>
+                                                <th scope="col" class="text-primary-1 fs-7">名稱</th>
+                                                <th scope="col" class="text-primary-1 fs-7">照片</th>
+                                                <th scope="col" class="text-primary-1 fs-7">功能</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td>@fat</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td colspan="2">Larry the Bird</td>
+                                                <td>@twitter</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-end">
+                                            <li class="page-item disabled">
+                                                <a class="page-link">Previous</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+                            <!-- 編輯酒譜 -->
+
+                            <section class=" mt-10 mb-12">
+                                <div class="bg-primary-1 p-3 mb-4">
+                                    <h3 class="text-primary-4 fs-7 fs-lg-8">編輯酒譜</h3>
+                                </div>
+
+                                <div class="account-content fs-9 fs-lg-6">
+                                    <form class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="inputEmail4" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="inputEmail4">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputPassword4" class="form-label">Password</label>
+                                            <input type="password" class="form-control" id="inputPassword4">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="inputAddress" class="form-label">Address</label>
+                                            <input type="text" class="form-control" id="inputAddress"
+                                                placeholder="1234 Main St">
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="inputAddress2" class="form-label">Address 2</label>
+                                            <input type="text" class="form-control" id="inputAddress2"
+                                                placeholder="Apartment, studio, or floor">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="inputCity" class="form-label">City</label>
+                                            <input type="text" class="form-control" id="inputCity">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="inputState" class="form-label">State</label>
+                                            <select id="inputState" class="form-select">
+                                                <option selected>Choose...</option>
+                                                <option>...</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="inputZip" class="form-label">Zip</label>
+                                            <input type="text" class="form-control" id="inputZip">
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="gridCheck">
+                                                <label class="form-check-label" for="gridCheck">
+                                                    Check me out
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">Sign in</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+
+
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <%- include('./layout/footer'); -%>
+            <script type="module" src="../main.js"></script>
+</body>
+
+</html>
