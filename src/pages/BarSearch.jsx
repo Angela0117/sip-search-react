@@ -79,7 +79,7 @@ export default function BarSearch() {
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               />
-              <span className="input-group-text material-symbols-outlined fs-8 fs-md-5">
+              <span className="d-flex input-group-text material-symbols-outlined fs-8 fs-md-5">
                 search
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function BarSearch() {
               <h3 className="fs-8 fs-md-5 mb-1 mb-md-4 eng-font">
                 Discover Popular Bars
               </h3>
-              <h2 className="fs-7 fs-md-2">全台熱門酒吧 Top6</h2>
+              <h2 className="fs-7 fs-md-5">全台熱門酒吧 Top6</h2>
             </div>
           </div>
 
@@ -211,7 +211,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Indulge</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Indulge</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -239,7 +239,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Bar Mood</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Bar Mood</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -267,7 +267,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">AHA Saloon</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">AHA Saloon</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -295,7 +295,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Ounce Taipei</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Ounce Taipei</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -323,7 +323,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Draft Land</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Draft Land</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -351,7 +351,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Bar Pun</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Bar Pun</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -401,7 +401,7 @@ export default function BarSearch() {
                 <h3 className="fs-8 fs-md-5 mb-1 mb-md-4 eng-font">
                   Discover Unique Bars
                 </h3>
-                <h2 className="fs-7 fs-md-2">全新體驗，台灣獨特酒吧</h2>
+                <h2 className="fs-7 fs-md-5">全新體驗，台灣獨特酒吧</h2>
               </div>
 
               <div className="main-content">
@@ -519,10 +519,10 @@ export default function BarSearch() {
       >
         <div className="container py-lg-15 py-10">
           <div className="nearby-event-title mb-lg-15 mb-6">
-            <h3 className="fs-lg-3 fs-md-5 fs-8 text-center text-primary-1 mb-4 eng-font">
+            <h3 className="fs-lg-5 fs-md-5 fs-8 text-center text-primary-1 mb-4 eng-font">
               Latest Events Around You
             </h3>
-            <h3 className="fs-lg-2 fs-md-4 fs-7 text-center text-primary-1">
+            <h3 className="fs-lg-5 fs-md-4 fs-7 text-center text-primary-1">
               你周圍的最新活動
             </h3>
           </div>
@@ -532,7 +532,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card">
                   <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1 eng-font">
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono
                     </h5>
                     <div className="mt-auto">
@@ -559,7 +559,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card">
                   <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1">隱士餐酒館</h5>
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
                       <section className="event-date bg-primary-1 py-lg-3 px-lg-5 py-2 px-3 text-primary-4 mb-5 fs-lg-6 fs-9">
                         <p>週二</p>
@@ -583,7 +583,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card text-start">
                   <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1">隱士餐酒館</h5>
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
                       <section className="event-date bg-primary-1 py-lg-3 px-lg-5 py-2 px-3 text-primary-4 mb-5 fs-lg-6 fs-9">
                         <p>週二</p>
@@ -607,7 +607,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card text-start">
                   <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1 eng-font">
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono
                     </h5>
                     <div className="mt-auto">
