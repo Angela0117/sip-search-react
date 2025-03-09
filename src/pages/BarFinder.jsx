@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -13,6 +14,7 @@ function BarFinder() {
   const [activeSort, setActiveSort] = useState(""); // 排序的類型狀態切換
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 12;
+  const [searchParams] = useSearchParams();  //取得url參數
   const [filteredProducts, setFilteredProducts] = useState([]); // 存放篩選後的資料
   const [selectedFilters, setSelectedFilters] = useState({
     region: "",
@@ -23,6 +25,11 @@ function BarFinder() {
   //每次跳轉都在頁面上方
   useEffect(() => {
     window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
+  }, []);
+
+   // 加入初始數據加載
+   useEffect(() => {
+    getAllProducts();
   }, []);
 
   // 取得所有產品
@@ -49,50 +56,42 @@ function BarFinder() {
 
   // 整合搜尋和篩選功能
   const applyFiltersAndSearch = () => {
-    // 先篩選 tag 條件
-    let result = allProducts.filter((bar) => {
-      const regionMatch = selectedFilters.region
-        ? bar.region === selectedFilters.region
-        : true;
-      const typeMatch = selectedFilters.type
-        ? bar.type === selectedFilters.type
-        : true;
-      const spendMatch =
-        selectedFilters.minimum_spend !== null
-          ? bar.minimum_spend <= selectedFilters.minimum_spend
-          : true;
-      return regionMatch && typeMatch && spendMatch;
-    });
+    let result = [...allProducts]; // 創建新的數組
 
-    // 再套用搜尋條件
-    if (searchTerm) {
-      const lowerSearch = searchTerm.toLowerCase();
-      result = result.filter((product) =>
-        [product.name, product.description, product.type, product.region]
-          .filter(Boolean)
-          .some((field) => {
-            if (Array.isArray(field)) {
-              return field.join(" ").toLowerCase().includes(lowerSearch);
-            }
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(lowerSearch)
-            );
-          })
-      );
-    }
+  // 套用篩選條件
+  if (selectedFilters.region) {
+    result = result.filter(bar => bar.region === selectedFilters.region);
+  }
+  if (selectedFilters.type) {
+    result = result.filter(bar => bar.type === selectedFilters.type);
+  }
+  if (selectedFilters.minimum_spend) {
+    result = result.filter(bar => bar.minimum_spend <= selectedFilters.minimum_spend);
+  }
 
-    // 最後套用排序
-    if (sortType === "favoriteCount") {
-      result.sort((a, b) => b.favoriteCount - a.favoriteCount);
-    } else if (sortType === "likeCount") {
-      result.sort((a, b) => b.likeCount - a.likeCount);
-    } else {
-      result.sort((a, b) => a.id - b.id);
-    }
+  // 套用搜尋條件
+  if (searchTerm) {
+    const lowerSearch = searchTerm.toLowerCase();
+    result = result.filter((bar) =>
+      [bar.name, bar.description, bar.type, bar.region]
+        .filter(Boolean)
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+  }
 
-    setFilteredProducts(result);
-    updateDisplayedProducts(result);
+  // 套用當前的排序
+  if (sortType === "favoriteCount") {
+    result.sort((a, b) => b.favoriteCount - a.favoriteCount);
+  } else if (sortType === "likeCount") {
+    result.sort((a, b) => b.likeCount - a.likeCount);
+  } else {
+    // 預設按 id 排序
+    result.sort((a, b) => a.id - b.id);
+  }
+
+  setFilteredProducts(result);
+  setProducts(result.slice(0, cardsPerPage));
+  setCurrentPage(1);
   };
 
   // 搜尋功能處理
@@ -114,8 +113,10 @@ function BarFinder() {
 
   // 監聽所有篩選條件變化
   useEffect(() => {
-    applyFiltersAndSearch();
-  }, [selectedFilters, sortType, allProducts]);
+    if (allProducts.length > 0) {
+      applyFiltersAndSearch();
+    }
+  }, [selectedFilters, searchTerm, sortType, allProducts]);
 
   // 監聽搜尋條件變化 (Enter 鍵觸發或搜尋按鈕點擊)
   useEffect(() => {
@@ -124,38 +125,58 @@ function BarFinder() {
     }
   }, [searchTerm]);
 
-  //熱門/按讚排序功能
-  const handleSort = (type) => {
-    setSortType(type);
-    setActiveSort(type); //點擊後變色
-  };
+//熱門/按讚排序功能
+const handleSort = (type) => {
+  setSortType(type);
+  setActiveSort(type); //點擊後變色
+  applyFiltersAndSearch(); // 使用統一的處理函數
+};
 
-  //清除排序功能
-  const handleClearSort = () => {
-    setSelectedFilters({
-      region: "",
-      type: "",
-      minimum_spend: null,
-    });
-    setSortType("default");
-    setActiveSort("");
-    setSearchTerm("");
+//清除排序功能
+const handleClearSort = () => {
+  // 重置所有狀態
+  setSelectedFilters({
+    region: "",
+    type: "",
+    minimum_spend: null,
+  });
+  setSortType("default");
+  setActiveSort("");
+  setSearchTerm("");
+  
+  // 重置為原始數據
+  const originalOrderProducts = [...allProducts].sort((a, b) => a.id - b.id);
+  setFilteredProducts(originalOrderProducts);
+  setProducts(originalOrderProducts.slice(0, cardsPerPage));
+  setCurrentPage(1);
+  
+  // 強制觸發重新渲染
+  applyFiltersAndSearch();
+};
 
-    // 重設所有篩選條件後，更新顯示
-    updateDisplayedProducts(allProducts);
-  };
 
   // 分頁功能
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    setProducts(
-      allProducts.slice((page - 1) * cardsPerPage, page * cardsPerPage)
-    );
+    const startIndex = (page - 1) * cardsPerPage;
+    const endIndex = page * cardsPerPage;
+    setProducts(filteredProducts.slice(startIndex, endIndex)); 
   };
 
+  //首頁tag篩選過來後的接收
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    const tagsParam = searchParams.get("tags");
+    if (tagsParam && allProducts.length > 0) {  // 確保有數據後再處理
+      const tagArray = tagsParam.split(',');
+      const tag = tagArray[0]?.trim();  // 先只處理第一個標籤
+      if (tag) {
+        setSelectedFilters(prev => ({
+          ...prev,
+          region: tag
+        }));
+      }
+    }
+  }, [searchParams, allProducts]); 
 
   //bar點擊左右滑動
   const scrollContainerRef1 = useRef(null);

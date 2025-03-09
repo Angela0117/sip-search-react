@@ -1,12 +1,63 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
 
 function IndexPage() {
+  //跳轉頁面
   const navigate = useNavigate();
-  
+  //跳轉前移除backdrop
+  const handleTagSelect = (tag) => {
+    // 移除 modal backdrop
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    // 移除 body 上的 modal 相關 class
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = ""; // 重置 overflow
+    document.body.style.paddingRight = ""; // 重置 padding-right
+
+    navigate(`/recipesSearch?tag=${tag}`);
+  };
+
+  const [selectedBarTags, setSelectedBarTags] = useState([]); // 選擇的酒吧標籤
+  // 處理酒吧 tag 的多選功能
+  const handleBarTagSelect = (tag) => {
+    setSelectedBarTags((prev) => {
+      // 如果已經選中，則移除
+      if (prev.includes(tag)) {
+        return prev.filter((t) => t !== tag);
+      }
+      // 如果未選中，則添加
+      return [...prev, tag];
+    });
+  };
+
+  // 處理酒吧搜尋跳轉
+  const handleBarSearch = () => {
+    // 移除 modal backdrop
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    // 移除 body 上的 modal 相關 class
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+
+    // 將多個標籤組合成查詢字符串
+    const tagQuery = selectedBarTags.join(",");
+    navigate(`/barfinder?tags=${tagQuery}`);
+  };
+
+  // 清除所有選中的 tag
+  const handleClearBarTags = () => {
+    setSelectedBarTags([]);
+  };
 
   //modal的開關
   const recipeModalRef = useRef(null);
@@ -35,22 +86,6 @@ function IndexPage() {
   const handleBarModalClose = () => {
     const modalInstance = Modal.getInstance(barModalRef.current);
     modalInstance.hide();
-  };
-
-  //跳轉前移除backdrop
-  const handleTagSelect = (tag) => {
-    // 移除 modal backdrop
-    const backdrop = document.querySelector('.modal-backdrop');
-    if (backdrop) {
-      backdrop.remove();
-    }
-    
-    // 移除 body 上的 modal 相關 class
-    document.body.classList.remove('modal-open');
-    document.body.style.overflow = ''; // 重置 overflow
-    document.body.style.paddingRight = ''; // 重置 padding-right
-    
-    navigate(`/recipesSearch?tag=${tag}`);
   };
 
   useEffect(() => {
@@ -205,192 +240,107 @@ function IndexPage() {
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">北部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台北市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新北市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              基隆市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              桃園市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新竹市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新竹縣
-                            </a>
-                          </li>
+                          {[
+                            "台北市",
+                            "新北市",
+                            "基隆市",
+                            "桃園市",
+                            "新竹市",
+                            "新竹縣",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">中南部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              苗栗縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台中市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              彰化縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              南投縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              雲林縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              嘉義縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台南市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              高雄市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              屏東縣
-                            </a>
-                          </li>
+                          {[
+                            "苗栗縣",
+                            "苗栗市",
+                            "台中市",
+                            "彰化縣",
+                            "南投縣",
+                            "雲林縣",
+                            "嘉義縣",
+                            "嘉義市",
+                            "台南市",
+                            "高雄市",
+                            "屏東縣",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">東部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              宜蘭縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              花蓮縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台東縣
-                            </a>
-                          </li>
+                          {["台東縣", "花蓮縣", "宜蘭縣"].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">離島</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              金門縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              澎湖縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              馬祖縣
-                            </a>
-                          </li>
+                          {["金門縣", "澎湖縣", "馬祖縣"].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
-                      <section className="banner-selector-section">
+                      {/* 新增確認按鈕區域 */}
+                      <div className="text-center mt-6">
+                        <button
+                          type="button"
+                          className="btn btn-primary-1 px-6 py-2 rounded-pill"
+                          onClick={handleBarSearch}
+                          disabled={selectedBarTags.length === 0}
+                        >
+                          確認搜尋
+                        </button>
+                      </div>
+
+                      {/* <section className="banner-selector-section">
                         <p className="banner-category mb-5">其他</p>
                         <ul className="d-flex flex-wrap">
                           <li className="w-25">
@@ -458,7 +408,7 @@ function IndexPage() {
                             </a>
                           </li>
                         </ul>
-                      </section>
+                      </section> */}
                     </div>
                   </div>
                 </div>
@@ -592,28 +542,7 @@ function IndexPage() {
               <div className="search-empty me-lg-6 me-md-3 me-1"></div>
               <div className="search-result d-flex justify-content-between">
                 <ul className="d-flex gap-6 m-0 text-nowrap" data-aos="fade-up">
-                  <li className="rounded-pill index-rounded-btn">
-                    <a
-                      href="#"
-                      className="d-flex fs-lg-7 fs-md-9 fs-10 align-items-center text-primary-4"
-                    >
-                      台北市
-                      <span className="material-symbols-outlined ms-2 fs-lg-6 fs-8">
-                        close
-                      </span>
-                    </a>
-                  </li>
-                  <li className="rounded-pill index-rounded-btn">
-                    <a
-                      href="#"
-                      className="d-flex fs-lg-7 fs-md-9 fs-10 align-items-center text-primary-4"
-                    >
-                      停車場
-                      <span className="material-symbols-outlined ms-2 fs-lg-6 fs-8">
-                        close
-                      </span>
-                    </a>
-                  </li>
+                  
                 </ul>
                 <div className="ms-auto text-primary-1 d-none d-md-block d-lg-block index-brightness">
                   <a
