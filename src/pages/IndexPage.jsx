@@ -1,10 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
+import { Modal } from 'bootstrap';
 
 function IndexPage() {
 
+  //modal的開關
+const recipeModalRef = useRef(null);
+const barModalRef = useRef(null);
+
+useEffect(() => {
+  new Modal(recipeModalRef.current);
+  new Modal(barModalRef.current);
+}, []);
+
+const handleRecipeModalOpen = () => {
+  const modalInstance = Modal.getInstance(recipeModalRef.current);
+  modalInstance.show();
+};
+
+const handleBarModalOpen = () => {
+  const modalInstance = Modal.getInstance(barModalRef.current);
+  modalInstance.show();
+};
+
+const handleRecipeModalClose = () => {
+  const modalInstance = Modal.getInstance(recipeModalRef.current);
+  modalInstance.hide();
+};
+
+const handleBarModalClose = () => {
+  const modalInstance = Modal.getInstance(barModalRef.current);
+  modalInstance.hide();
+};
+
+
+
   useEffect(() => {
+
     // 初始化首頁熱門酒譜swiper
     new Swiper('.swiper-popular-recipe', {
       direction: 'horizontal',
@@ -123,23 +156,21 @@ function IndexPage() {
                 <button
                   type="button"
                   className="btn-index-primaryl-transparent banner-btn fs-lg-6 fs-md-8 fs-9"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop-2"
+                  onClick={handleRecipeModalOpen}
                 >
                   酒譜
                 </button>
                 <button
                   type="button"
                   className="btn-index-primaryl-transparent banner-btn fs-lg-6 fs-md-8 fs-9"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
+                  onClick={handleBarModalOpen}
                 >
                   酒吧
                 </button>
               </div>
               <div
                 className="modal fade"
-                id="staticBackdrop"
+                ref={barModalRef}
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabIndex="-1"
@@ -149,9 +180,9 @@ function IndexPage() {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                   <div className="modal-content pt-6">
                     <a
-                      href="#"
+                      
                       className="d-flex justify-content-center ms-auto mb-6 me-5"
-                      data-bs-dismiss="modal"
+                      onClick={handleBarModalClose}
                       aria-label="Close"
                     >
                       <span className="material-symbols-outlined text-primary-1">
@@ -422,7 +453,7 @@ function IndexPage() {
               </div>
               <div
                 className="modal fade"
-                id="staticBackdrop-2"
+                ref={recipeModalRef}
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabIndex="-1"
@@ -432,10 +463,10 @@ function IndexPage() {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                   <div className="modal-content pt-6">
                     <a
-                      href="#"
+                      
                       className="d-flex justify-content-center ms-auto mb-6 me-5"
-                      data-bs-dismiss="modal"
                       aria-label="Close"
+                      onClick={handleRecipeModalClose} 
                     >
                       <span className="material-symbols-outlined text-primary-1">
                         cancel
@@ -462,12 +493,12 @@ function IndexPage() {
                             </a>
                           </li>
                           <li className="w-25">
-                            <a
+                            <button
                               href="#"
                               className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
                             >
                               白蘭地
-                            </a>
+                            </button>
                           </li>
                           <li className="w-25">
                             <a

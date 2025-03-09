@@ -1,6 +1,12 @@
 import React from "react";
+import { useEffect } from "react";
+
 
 function AboutPage() {
+  useEffect(() => {
+      window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
+    }, []);
+
   return (
     <>
       <div className="section-ab1">

@@ -39,106 +39,112 @@ function BarFinder() {
     }
   };
 
-    // 更新頁面資料，處理分頁邏輯
-    const updateDisplayedProducts = (dataSource, page = 1) => {
-      setCurrentPage(page);
-      setProducts(dataSource.slice((page - 1) * cardsPerPage, page * cardsPerPage));
-    };
-  
-    // 整合搜尋和篩選功能
-    const applyFiltersAndSearch = () => {
-      // 先篩選 tag 條件
-      let result = allProducts.filter((bar) => {
-        const regionMatch = selectedFilters.region ? bar.region === selectedFilters.region : true;
-        const typeMatch = selectedFilters.type ? bar.type === selectedFilters.type : true;
-        const spendMatch =
-          selectedFilters.minimum_spend !== null
-            ? bar.minimum_spend <= selectedFilters.minimum_spend
-            : true;
-        return regionMatch && typeMatch && spendMatch;
-      });
-  
-      // 再套用搜尋條件
-      if (searchTerm) {
-        const lowerSearch = searchTerm.toLowerCase();
-        result = result.filter((product) =>
-          [product.name, product.description, product.type, product.region]
-            .filter(Boolean)
-            .some((field) => {
-              if (Array.isArray(field)) {
-                return field.join(" ").toLowerCase().includes(lowerSearch);
-              }
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(lowerSearch)
-              );
-            })
-        );
-      }
-  
-      // 最後套用排序
-      if (sortType === "favoriteCount") {
-        result.sort((a, b) => b.favoriteCount - a.favoriteCount);
-      } else if (sortType === "likeCount") {
-        result.sort((a, b) => b.likeCount - a.likeCount);
-      } else {
-        result.sort((a, b) => a.id - b.id);
-      }
-  
-      setFilteredProducts(result);
-      updateDisplayedProducts(result);
-    };
-  
-    // 搜尋功能處理
-    const handleSearch = () => {
+  // 更新頁面資料，處理分頁邏輯
+  const updateDisplayedProducts = (dataSource, page = 1) => {
+    setCurrentPage(page);
+    setProducts(
+      dataSource.slice((page - 1) * cardsPerPage, page * cardsPerPage)
+    );
+  };
+
+  // 整合搜尋和篩選功能
+  const applyFiltersAndSearch = () => {
+    // 先篩選 tag 條件
+    let result = allProducts.filter((bar) => {
+      const regionMatch = selectedFilters.region
+        ? bar.region === selectedFilters.region
+        : true;
+      const typeMatch = selectedFilters.type
+        ? bar.type === selectedFilters.type
+        : true;
+      const spendMatch =
+        selectedFilters.minimum_spend !== null
+          ? bar.minimum_spend <= selectedFilters.minimum_spend
+          : true;
+      return regionMatch && typeMatch && spendMatch;
+    });
+
+    // 再套用搜尋條件
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      result = result.filter((product) =>
+        [product.name, product.description, product.type, product.region]
+          .filter(Boolean)
+          .some((field) => {
+            if (Array.isArray(field)) {
+              return field.join(" ").toLowerCase().includes(lowerSearch);
+            }
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(lowerSearch)
+            );
+          })
+      );
+    }
+
+    // 最後套用排序
+    if (sortType === "favoriteCount") {
+      result.sort((a, b) => b.favoriteCount - a.favoriteCount);
+    } else if (sortType === "likeCount") {
+      result.sort((a, b) => b.likeCount - a.likeCount);
+    } else {
+      result.sort((a, b) => a.id - b.id);
+    }
+
+    setFilteredProducts(result);
+    updateDisplayedProducts(result);
+  };
+
+  // 搜尋功能處理
+  const handleSearch = () => {
+    applyFiltersAndSearch();
+  };
+
+  // tag篩選功能
+  const handleTagSelect = (filterType, value) => {
+    setSelectedFilters((prevFilters) => {
+      const newFilters = {
+        ...prevFilters,
+        // 如果該條件已經選取，再點一次則清除；否則就更新成新的值
+        [filterType]: prevFilters[filterType] === value ? "" : value,
+      };
+      return newFilters;
+    });
+  };
+
+  // 監聽所有篩選條件變化
+  useEffect(() => {
+    applyFiltersAndSearch();
+  }, [selectedFilters, sortType, allProducts]);
+
+  // 監聽搜尋條件變化 (Enter 鍵觸發或搜尋按鈕點擊)
+  useEffect(() => {
+    if (searchTerm === "") {
       applyFiltersAndSearch();
-    };
-  
-    // tag篩選功能
-    const handleTagSelect = (filterType, value) => {
-      setSelectedFilters((prevFilters) => {
-        const newFilters = {
-          ...prevFilters,
-          // 如果該條件已經選取，再點一次則清除；否則就更新成新的值
-          [filterType]: prevFilters[filterType] === value ? "" : value,
-        };
-        return newFilters;
-      });
-    };
-  
-    // 監聽所有篩選條件變化
-    useEffect(() => {
-      applyFiltersAndSearch();
-    }, [selectedFilters, sortType, allProducts]);
-  
-    // 監聽搜尋條件變化 (Enter 鍵觸發或搜尋按鈕點擊)
-    useEffect(() => {
-      if (searchTerm === "") {
-        applyFiltersAndSearch();
-      }
-    }, [searchTerm]);
-  
-    //熱門/按讚排序功能
-    const handleSort = (type) => {
-      setSortType(type);
-      setActiveSort(type); //點擊後變色
-    };
-    
-    //清除排序功能
-    const handleClearSort = () => {
-      setSelectedFilters({
-        region: "",
-        type: "",
-        minimum_spend: null,
-      });
-      setSortType("default");
-      setActiveSort("");
-      setSearchTerm("");
-      
-      // 重設所有篩選條件後，更新顯示
-      updateDisplayedProducts(allProducts);
-    };
-    
+    }
+  }, [searchTerm]);
+
+  //熱門/按讚排序功能
+  const handleSort = (type) => {
+    setSortType(type);
+    setActiveSort(type); //點擊後變色
+  };
+
+  //清除排序功能
+  const handleClearSort = () => {
+    setSelectedFilters({
+      region: "",
+      type: "",
+      minimum_spend: null,
+    });
+    setSortType("default");
+    setActiveSort("");
+    setSearchTerm("");
+
+    // 重設所有篩選條件後，更新顯示
+    updateDisplayedProducts(allProducts);
+  };
+
   // 分頁功能
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -377,7 +383,7 @@ function BarFinder() {
                         role="group"
                         aria-label="Basic outlined example"
                       >
-                        {[250, 300, 350].map((amount) => (
+                        {[300, 400, 500, 600].map((amount) => (
                           <button
                             key={amount}
                             type="button"
@@ -507,7 +513,9 @@ function BarFinder() {
         <div className="container mt-lg-11 pb-lg-11 pb-9">
           <div className="search-result mb-lg-11 mb-6 d-flex justify-content-start">
             <h5 className="text-primary-1 pe-lg-6 fs-8 fs-md-5">搜尋結果</h5>
-            <p className="fs-lg-7 text-primary-1 d-none d-md-block">12</p>
+            <p className="fs-lg-7 text-primary-1 d-none d-md-block">
+              {filteredProducts.length}
+            </p>
           </div>
           <div className="row row-cols-2 row-cols-lg-3 gy-lg-9 gy-6 ps-lg-11 mb-lg-9 mb-8">
             {products && products.length > 0 ? (

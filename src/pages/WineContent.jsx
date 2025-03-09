@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import WineCard from "../components/WineCard";
-import { get } from "jquery";
 import RecipeCard from "../components/RecipeCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
