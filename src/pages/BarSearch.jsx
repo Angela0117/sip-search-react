@@ -414,7 +414,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">
                         貓下去敦北俱樂部
                       </h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
@@ -427,7 +427,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-inline-block fs-8 fs-md-5"
+                          className="d-inline-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -445,7 +445,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">隱士酒吧</h4>
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">隱士酒吧</h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
                         <span className="tag">可供訂位</span>
                         <span className="tag">台北市</span>
@@ -456,7 +456,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-block fs-8 fs-md-5"
+                          className="d-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -474,7 +474,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">迷霧調酒所</h4>
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">迷霧調酒所</h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
                         <span className="tag">可供訂位</span>
                         <span className="tag">台中市</span>
@@ -485,7 +485,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-block fs-8 fs-md-5"
+                          className="d-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -540,13 +540,13 @@ export default function BarSearch() {
                         <p>週五</p>
                         <p>9/13</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9 eng-font">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9 eng-font">
                         TGIF!! 邀請世界知名 DJ
                         Anderson和多位饒舌歌手一起迎接假日，還享限定優惠！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -565,12 +565,12 @@ export default function BarSearch() {
                         <p>週二</p>
                         <p>9/17</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9">
                         週二夜限定！來餐酒館享受特調雞尾酒買一送一，讓週中夜晚更愉快！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -589,12 +589,12 @@ export default function BarSearch() {
                         <p>週二</p>
                         <p>9/17</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9">
                         週二夜限定！來餐酒館享受特調雞尾酒買一送一，讓週中夜晚更愉快！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -615,13 +615,13 @@ export default function BarSearch() {
                         <p>週五</p>
                         <p>9/13</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9 eng-font">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9 eng-font">
                         TGIF!! 邀請世界知名 DJ
                         Anderson和多位饒舌歌手一起迎接假日，還享限定優惠！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">

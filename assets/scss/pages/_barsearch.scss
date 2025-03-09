@@ -387,9 +387,9 @@ $x-large: 1200px;
 
   .tag {
     background-color: $primary-3;
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 100px;
-    font-size: 24px;
+    font-size: 20px;
 
     @include respond-to($medium) {
       padding: 4px 8px;
