@@ -7,9 +7,20 @@ const WineCard = ({recipe}) => {
         const navigate = useNavigate();
 
         const handleTagClick = (tag) => {
-            navigate(`/recipessearch?tag=${tag}`);
-        };
-
+          // 移除 modal backdrop (如果有的話)
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+              backdrop.remove();
+          }
+          
+          // 移除 body 上的 modal 相關 class
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+          
+          // 導航到搜索頁面
+          navigate(`/recipesSearch?tag=${tag}`);
+      };
     return(<>
      <div
             className="wine-content-title text-primary-1 text-center"

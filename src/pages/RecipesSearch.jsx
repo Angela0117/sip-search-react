@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -15,21 +16,66 @@ function RecipesSearch() {
   const [selectedTags, setSelectedTags] = useState([]); //tag篩選
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 6;
- 
+  const [searchParams] = useSearchParams(); //取得首頁篩選tag的結果
+    //首頁的tag篩選功能
+    const tagFromUrl = searchParams.get("tag");
 
-  // 取得所有產品
-  const getAllProducts = async (tag) => {
+
+  useEffect(() => {
+    if (tagFromUrl) {
+      // 設置選中的標籤
+      setSelectedTags((prev) =>
+        prev.includes(tagFromUrl) ? prev : [...prev, tagFromUrl]
+      );
+  
+      // 根據標籤篩選產品
+      const filteredProducts = allProducts.filter((product) =>
+        product.tags.includes(tagFromUrl)
+      );
+      
+      // 更新顯示的產品
+      setProducts(filteredProducts.slice(0, cardsPerPage));
+    }
+  }, [tagFromUrl, allProducts, cardsPerPage]);
+  
+  // 修改 getAllProducts，移除可選的 tag 參數
+  const getAllProducts = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+      const res = await axios.get(`${baseUrl}/recipes`);
       console.log("取得所有產品成功", res.data);
       setAllProducts(res.data);
-
-      setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+  
+      // 如果有 tagFromUrl，就篩選產品
+      if (tagFromUrl) {
+        const filteredProducts = res.data.filter((product) =>
+          product.tags.includes(tagFromUrl)
+        );
+        setProducts(filteredProducts.slice(0, cardsPerPage));
+      } else {
+        // 沒有 tag 時顯示所有產品
+        setProducts(res.data.slice(0, cardsPerPage));
+      }
     } catch (error) {
       console.error("取得產品失敗", error);
       alert("取得產品失敗");
     }
   };
+
+
+
+  // 取得所有產品
+  // const getAllProducts = async (tag) => {
+  //   try {
+  //     const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+  //     console.log("取得所有產品成功", res.data);
+  //     setAllProducts(res.data);
+
+  //     setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+  //   } catch (error) {
+  //     console.error("取得產品失敗", error);
+  //     alert("取得產品失敗");
+  //   }
+  // };
 
   // 搜尋功能
   const handleSearch = () => {
