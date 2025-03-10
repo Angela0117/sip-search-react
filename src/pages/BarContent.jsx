@@ -11,7 +11,7 @@ function BarContent() {
     <>
       <section className="section section-breadcrumb">
         <div className="container">
-          <ol className="breadcrumb fs-8 fs-lg-7 px-lg-10">
+          <ol className="breadcrumb fs-8 fs-lg-7 ps-lg-11">
             <li className="breadcrumb-item"><a href="#">酒吧區</a></li>
             <li className="breadcrumb-item"><a href="#">台北酒吧</a></li>
             <li className="breadcrumb-item active">
@@ -23,7 +23,7 @@ function BarContent() {
 
       <section className="section section-barContent">
         <div className="container">
-          <div className="main-title px-lg-10">
+          <div className="main-title px-lg-11">
             <h2 className="eng-font fs-6 fs-md-5 fs-lg-3">Blue Note Taipei</h2>
             <ul className="icon-list my-auto">
               <li className="icon-item">
@@ -47,7 +47,7 @@ function BarContent() {
             </ul>
           </div>
 
-          <ul className="tags px-lg-10">
+          <ul className="tags ps-lg-11">
             <li><a href="#" className="d-block tag fs-10 fs-md-8">台北酒吧</a></li>
             <li><a href="#" className="d-block tag fs-10 fs-md-8">特色酒吧</a></li>
           </ul>
@@ -104,7 +104,7 @@ function BarContent() {
             </p>
           </div>
         </div>
-        <div className="pic ms-lg-11" data-aos="fade-right" data-aos-duration="1000">
+        <div className="pic ms-lg-12" data-aos="fade-right" data-aos-duration="1000">
           <img src="../assets/images/barcontent/bar_activity.jpg" alt="" />
         </div>
       </div>
@@ -116,7 +116,7 @@ function BarContent() {
           <img src="../assets/images/barcontent/bar_map.png" alt="" />
         </div>
         <div className="txt" data-aos="fade-left" data-aos-duration="1000">
-          <div className="title text-center mb-lg-4">
+          <div className="title text-center mb-lg-2">
             <h3 className="fs-7 fs-lg-6">聯繫我們</h3>
           </div>
 
@@ -130,7 +130,7 @@ function BarContent() {
             </p>
           </div>
 
-          <div className="title text-center mb-lg-4">
+          <div className="title text-center mb-lg-2">
             <h3 className="fs-7 fs-lg-6">營業時間</h3>
           </div>
           <div className="opentimes p-4">
@@ -235,7 +235,7 @@ function BarContent() {
     >
       <div className="container">
         <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
-        <div className="similar-bars-list mx-lg-12">
+        <div className="similar-bars-list mx-lg-15">
           <div
             className="similar-bars-item"
             data-aos="flip-left"
