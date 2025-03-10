@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import { useNavigate } from "react-router-dom";
+import { Link, Links, useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
 
 function IndexPage() {
@@ -251,9 +251,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -281,9 +280,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -299,9 +297,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -317,9 +314,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -599,15 +595,15 @@ function IndexPage() {
                     每一杯都是放鬆時光！
                   </p>
                   <div className="btn-md">
-                    <a
-                      href="https://vicfirth5a.github.io/sip-search/recipessearch"
+                    <Link
+                      to="/recipessearch"
                       className="btn-search btn-index-primaryl-light d-flex"
                     >
                       我想找酒譜
                       <span className="material-symbols-outlined ms-3">
                         arrow_forward_ios
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -627,15 +623,15 @@ function IndexPage() {
                     發現喝酒的好去處！
                   </p>
                   <div className="btn-md">
-                    <a
-                      href="https://vicfirth5a.github.io/sip-search/barsearch"
+                    <Link
+                      to="/barsearch"
                       className="btn-search btn-index-primary1 d-flex"
                     >
                       我想找酒吧
                       <span className="material-symbols-outlined ms-3">
                         arrow_forward_ios
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="img-ctrl">
@@ -674,12 +670,12 @@ function IndexPage() {
                   className="form-control text-primary-1 eng-font mt-2"
                 />
               </div>
-              <a
-                href="#"
+              <Link
+                to="/membersignup"
                 className="btn-rs-primary-4 join-input-btn fs-lg-7 fs-9 text-nowrap"
               >
                 加入會員
-              </a>
+              </Link>
             </div>
           </div>
         </div>
