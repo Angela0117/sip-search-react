@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const WineCard = ({recipe}) => {
         //用navigate導回去recipessearch
-        const navigate = useNavigate();
+        const navigate = useNavigate(); 
 
         const handleTagClick = (tag) => {
           // 移除 modal backdrop (如果有的話)
