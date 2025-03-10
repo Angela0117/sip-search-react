@@ -4,9 +4,8 @@
   //outline: 1px solid rgb(110, 131, 5);
 }
 
-
 .wine-content-title {
-  margin-bottom: 120px;
+  margin-bottom: 80px;
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -19,12 +18,16 @@
 }
 
 .methods-item-1 {
-  max-width: 447px;
+  max-width: 343px;
+  flex: 1;
   @media (max-width: 768px) {
     margin: 0 auto;
     max-width: 237px;
   }
   &-img {
+    border-radius: 180px 180px 0 0;
+    object-fit: cover;
+    display: block;
     @media (max-width: 768px) {
       height: 285px;
     }
@@ -39,17 +42,18 @@
   margin-bottom: 0px;
   @media (max-width: 768px) {
     gap: 4px;
-    padding: 14px 24px;
+    padding: 9px 14px;
   }
   &-btn {
     width: 40px;
     //height: 42px;
     text-align: center;
     font-size: 36px;
+
     @media (max-width: 768px) {
       font-size: 12px;
       width: 16px;
-      margin-right: 4px;
+      margin-right: 12px;
     }
     &:hover {
       font-variation-settings: "FILL" 1;
@@ -58,7 +62,7 @@
 
   &-item {
     align-items: center;
-    gap: 12px;
+    gap: 4px;
     @media (max-width: 768px) {
       gap: 0px;
       width: 100%;
@@ -74,7 +78,9 @@
 //}
 
 .wine-content-methods {
-  gap: 96px;
+  gap: 72px;
+  //align-items: center;
+  justify-content: center;
 }
 
 .methods-tags {
@@ -90,16 +96,18 @@
   background: #2e2828;
   padding: 8px 24px;
   border-radius: 100px 100px 100px 100px;
+  cursor: pointer;
   @media (max-width: 768px) {
     padding: 4px 8px;
   }
-  &:hover{
-    background:$primary-1;
+  &:hover {
+    background: $primary-1;
   }
 }
 
 .methods-item-2 {
-  max-width: 753px;
+  max-width: 785px;
+  flex: 1;
   &-step {
     border: 1px solid $primary-3;
     //position: relative;
@@ -127,13 +135,13 @@
 //品酒討論區
 
 .wine-comments {
-  padding: 120px 0px;
+  //padding: 120px 0px;
   @media (max-width: 768px) {
     padding: 40px 0px;
   }
   & img {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     @media (max-width: 768px) {
       width: 40px;
       height: 40px;
@@ -141,7 +149,7 @@
   }
 }
 
-//使用者信息區塊 
+//使用者信息區塊
 .user-info {
   display: flex;
   align-items: center;
@@ -149,12 +157,7 @@
   margin-bottom: 16px;
 }
 
-.avatar {
-  width: 80px;
-  height: 80px;
-}
-
-//留言框區塊 
+//留言框區塊
 .comments-box {
   border: 1px solid $primary-3;
   border-radius: 5px;
@@ -168,8 +171,8 @@
     //border: none; //隱藏留言框線
     resize: none; //隱藏留言框下拉圖示
     //outline: 1px solid $primary-4; //隱藏點擊時的框線
-    padding: 10px;
-    font-size: 20px; //手機12px
+    padding: 20px;
+    font-size: 16px; //手機12px
     color: #888;
     display: flex; //讓留言框和父層高度一致
   }
@@ -200,10 +203,8 @@
 
 .wine-comments-list {
   flex-direction: column;
-  gap: 40px;
-  margin-top: 48px;
-  margin-bottom: 72px;
-  
+  gap: 24px;
+
   &-area {
     background: $primary-3;
     padding: 12px 24px;
@@ -220,13 +221,12 @@
       align-items: start;
     }
   }
-  &-info{
+  &-info {
     gap: 20px;
     @media (max-width: 768px) {
       gap: 8px;
     }
   }
-
 
   &-area {
     @media (max-width: 768px) {
@@ -247,47 +247,46 @@
     opacity: 0.6;
   }
   //&:active {
-    //color: $neutral-3;
+  //color: $neutral-3;
   //}
 }
 
 // 第三區 -推薦酒譜
 
-
-.special-list{
- 
-  .card-container{
-      @media (max-width: 768px) {
-      height: 420px;
+.special-list {
+  .card {
+    background-color: #ecdec3;
   }
-  
-}
+  .card-container {
+    @media (max-width: 768px) {
+      height: 420px;
+    }
+  }
   .cardImg {
     @media (max-width: 768px) {
-    max-width: 128px;
-    height: 190px;
-    margin: 24px 16px 24px 16px;
-    object-fit: cover;
+      max-width: 128px;
+      height: 190px;
+      margin: 24px 16px 24px 16px;
+      object-fit: cover;
+    }
   }
-}
 
-&-card-bg {
-  background: $primary-4;
-}
-
-&-btn {
-  color: $primary-1;
-  &:hover {
-    opacity: 0.6;
+  &-card-bg {
+    background: $primary-1;
   }
-  //&:active {
+
+  &-btn {
+    color: $primary-1;
+    &:hover {
+      opacity: 0.6;
+    }
+    //&:active {
     //color: $neutral-3;
-  //}
-}
-&-material-symbols-outlined{
-  color: $primary-4;
-}
-
+    //}
+  }
+  &-material-symbols-outlined {
+    color: $primary-4;
+  }
 }
 
 .scrollBar::-webkit-scrollbar {

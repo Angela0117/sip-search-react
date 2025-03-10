@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 
 function Layout() {
   return (
@@ -8,7 +8,9 @@ function Layout() {
         <nav className="navbar navbar-expand-lg border-neutral-3 border-bottom">
           <div className="container">
             <h1>
-              <Link className="navbar-brand ms-lg-9 ms-4" to="/">sip&search</Link>
+              <NavLink className="navbar-brand ms-lg-9 ms-4" to="/">
+                sip&search
+              </NavLink>
             </h1>
             <button
               className="navbar-toggler me-4"
@@ -27,29 +29,32 @@ function Layout() {
             >
               <ul className="navbar-nav mb-2 mb-lg-0 mx-auto">
                 <li className="nav-item nav-custom-border">
-                  <Link
-                    className="nav-link active text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
-                    aria-current="page"
+                  <NavLink
                     to="/recipessearch"
+                    className={({ isActive }) =>
+                      `nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem ${
+                        isActive ? "active" : ""
+                      }`
+                    }
                   >
                     找酒譜
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item b nav-custom-border">
-                  <Link
+                  <NavLink
+                    className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
+                    to="/barfinder"
+                  >
+                    找酒吧
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
                     className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
                     to="/barsearch"
                   >
-                    找酒吧
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
-                    to="/latest-events"
-                  >
                     最新活動
-                  </Link>
+                  </NavLink>
                 </li>
               </ul>
               <div className="log-custom-border">
@@ -86,7 +91,11 @@ function Layout() {
           <div className="container py-lg-11 py-3">
             <div className="row">
               <Link className="d-flex justify-content-center" to="#">
-                <img className="pic1" src="/assets/images/image.png" alt="pic1" />
+                <img
+                  className="pic1"
+                  src="/assets/images/image.png"
+                  alt="pic1"
+                />
               </Link>
             </div>
           </div>
