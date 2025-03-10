@@ -483,7 +483,8 @@ $x-large: 1200px;
   .swiper-slide {
     width: 100%;
     height: auto;
-    max-width: 1100px;
+    max-width: 866px;
+    // max-height: 507px;
     font-size: 18px;
     background-color: $primary-1;
     transition: 0.5s;
@@ -506,12 +507,13 @@ $x-large: 1200px;
     //   }
     // }
     img {
-      max-width: 384px;
-      max-height: 498px;
+      max-width: 241px;
+      max-height: 313px;
 
       @include respond-to($large) {
-        max-width: 152px;
-        max-height: 200px;
+        max-width: 127px;
+        max-height: 166px;
+
       }
     }
 
@@ -531,7 +533,7 @@ $x-large: 1200px;
     }
 
     .wine-tags {
-      font-size: 20px;
+      font-size: 16px;
 
       @include respond-to($large) {
         font-size: 10px;
@@ -566,8 +568,8 @@ $x-large: 1200px;
   right: 48px;
 
   & a {
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
     background-color: $primary-4;
     transition: 0.4s;
 
@@ -672,6 +674,51 @@ $x-large: 1200px;
 
     }
   }
+
+  .swiper {
+    // min-height: 530px;
+    display: flex;
+    flex-direction: column;
+
+    // padding: 0 100px;
+    .swiper-wrapper {
+      flex-grow: 1;
+      height: auto;
+
+      // flex-direction: column; //swiper已經有下display:flex
+      .swiper-slide {
+        // height: 800px;
+        text-align: start;
+
+        @include respond-to($large) {
+          height: auto;
+          // min-height: 530px;
+        }
+      }
+    }
+
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tag {
+      width: fit-content;
+      color: $primary-4;
+      font-size: 20px;
+      padding: 12px 24px;
+      background-color: $primary-1;
+
+      @include respond-to($large) {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+    }
+
+    .bar-pic {
+      filter: brightness(0.7);
+    }
+  }
 }
 
 .material-symbols-outlined {
@@ -720,50 +767,7 @@ $x-large: 1200px;
   }
 }
 
-.swiper {
-  // min-height: 530px;
-  display: flex;
-  flex-direction: column;
 
-  // padding: 0 100px;
-  .swiper-wrapper {
-    flex-grow: 1;
-    height: auto;
-
-    // flex-direction: column; //swiper已經有下display:flex
-    .swiper-slide {
-      // height: 800px;
-      text-align: start;
-
-      @include respond-to($large) {
-        height: auto;
-        // min-height: 530px;
-      }
-    }
-  }
-
-  img {
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .tag {
-    width: fit-content;
-    color: $primary-4;
-    font-size: 20px;
-    padding: 12px 24px;
-    background-color: $primary-1;
-
-    @include respond-to($large) {
-      font-size: 10px;
-      padding: 4px 8px;
-    }
-  }
-
-  .bar-pic {
-    filter: brightness(0.7);
-  }
-}
 
 .btn-big {
   transition: 0.5s;
