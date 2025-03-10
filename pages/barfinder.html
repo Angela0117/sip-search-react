@@ -9,6 +9,130 @@
     <%- include('./layout/header'); -%>
     <!-- 第一區塊 -->
     <section
+    className="section section-bar-search-banner text-center text-primary-1"
+    style={{
+      backgroundImage: `linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.6)
+      ), url(../assets/images/barsearch/bar-search-banner.png)`,
+    }}
+  >
+    <div className="container">
+      <div className="main-title mb-6 mb-md-11">
+        <h1 className="fs-7 fs-md-5">尋找你周圍最棒的酒吧</h1>
+      </div>
+      <div className="main-content text-primary-1">
+        <div className="input-group mx-auto mb-5">
+          <input
+            type="text"
+            className="form-control p-2 py-md-3 px-md-6 search-input"
+            placeholder="立即搜尋"
+            aria-label="Search"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          />
+          <span className="input-group-text material-symbols-outlined fs-8 fs-md-5">
+            search
+          </span>
+        </div>
+        <div id="selected-tags" className="d-flex flex-wrap mx-auto"></div>
+      </div>
+
+      {/* <!-- Modal --> */}
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                你想找哪兒的酒吧
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body text-primary-1">
+              <div className="region mb-6">
+                <div className="area text-start mb-5">北部</div>
+                <div className="city-list">
+                  <span className="city-item">台北市</span>
+                  <span className="city-item">新北市</span>
+                  <span className="city-item">基隆市</span>
+                  <span className="city-item">桃園市</span>
+                  <span className="city-item">新竹市</span>
+                  <span className="city-item">新竹縣</span>
+                </div>
+              </div>
+              <div className="region mb-6">
+                <div className="area text-start mb-5">中南部</div>
+                <div className="city-list">
+                  <span className="city-item">台中市</span>
+                  <span className="city-item">苗栗縣</span>
+                  <span className="city-item">彰化縣</span>
+                  <span className="city-item">南投縣</span>
+                  <span className="city-item">雲林縣</span>
+                  <span className="city-item">台南市</span>
+                  <span className="city-item">高雄市</span>
+                  <span className="city-item">嘉義市</span>
+                  <span className="city-item">屏東縣</span>
+                </div>
+              </div>
+              <div className="region mb-6">
+                <div className="area text-start mb-5">東部</div>
+                <div className="city-list">
+                  <span className="city-item">宜蘭縣</span>
+                  <span className="city-item">花蓮縣</span>
+                  <span className="city-item">台東縣</span>
+                </div>
+              </div>
+              <div className="region mb-6">
+                <div className="area text-start mb-5">其他</div>
+                <div className="other-list">
+                  <span className="other-item">可訂位</span>
+                  <span className="other-item">2~3人</span>
+                  <span className="other-item">4~6人</span>
+                  <span className="other-item">6人以上</span>
+                  <span className="other-item">有包廂</span>
+                  <span className="other-item">停車場</span>
+                  <span className="other-item">可刷卡</span>
+                  <span className="other-item">不限時</span>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-outline-light fs-7 rounded-pill"
+                data-bs-dismiss="modal"
+              >
+                關閉
+              </button>
+              <button
+                type="submit"
+                className="btn btn-outline-light fs-7 rounded-pill"
+                data-bs-dismiss="modal"
+                id="addTagsBtn"
+              >
+                儲存變更
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+    
+    <section
       class="section section-bar-search-banner text-center text-primary-1"
       style="
         background-image: linear-gradient(
