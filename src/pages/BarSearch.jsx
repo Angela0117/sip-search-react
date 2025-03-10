@@ -79,7 +79,7 @@ export default function BarSearch() {
                 data-bs-toggle="modal"
                 data-bs-target="#exampleModal"
               />
-              <span className="input-group-text material-symbols-outlined fs-8 fs-md-5">
+              <span className="d-flex input-group-text material-symbols-outlined fs-8 fs-md-5">
                 search
               </span>
             </div>
@@ -190,7 +190,7 @@ export default function BarSearch() {
               <h3 className="fs-8 fs-md-5 mb-1 mb-md-4 eng-font">
                 Discover Popular Bars
               </h3>
-              <h2 className="fs-7 fs-md-2">全台熱門酒吧 Top6</h2>
+              <h2 className="fs-7 fs-md-5">全台熱門酒吧 Top6</h2>
             </div>
           </div>
 
@@ -211,7 +211,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Indulge</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Indulge</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -239,7 +239,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Bar Mood</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Bar Mood</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -267,7 +267,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">AHA Saloon</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">AHA Saloon</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -295,7 +295,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Ounce Taipei</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Ounce Taipei</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -323,7 +323,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Draft Land</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Draft Land</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -351,7 +351,7 @@ export default function BarSearch() {
                       }}
                     >
                       <div className="title text-neutral-white d-flex mb-auto">
-                        <h4 className="fs-7 fs-md-3 eng-font">Bar Pun</h4>
+                        <h4 className="fs-7 fs-md-4 eng-font">Bar Pun</h4>
                         <span className="material-symbols-outlined fs-7 fs-md-4 text-neutral-white ms-auto">
                           favorite
                         </span>
@@ -401,7 +401,7 @@ export default function BarSearch() {
                 <h3 className="fs-8 fs-md-5 mb-1 mb-md-4 eng-font">
                   Discover Unique Bars
                 </h3>
-                <h2 className="fs-7 fs-md-2">全新體驗，台灣獨特酒吧</h2>
+                <h2 className="fs-7 fs-md-5">全新體驗，台灣獨特酒吧</h2>
               </div>
 
               <div className="main-content">
@@ -414,7 +414,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">
                         貓下去敦北俱樂部
                       </h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
@@ -427,7 +427,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-inline-block fs-8 fs-md-5"
+                          className="d-inline-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -445,7 +445,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">隱士酒吧</h4>
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">隱士酒吧</h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
                         <span className="tag">可供訂位</span>
                         <span className="tag">台北市</span>
@@ -456,7 +456,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-block fs-8 fs-md-5"
+                          className="d-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -474,7 +474,7 @@ export default function BarSearch() {
                       />
                     </div>
                     <div className="txt text-white">
-                      <h4 className="fs-6 fs-md-4 my-3 my-md-6">迷霧調酒所</h4>
+                      <h4 className="fs-6 fs-md-5 my-3 my-md-6">迷霧調酒所</h4>
                       <div className="tags mb-3 mb-md-5 d-flex flex-wrap gap-3">
                         <span className="tag">可供訂位</span>
                         <span className="tag">台中市</span>
@@ -485,7 +485,7 @@ export default function BarSearch() {
                       <div className="more text-primary-1 mt-auto d-flex gap-6 align-items-center">
                         <a
                           href="barcontent.html"
-                          className="d-block fs-8 fs-md-5"
+                          className="d-block fs-8 fs-md-6"
                         >
                           查看更多
                         </a>
@@ -519,10 +519,10 @@ export default function BarSearch() {
       >
         <div className="container py-lg-15 py-10">
           <div className="nearby-event-title mb-lg-15 mb-6">
-            <h3 className="fs-lg-3 fs-md-5 fs-8 text-center text-primary-1 mb-4 eng-font">
+            <h3 className="fs-lg-5 fs-md-5 fs-8 text-center text-primary-1 mb-4 eng-font">
               Latest Events Around You
             </h3>
-            <h3 className="fs-lg-2 fs-md-4 fs-7 text-center text-primary-1">
+            <h3 className="fs-lg-5 fs-md-4 fs-7 text-center text-primary-1">
               你周圍的最新活動
             </h3>
           </div>
@@ -532,7 +532,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card">
                   <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1 eng-font">
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono
                     </h5>
                     <div className="mt-auto">
@@ -540,13 +540,13 @@ export default function BarSearch() {
                         <p>週五</p>
                         <p>9/13</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9 eng-font">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9 eng-font">
                         TGIF!! 邀請世界知名 DJ
                         Anderson和多位饒舌歌手一起迎接假日，還享限定優惠！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -559,18 +559,18 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card">
                   <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1">隱士餐酒館</h5>
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
                       <section className="event-date bg-primary-1 py-lg-3 px-lg-5 py-2 px-3 text-primary-4 mb-5 fs-lg-6 fs-9">
                         <p>週二</p>
                         <p>9/17</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9">
                         週二夜限定！來餐酒館享受特調雞尾酒買一送一，讓週中夜晚更愉快！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -583,18 +583,18 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card text-start">
                   <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1">隱士餐酒館</h5>
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
                       <section className="event-date bg-primary-1 py-lg-3 px-lg-5 py-2 px-3 text-primary-4 mb-5 fs-lg-6 fs-9">
                         <p>週二</p>
                         <p>9/17</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9">
                         週二夜限定！來餐酒館享受特調雞尾酒買一送一，讓週中夜晚更愉快！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
@@ -607,7 +607,7 @@ export default function BarSearch() {
                 <div className="swiper-slide nearby-card text-start">
                   <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
-                    <h5 className="fs-lg-3 fs-6 text-neutral-1 eng-font">
+                    <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono
                     </h5>
                     <div className="mt-auto">
@@ -615,13 +615,13 @@ export default function BarSearch() {
                         <p>週五</p>
                         <p>9/13</p>
                       </section>
-                      <p className="card-text text-neutral-1 mb-11 fs-lg-6 fs-9 eng-font">
+                      <p className="card-text text-neutral-1 mb-11 fs-md-6 fs-9 eng-font">
                         TGIF!! 邀請世界知名 DJ
                         Anderson和多位饒舌歌手一起迎接假日，還享限定優惠！
                       </p>
                       <a
                         href="barcontent.html"
-                        className="d-flex fs-lg-5 fs-8 text-primary-1 align-items-center event-more"
+                        className="d-flex fs-md-6 fs-8 text-primary-1 align-items-center event-more"
                       >
                         查看更多
                         <span className="material-symbols-outlined fs-lg-5 fs-8 inherit ps-lg-4 ps-2">
