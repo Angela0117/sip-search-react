@@ -1,14 +1,98 @@
-import React, { useEffect } from 'react';
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
+import React, { useEffect, useRef, useState } from "react";
+import Swiper from "swiper/bundle";
+import "swiper/css/bundle";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "bootstrap";
 
 function IndexPage() {
+  //跳轉頁面
+  const navigate = useNavigate();
+  //跳轉前移除backdrop
+  const handleTagSelect = (tag) => {
+    // 移除 modal backdrop
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    // 移除 body 上的 modal 相關 class
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = ""; // 重置 overflow
+    document.body.style.paddingRight = ""; // 重置 padding-right
+
+    navigate(`/recipesSearch?tag=${tag}`);
+  };
+
+  const [selectedBarTags, setSelectedBarTags] = useState([]); // 選擇的酒吧標籤
+  // 處理酒吧 tag 的多選功能
+  const handleBarTagSelect = (tag) => {
+    setSelectedBarTags((prev) => {
+      // 如果已經選中，則移除
+      if (prev.includes(tag)) {
+        return prev.filter((t) => t !== tag);
+      }
+      // 如果未選中，則添加
+      return [...prev, tag];
+    });
+  };
+
+  // 處理酒吧搜尋跳轉
+  const handleBarSearch = () => {
+    // 移除 modal backdrop
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.remove();
+    }
+
+    // 移除 body 上的 modal 相關 class
+    document.body.classList.remove("modal-open");
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+
+    // 將多個標籤組合成查詢字符串
+    const tagQuery = selectedBarTags.join(",");
+    navigate(`/barfinder?tags=${tagQuery}`);
+  };
+
+  // 清除所有選中的 tag
+  const handleClearBarTags = () => {
+    setSelectedBarTags([]);
+  };
+
+  //modal的開關
+  const recipeModalRef = useRef(null);
+  const barModalRef = useRef(null);
+
+  useEffect(() => {
+    new Modal(recipeModalRef.current);
+    new Modal(barModalRef.current);
+  }, []);
+
+  const handleRecipeModalOpen = () => {
+    const modalInstance = Modal.getInstance(recipeModalRef.current);
+    modalInstance.show();
+  };
+
+  const handleBarModalOpen = () => {
+    const modalInstance = Modal.getInstance(barModalRef.current);
+    modalInstance.show();
+  };
+
+  const handleRecipeModalClose = () => {
+    const modalInstance = Modal.getInstance(recipeModalRef.current);
+    modalInstance.hide();
+  };
+
+  const handleBarModalClose = () => {
+    const modalInstance = Modal.getInstance(barModalRef.current);
+    modalInstance.hide();
+  };
 
   useEffect(() => {
     // 初始化首頁熱門酒譜swiper
-    new Swiper('.swiper-popular-recipe', {
-      direction: 'horizontal',
-      slidesPerView: 'auto',
+    new Swiper(".swiper-popular-recipe", {
+      direction: "horizontal",
+      slidesPerView: "auto",
       speed: 1200,
       slidesOffsetBefore: 50,
       spaceBetween: 20,
@@ -33,31 +117,28 @@ function IndexPage() {
         releaseOnEdges: true,
       },
       pagination: {
-        el: '.swiper-pagination',
+        el: ".swiper-pagination",
         clickable: true,
       },
     });
 
     // 初始化首頁熱門酒吧swiper
-    new Swiper('.swiper-popular-bars', {
+    new Swiper(".swiper-popular-bars", {
       loop: true,
       speed: 2000,
-      effect: 'fade',
+      effect: "fade",
       fadeEffect: {
         crossFade: true,
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
     });
   }, []);
 
-
-
   return (
     <>
-      
       <div
         className="modal fade"
         id="ageVerificationModal"
@@ -123,23 +204,21 @@ function IndexPage() {
                 <button
                   type="button"
                   className="btn-index-primaryl-transparent banner-btn fs-lg-6 fs-md-8 fs-9"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop-2"
+                  onClick={handleRecipeModalOpen}
                 >
                   酒譜
                 </button>
                 <button
                   type="button"
                   className="btn-index-primaryl-transparent banner-btn fs-lg-6 fs-md-8 fs-9"
-                  data-bs-toggle="modal"
-                  data-bs-target="#staticBackdrop"
+                  onClick={handleBarModalOpen}
                 >
                   酒吧
                 </button>
               </div>
               <div
                 className="modal fade"
-                id="staticBackdrop"
+                ref={barModalRef}
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabIndex="-1"
@@ -149,9 +228,8 @@ function IndexPage() {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                   <div className="modal-content pt-6">
                     <a
-                      href="#"
                       className="d-flex justify-content-center ms-auto mb-6 me-5"
-                      data-bs-dismiss="modal"
+                      onClick={handleBarModalClose}
                       aria-label="Close"
                     >
                       <span className="material-symbols-outlined text-primary-1">
@@ -162,192 +240,107 @@ function IndexPage() {
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">北部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台北市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新北市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              基隆市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              桃園市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新竹市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              新竹縣
-                            </a>
-                          </li>
+                          {[
+                            "台北市",
+                            "新北市",
+                            "基隆市",
+                            "桃園市",
+                            "新竹市",
+                            "新竹縣",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">中南部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              苗栗縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台中市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              彰化縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              南投縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              雲林縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              嘉義縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台南市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              高雄市
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              屏東縣
-                            </a>
-                          </li>
+                          {[
+                            "苗栗縣",
+                            "苗栗市",
+                            "台中市",
+                            "彰化縣",
+                            "南投縣",
+                            "雲林縣",
+                            "嘉義縣",
+                            "嘉義市",
+                            "台南市",
+                            "高雄市",
+                            "屏東縣",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">東部</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              宜蘭縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              花蓮縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              台東縣
-                            </a>
-                          </li>
+                          {["台東縣", "花蓮縣", "宜蘭縣"].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">離島</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              金門縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              澎湖縣
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              馬祖縣
-                            </a>
-                          </li>
+                          {["金門縣", "澎湖縣", "馬祖縣"].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
+                                onClick={() => handleBarTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
-                      <section className="banner-selector-section">
+                      {/* 新增確認按鈕區域 */}
+                      <div className="text-center mt-6">
+                        <button
+                          type="button"
+                          className="btn btn-primary-1 px-6 py-2 rounded-pill"
+                          onClick={handleBarSearch}
+                          disabled={selectedBarTags.length === 0}
+                        >
+                          確認搜尋
+                        </button>
+                      </div>
+
+                      {/* <section className="banner-selector-section">
                         <p className="banner-category mb-5">其他</p>
                         <ul className="d-flex flex-wrap">
                           <li className="w-25">
@@ -415,14 +408,14 @@ function IndexPage() {
                             </a>
                           </li>
                         </ul>
-                      </section>
+                      </section> */}
                     </div>
                   </div>
                 </div>
               </div>
               <div
                 className="modal fade"
-                id="staticBackdrop-2"
+                ref={recipeModalRef}
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabIndex="-1"
@@ -432,10 +425,9 @@ function IndexPage() {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                   <div className="modal-content pt-6">
                     <a
-                      href="#"
                       className="d-flex justify-content-center ms-auto mb-6 me-5"
-                      data-bs-dismiss="modal"
                       aria-label="Close"
+                      onClick={handleRecipeModalClose}
                     >
                       <span className="material-symbols-outlined text-primary-1">
                         cancel
@@ -445,200 +437,78 @@ function IndexPage() {
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">基酒</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              琴酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              伏特加
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              白蘭地
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              蘭姆酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              龍舌蘭
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              威士忌
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              苦艾酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              燒酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              苦酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              香艾酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              麗葉酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              茴香酒
-                            </a>
-                          </li>
+                          {[
+                            "琴酒",
+                            "伏特加",
+                            "白蘭地",
+                            "蘭姆酒",
+                            "龍舌蘭",
+                            "威士忌",
+                            "苦艾酒",
+                            "金酒",
+                            "金巴利",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
+                                onClick={() => handleTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">果酒</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              啤酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              甜酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              葡萄酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              利口酒
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              梅酒
-                            </a>
-                          </li>
+                          {[
+                            "啤酒",
+                            "甜酒",
+                            "葡萄酒",
+                            "苦味橙酒",
+                            "金酒",
+                            "金巴利",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
+                                onClick={() => handleTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                       <section className="banner-selector-section">
                         <p className="banner-category mb-5">點綴</p>
                         <ul className="d-flex flex-wrap">
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              水果
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              果汁
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              可可粉
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              鮮奶油
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              調味飲品
-                            </a>
-                          </li>
-                          <li className="w-25">
-                            <a
-                              href="#"
-                              className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
-                            >
-                              糖漿
-                            </a>
-                          </li>
+                          {[
+                            "鳳梨",
+                            "果汁",
+                            "檸檬",
+                            "桃子",
+                            "可可粉",
+                            "玫瑰",
+                            "蜂蜜",
+                            "水果",
+                            "葡萄",
+                            "葡萄柚",
+                            "熱情果",
+                          ].map((tag) => (
+                            <li key={tag} className="w-25">
+                              <button
+                                type="button"
+                                className="btn btn-outline-primary-1 rounded-pill fs-7 mb-4"
+                                onClick={() => handleTagSelect(tag)}
+                              >
+                                {tag}
+                              </button>
+                            </li>
+                          ))}
                         </ul>
                       </section>
                     </div>
@@ -672,28 +542,7 @@ function IndexPage() {
               <div className="search-empty me-lg-6 me-md-3 me-1"></div>
               <div className="search-result d-flex justify-content-between">
                 <ul className="d-flex gap-6 m-0 text-nowrap" data-aos="fade-up">
-                  <li className="rounded-pill index-rounded-btn">
-                    <a
-                      href="#"
-                      className="d-flex fs-lg-7 fs-md-9 fs-10 align-items-center text-primary-4"
-                    >
-                      台北市
-                      <span className="material-symbols-outlined ms-2 fs-lg-6 fs-8">
-                        close
-                      </span>
-                    </a>
-                  </li>
-                  <li className="rounded-pill index-rounded-btn">
-                    <a
-                      href="#"
-                      className="d-flex fs-lg-7 fs-md-9 fs-10 align-items-center text-primary-4"
-                    >
-                      停車場
-                      <span className="material-symbols-outlined ms-2 fs-lg-6 fs-8">
-                        close
-                      </span>
-                    </a>
-                  </li>
+                  
                 </ul>
                 <div className="ms-auto text-primary-1 d-none d-md-block d-lg-block index-brightness">
                   <a
@@ -891,7 +740,6 @@ function IndexPage() {
                   </div>
                 </div>
                 <div className="swiper-slide">
-                  
                   <div className="wine-card p-6 p-lg-12">
                     <div className="decoration pb-5 mb-6">
                       <div className="wrap"></div>
@@ -1520,7 +1368,10 @@ function IndexPage() {
           <ul className="comments-list bg-primary-1 d-flex">
             <li className="comments-list-item" data-aos="zoom-in-right">
               <div className="comments-list-item-title d-flex mb-8">
-                <img src="/sip-search-react/assets/images/Ellipse 6.png" alt="user-1" />
+                <img
+                  src="/sip-search-react/assets/images/Ellipse 6.png"
+                  alt="user-1"
+                />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     eilloee
@@ -1558,7 +1409,10 @@ function IndexPage() {
               data-aos-delay="300"
             >
               <div className="comments-list-item-title d-flex mb-8">
-                <img src="/sip-search-react/assets/images/Ellipse 2.png" alt="user-2" />
+                <img
+                  src="/sip-search-react/assets/images/Ellipse 2.png"
+                  alt="user-2"
+                />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     Mindy Lo
@@ -1590,7 +1444,10 @@ function IndexPage() {
 
             <li className="comments-list-item" data-aos="zoom-in-right">
               <div className="comments-list-item-title d-flex mb-8">
-                <img src="/sip-search-react/assets/images/Ellipse 7.png" alt="user-3" />
+                <img
+                  src="/sip-search-react/assets/images/Ellipse 7.png"
+                  alt="user-3"
+                />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     bboyhaha
@@ -1626,7 +1483,10 @@ function IndexPage() {
               data-aos-delay="300"
             >
               <div className="comments-list-item-title d-flex mb-8">
-                <img src="/sip-search-react/assets/images/Ellipse 5.png" alt="user-4" />
+                <img
+                  src="/sip-search-react/assets/images/Ellipse 5.png"
+                  alt="user-4"
+                />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     xxxcindysss

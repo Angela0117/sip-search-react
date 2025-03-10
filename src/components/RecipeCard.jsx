@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
   return (
@@ -26,11 +27,11 @@ const RecipeCard = ({ recipe }) => {
                 alt={recipe.title}
               />
               <div className="">
-                <a href="#" className="cardBtn btn btn-primary-4 rounded-circle">
+                <Link to={`/wine/${recipe.id}`} className="cardBtn btn btn-primary-4 rounded-circle">
                   <span className="material-symbols-outlined align-baseline">
                     arrow_forward
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -74,11 +75,11 @@ const RecipeCard = ({ recipe }) => {
                   src={recipe.imagesUrl[1]}
                   alt={recipe.title}
                 />
-                <a href="wine-content.html" className="cardBtn cardBtn-primary-4 rounded-circle eng-font">
+                <Link to={`/wine/${recipe.id}`}  className="cardBtn cardBtn-primary-4 rounded-circle eng-font">
                   <span className="material-symbols-outlined align-middle">
                     arrow_forward
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

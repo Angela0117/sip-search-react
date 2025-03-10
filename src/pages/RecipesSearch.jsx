@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -15,19 +16,66 @@ function RecipesSearch() {
   const [selectedTags, setSelectedTags] = useState([]); //tag篩選
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 6;
+  const [searchParams] = useSearchParams(); //取得首頁篩選tag的結果
+    //首頁的tag篩選功能
+    const tagFromUrl = searchParams.get("tag");
 
-  // 取得所有產品（不分頁）
+
+  useEffect(() => {
+    if (tagFromUrl) {
+      // 設置選中的標籤
+      setSelectedTags((prev) =>
+        prev.includes(tagFromUrl) ? prev : [...prev, tagFromUrl]
+      );
+  
+      // 根據標籤篩選產品
+      const filteredProducts = allProducts.filter((product) =>
+        product.tags.includes(tagFromUrl)
+      );
+      
+      // 更新顯示的產品
+      setProducts(filteredProducts.slice(0, cardsPerPage));
+    }
+  }, [tagFromUrl, allProducts, cardsPerPage]);
+  
+  // 修改 getAllProducts，移除可選的 tag 參數
   const getAllProducts = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+      const res = await axios.get(`${baseUrl}/recipes`);
       console.log("取得所有產品成功", res.data);
       setAllProducts(res.data);
-      setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+  
+      // 如果有 tagFromUrl，就篩選產品
+      if (tagFromUrl) {
+        const filteredProducts = res.data.filter((product) =>
+          product.tags.includes(tagFromUrl)
+        );
+        setProducts(filteredProducts.slice(0, cardsPerPage));
+      } else {
+        // 沒有 tag 時顯示所有產品
+        setProducts(res.data.slice(0, cardsPerPage));
+      }
     } catch (error) {
       console.error("取得產品失敗", error);
       alert("取得產品失敗");
     }
   };
+
+
+
+  // 取得所有產品
+  // const getAllProducts = async (tag) => {
+  //   try {
+  //     const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
+  //     console.log("取得所有產品成功", res.data);
+  //     setAllProducts(res.data);
+
+  //     setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
+  //   } catch (error) {
+  //     console.error("取得產品失敗", error);
+  //     alert("取得產品失敗");
+  //   }
+  // };
 
   // 搜尋功能
   const handleSearch = () => {
@@ -109,6 +157,7 @@ function RecipesSearch() {
   useEffect(() => {
     getAllProducts();
   }, []);
+  
 
   //swiper
   useEffect(() => {
@@ -498,585 +547,8 @@ function RecipesSearch() {
             ) : (
               <p>沒有找到產品</p>
             )}
-            {/* <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-              <div data-aos="fade-up" className="card-container">
-                <div className="card">
-                  <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-                    <div className="card-body mt-lg-5 text-center">
-                      <h5 className="card-title text-primary-4 mb-lg-3">
-                        阿佩羅雞尾酒
-                      </h5>
-                      <img
-                        src="/assets/images/image-AperolSpritz.png"
-                        className="card-img-bottom cardImg"
-                        alt="image-AperolSpritz"
-                      />
-
-                      <div className="d-flex justify-content-end me-lg-9">
-                        <a
-                          href="#"
-                          className="cardBtn btn btn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-hover">
-                  <div className="card-hover-content mt-8">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-
-                    <div className="card-body m-lg-6 m-4">
-                      <h4 className="text-primary-4 fs-lg-4 fs-6 eng-font">
-                        Aperol Spritz
-                      </h4>
-                      <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                        阿佩羅雞尾酒
-                      </h6>
-                      <div className="col my-lg-6 my-3">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Basic outlined example"
-                        >
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            琴酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            甜苦艾酒
-                          </button>
-
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                          >
-                            金巴利
-                          </button>
-                        </div>
-                      </div>
-                      <p className="fs-lg-9 fs-10">
-                        一款清爽的義大利經典雞尾酒，由阿佩羅苦味酒、氣泡酒（通常是普羅賽克）和蘇打水調製而成。其橙色外觀與微苦的果香口感，完美適合作為夏日午後的輕飲選擇。
-                      </p>
-                      <div className="d-flex justify-content-between">
-                        <img
-                          className="cardImg-hover card-hoverImg mb-lg-3"
-                          src="/assets/images/image-AperolSpritz.png"
-                          alt="image-junglebird"
-                        />
-                        <a
-                          href="wine-content.html"
-                          className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-              <div data-aos="fade-up" className="card-container">
-                <div className="card">
-                  <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-                    <div className="card-body mt-lg-5 text-center">
-                      <h5 className="card-title text-primary-4 mb-lg-3">
-                        奧林匹克
-                      </h5>
-                      <img
-                        src="/assets/images/image-olympic.png"
-                        className="card-img-bottom cardImg"
-                        alt="image-olympic"
-                      />
-                      <div className="d-flex justify-content-end me-lg-9">
-                        <a
-                          href="#"
-                          className="cardBtn btn btn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-hover">
-                  <div className="card-hover-content mt-8">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-
-                    <div className="card-body m-lg-6 m-4">
-                      <h4 className="text-primary-4 fs-lg-4 fs-6 eng-font">
-                        Olympic
-                      </h4>
-                      <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                        奧林匹克
-                      </h6>
-                      <div className="col my-lg-6 my-3">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Basic outlined example"
-                        >
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            琴酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            甜苦艾酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                          >
-                            鳳梨
-                          </button>
-                        </div>
-                      </div>
-                      <p className="fs-lg-9 fs-10">
-                        優雅的經典雞尾酒，由白蘭地、橙酒和新鮮橙汁調製而成。口感圓潤，融合了果香和濃郁的酒體，讓人感受到層次分明的滋味，是一款適合各種場合的經典選擇。
-                      </p>
-                      <div className="d-flex justify-content-between">
-                        <img
-                          className="cardImg-hover card-hoverImg mb-lg-3 mt-3 mt-lg-0"
-                          src="/assets/images/image-olympic.png"
-                          alt="image-junglebird"
-                        />
-                        <a
-                          href="wine-content.html"
-                          className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-              <div data-aos="fade-up" className="card-container">
-                <div className="card">
-                  <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-                    <div className="card-body mt-lg-5 text-center">
-                      <h5 className="card-title text-primary-4 mb-lg-3">
-                        叢林鳥
-                      </h5>
-                      <img
-                        src="/assets/images/image-junglebird.png"
-                        className="card-img-bottom cardImg"
-                        alt="image-junglebird"
-                      />
-
-                      <div className="d-flex justify-content-end me-lg-9">
-                        <a
-                          href="#"
-                          className="cardBtn btn btn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-hover">
-                  <div className="card-hover-content mt-8">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-
-                    <div className="card-body m-lg-6 m-4">
-                      <h4 className="text-primary-4 fs-lg-4 fs-6 eng-font">
-                        Jungle Bird
-                      </h4>
-                      <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                        叢林鳥
-                      </h6>
-                      <div className="col my-lg-6 my-3">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Basic outlined example"
-                        >
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            琴酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            甜苦艾酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                          >
-                            鳳梨
-                          </button>
-                        </div>
-                      </div>
-                      <p className="fs-lg-9 fs-10">
-                        一款充滿熱帶風情的經典雞尾酒，以黑朗姆酒為基底，搭配鳳梨汁、萊姆汁、甘蔗糖漿及苦艾酒調製而成。酸甜的口感與豐富的層次感，讓人彷彿置身熱帶叢林。
-                      </p>
-                      <div className="d-flex justify-content-between">
-                        <img
-                          className="cardImg-hover card-hoverImg mb-lg-3"
-                          src="/assets/images/image-junglebird.png"
-                          alt="image-junglebird"
-                        />
-                        <a
-                          href="wine-content.html"
-                          className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-              <div data-aos="fade-up" className="card-container">
-                <div className="card">
-                  <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-                    <div className="card-body mt-lg-5 text-center">
-                      <h5 className="card-title text-primary-4 mb-lg-3">
-                        尼格羅尼
-                      </h5>
-                      <img
-                        src="/assets/images/image- Negroni.png"
-                        className="card-img-bottom cardImg"
-                        alt="image-Negroni"
-                      />
-
-                      <div className="d-flex justify-content-end me-lg-9">
-                        <a
-                          href="#"
-                          className="cardBtn btn btn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-hover">
-                  <div className="card-hover-content mt-8">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-
-                    <div className="card-body m-lg-6 m-4">
-                      <h4 className="text-primary-4 fs-lg-4 fs-6 eng-font">
-                        Negroni
-                      </h4>
-                      <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                        尼格羅尼
-                      </h6>
-                      <div className="col my-lg-6 my-3">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Basic outlined example"
-                        >
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            琴酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            甜苦艾酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                          >
-                            鳳梨
-                          </button>
-                        </div>
-                      </div>
-                      <p className="fs-lg-9 fs-10">
-                        源自義大利的經典雞尾酒，風味濃郁、層次豐富又易調製。帶有明顯的草本與苦味，並以橙皮作為裝飾。適合喜愛苦中帶甘的飲酒愛好者。
-                      </p>
-                      <div className="d-flex justify-content-between">
-                        <img
-                          className="cardImg-hover card-hoverImg mb-lg-3"
-                          src="/assets/images/image- Negroni.png"
-                          alt="image-junglebird"
-                        />
-                        <a
-                          href="wine-content.html"
-                          className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
-              <div data-aos="fade-up" className="card-container">
-                <div className="card">
-                  <div className="card-content mt-6 mt-md-9 mt-lg-0">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-                    <div className="card-body mt-lg-5 text-center">
-                      <h5 className="card-title text-primary-4 mb-lg-3">
-                        瑪格麗特
-                      </h5>
-                      <img
-                        src="/assets/images/image- Margarita.png"
-                        className="card-img-bottom cardImg"
-                        alt="image-margarita"
-                      />
-
-                      <div className="d-flex justify-content-end me-lg-9">
-                        <a
-                          href="#"
-                          className="cardBtn btn btn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-hover">
-                  <div className="card-hover-content mt-8">
-                    <div className="cross-container">
-                      <div className="cross-1">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                      <div className="cross-2">
-                        <div className="cross-line horizontal"></div>
-                        <div className="cross-line vertical"></div>
-                      </div>
-                    </div>
-
-                    <div className="card-body m-lg-6 m-4">
-                      <h4 className="text-primary-4 fs-lg-4 fs-6 eng-font">
-                        Margarita
-                      </h4>
-                      <h6 className="text-primary-4 mt-lg-1 fs-lg-6 fs-8">
-                        瑪格麗特
-                      </h6>
-                      <div className="col my-lg-6 my-3">
-                        <div
-                          className="btn-group"
-                          role="group"
-                          aria-label="Basic outlined example"
-                        >
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            琴酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10 me-lg-4"
-                          >
-                            甜苦艾酒
-                          </button>
-                          <button
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill text-primary-1 fs-10"
-                          >
-                            鳳梨
-                          </button>
-                        </div>
-                      </div>
-                      <p className="fs-lg-9 fs-10">
-                        經典的墨西哥雞尾酒，由龍舌蘭酒、萊姆汁和橙酒調製而成，並以鹽邊杯盛裝。酸甜適中的口感，結合龍舌蘭的獨特風味，成為夏日清爽解渴的最佳選擇。
-                      </p>
-                      <div className="d-flex justify-content-between">
-                        <img
-                          className="cardImg-hover card-hoverImg mb-lg-3"
-                          src="/assets/images/image- Margarita.png"
-                          alt="image-junglebird"
-                        />
-                        <a
-                          href="wine-content.html"
-                          className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
-                        >
-                          <span className="material-symbols-outlined align-middle">
-                            arrow_forward
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
-          {/* <div className="row  mb-8 mt-lg-11">
-            <div className="col d-flex justify-content-end mt-lg-0 mt-4 me-lg-4">
-              <div
-                className="btn-toolbar"
-                role="toolbar"
-                aria-label="Toolbar with button groups"
-              >
-                <div
-                  className="btn-group me-2"
-                  role="group"
-                  aria-label="First group"
-                >
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-primary-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    1
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    2
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    3
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center"
-                  >
-                    4
-                  </button>
-                  <button
-                    type="button"
-                    className="pageBtn btn btn-neutral-3 d-flex align-items-center justify-content-center"
-                  >
-                    <span className="material-symbols-outlined text-primary-1 fs-lg-8 fs-9 align-middle">
-                      <a href="#"> arrow_forward_ios</a>
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
+
           <div className="row mb-8 mt-lg-11">
             <div className="col d-flex justify-content-end mt-lg-0 mt-4 me-lg-4">
               <div
