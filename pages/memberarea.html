@@ -5,241 +5,251 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <link rel="stylesheet" href="../assets/font/Web-TT/Flaviotte.css" /> -->
-    
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
     />
-    
 
     <title>會員專區</title>
   </head>
 
   <body>
-    <%- include('./layout/header'); -%>
-
     <section class="member-bg">
-        <div class="container text-primary-1 d-flex align-items-center py-8 gap-6">
-            <span class="material-symbols-outlined fs-1"> account_circle </span>
-            <h2 class="fs-5 fs-lg-2">會員專區</h2>
-        </div>
+      <div
+        class="container text-primary-1 d-flex align-items-center py-8 gap-6"
+      >
+        <span class="material-symbols-outlined fs-1"> account_circle </span>
+        <h2 class="fs-5 fs-lg-2">會員專區</h2>
+      </div>
     </section>
 
     <section class="member-content-bg bg-primary-1">
-        <div class="container">
-            <div class="memberinfo pt-8 pt-lg-13 text-primary-4">
-                <!--<div class="memberinfo-list">              
+      <div class="container">
+        <div class="memberinfo pt-8 pt-lg-13 text-primary-4">
+          <!--<div class="memberinfo-list">              
                 </div>
                 <div class="memberinfo-desc"></div>-->
 
-                <div class="row">
-                    <!-- 左側選單 -->
-                    <div class="col-md-3">
-                      <!-- 手風琴元件 -->
-                      <div class="accordion" id="profileAccordion">
-                        <div class="accordion-item ">
-                          <h2 class="accordion-header" id="headingProfile">
-                            <button class="memberinfo-btn accordion-button fw-bold " type="button" data-bs-toggle="collapse" data-bs-target="#collapseProfile" aria-expanded="false" aria-controls="collapseProfile">
-                              個人檔案
-                            </button>
-                          </h2>
-                          <div id="collapseProfile" class="accordion-collapse collapse" aria-labelledby="headingProfile" data-bs-parent="#profileAccordion">
-                            <div class="accordion-body  memberinfo-accordion">
-                              <ul class="nav flex-column memberinfo-list text-center">
-                                <li class="nav-item">
-                                  <a class="nav-link" data-target="account-content">帳號管理</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" data-target="notification-content">通知</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                
-                      <!-- 其他選單項目 -->
-                      <ul class="nav flex-column mt-3 fw-bold ">
+          <div class="row">
+            <!-- 左側選單 -->
+            <div class="col-md-3">
+              <!-- 手風琴元件 -->
+              <div class="accordion" id="profileAccordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingProfile">
+                    <button
+                      class="memberinfo-btn accordion-button fw-bold"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseProfile"
+                      aria-expanded="false"
+                      aria-controls="collapseProfile"
+                    >
+                      個人檔案
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseProfile"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingProfile"
+                    data-bs-parent="#profileAccordion"
+                  >
+                    <div class="accordion-body memberinfo-accordion">
+                      <ul class="nav flex-column memberinfo-list text-center">
                         <li class="nav-item">
-                          <a class="nav-link" data-target="collection-content">收藏酒譜</a>
+                          <a class="nav-link" data-target="account-content"
+                            >帳號管理</a
+                          >
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-target="bar-content">收藏酒吧</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-target="reviews-content">查看評論</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-target="logout-content">登出</a>
+                          <a class="nav-link" data-target="notification-content"
+                            >通知</a
+                          >
                         </li>
                       </ul>
                     </div>
-                
-                    <!-- 右側內容區 -->
-                    <div class="col-md-9">
-                      <div id="profile-content" class="content-section active-section">
-                        <h3 class="fs-8 fs-lg-5 mb-10 fw-bold mt-5">個人檔案</h3>
-                        <section class="profile-img d-flex gap-12">
-                            <div class="profile-box-1 d-flex flex-column align-items-center gap-8 ">
-                                <img class="profile-userimg" src="/assets/images/Ellipse 5.png" alt="">
-                                <p class="eng-font text-primary-1 fs-10 fs-lg-7">emma</p>
-                                <a class="profile-img-btn d-block text-center p-1" href="#">
-                                    <p class="profile-img-btn-text fs-10 fs-lg-7">編輯檔案</p>
-                                </a>
-                            </div>
-                            <ul class="d-flex flex-column profile-record  fs-9 fs-lg-6 gap-2">
-                                <li>
-                                    <a href="">收藏酒譜(10)</a>
-                                </li>
-                                <li>
-                                    <a href="">收藏酒吧(3)</a>
-                                </li>
-                                <li>
-                                    <a href="">歷史評論(4)</a>
-                                </li>
-                                <li>
-                                    <a href="">生日優惠券(2)</a>
-                                </li>
-                            </ul>
-                        </section>
-                      </div>
+                  </div>
+                </div>
+              </div>
 
-                      <!-- 帳號管理 -->
+              <!-- 其他選單項目 -->
+              <ul class="nav flex-column mt-3 fw-bold">
+                <li class="nav-item">
+                  <a class="nav-link" data-target="collection-content"
+                    >收藏酒譜</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="bar-content">收藏酒吧</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="reviews-content">查看評論</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="logout-content">登出</a>
+                </li>
+              </ul>
+            </div>
 
-                      <section class="account-mg mt-10 mb-12">
-                        <div class="account-title bg-primary-4 p-3 mb-4">
-                          <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold ">帳號管理</h3>
-                        </div>
+            <!-- 右側內容區 -->
+            <div class="col-md-9">
+              <div id="profile-content" class="content-section active-section">
+                <h3 class="fs-8 fs-lg-5 mb-10 fw-bold mt-5">個人檔案</h3>
+                <section class="profile-img d-flex gap-12">
+                  <div
+                    class="profile-box-1 d-flex flex-column align-items-center gap-8"
+                  >
+                    <img
+                      class="profile-userimg"
+                      src="/assets/images/Ellipse 5.png"
+                      alt=""
+                    />
+                    <p class="eng-font text-primary-1 fs-10 fs-lg-7">emma</p>
+                    <a class="profile-img-btn d-block text-center p-1" href="#">
+                      <p class="profile-img-btn-text fs-10 fs-lg-7">編輯檔案</p>
+                    </a>
+                  </div>
+                  <ul
+                    class="d-flex flex-column profile-record fs-9 fs-lg-6 gap-2"
+                  >
+                    <li>
+                      <a href="">收藏酒譜(10)</a>
+                    </li>
+                    <li>
+                      <a href="">收藏酒吧(3)</a>
+                    </li>
+                    <li>
+                      <a href="">歷史評論(4)</a>
+                    </li>
+                    <li>
+                      <a href="">生日優惠券(2)</a>
+                    </li>
+                  </ul>
+                </section>
+              </div>
 
-                        <div class="account-content fs-9 fs-lg-6">
-                          <form class="d-flex flex-column ">
-                            <label class="fw-bold" for="email">當前信箱</label>
+              <!-- 帳號管理 -->
 
-                            <div class="position-relative">
-                              <input class="account-content-box d-block w-50 p-1 mt-4 mb-10" type="email" name="email" id="email" value="123456@gmail.com">
+              <section class="account-mg mt-10 mb-12">
+                <div class="account-title bg-primary-4 p-3 mb-4">
+                  <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">帳號管理</h3>
+                </div>
 
-                              <a href="#" class=" account-icon ">
-                                <span class="material-symbols-outlined fs-8 fs-lg-6">
-                                edit_square
-                                </span>
-                              </a>      
+                <div class="account-content fs-9 fs-lg-6">
+                  <form class="d-flex flex-column">
+                    <label class="fw-bold" for="email">當前信箱</label>
 
-                            </div>
-                                               
-                          </form>
+                    <div class="position-relative">
+                      <input
+                        class="account-content-box d-block w-50 p-1 mt-4 mb-10"
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="123456@gmail.com"
+                      />
 
-                          <div class="account-security mb-15">
-                            <h6 class="fs-9 fs-lg-6 fw-bold">安全設定</h6>
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <p>密碼</p>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">變更密碼</a>
-                            </div>
-                          </div>
+                      <a href="#" class="account-icon">
+                        <span class="material-symbols-outlined fs-8 fs-lg-6">
+                          edit_square
+                        </span>
+                      </a>
+                    </div>
+                  </form>
 
-                          <div class="mb-10">                          
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <h6 class="fs-9 fs-lg-6 fw-bold">停用帳號</h6>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">停用帳號</a>
-                            </div>
-                            <p class="fs-10 fs-lg-7 mt-4">停用帳號將會關閉您的個人檔案以及您分享過的所有訊息。
-                            <br>
-                            重新登入您的帳號將會啟用被停用的帳號</p>
-                          </div>
-
-                          <div class="mb-10">                          
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <h6 class="fs-9 fs-lg-6 fw-bold">刪除帳號</h6>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">刪除帳號</a>
-                            </div>
-                            <p class="fs-10 fs-lg-7 mt-4">將帳號永久刪除。 
-                            <br>
-                            在帳號被刪除後，你將無法重新恢復你的帳號，也無法再取得你張貼過的任何資訊。</p>
-                          </div>
-                          
-
-
-                        </div>
-
-                        <div class=" bg-primary-4 p-3 mb-4">
-                          <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">通知</h3>
-                        </div>
-                        <div class="notify-content">
-                            <label for="email-toggle" class="toggle-label fs-9 fs-lg-6">電子郵件通知</label>
-                            <div class="notify-toggle-switch mt-1">
-                              <input type="checkbox" id="email-toggle">
-                              <span class="slider"></span>
-                            </div>                                                
-                        </div>
-                        <p class="fs-10 fs-lg-7 mt-4">接收最新的酒吧活動訊息</p>
-
-
-                      </section>
-
-
-
-
-
-
-                      <!-- 帳號管理 -->
-                      <div id="account-content" class="content-section">
-                        <h3 class="fs-9 fs-lg-6">帳號管理</h3>
-                        <p>錨點跳至帳號管理的區塊</p>
-                      </div>
-                      <div id="notification-content" class="content-section">
-                        <h3>通知</h3>
-                        <p>錨點跳至通知的區塊</p>
-                      </div>
-                      <div id="collection-content" class="content-section">
-                        <h3>收藏酒譜</h3>
-                        <p>內容以卡片方式呈現</p>
-                      </div>
-                      <div id="bar-content" class="content-section">
-                        <h3>收藏酒吧</h3>
-                        <p>內容以卡片方式呈現</p>
-                      </div>
-                      <div id="reviews-content" class="content-section">
-                        <h3>查看評論</h3>
-                        <p>內容以列表方式呈現</p>
-                      </div>
-                      <div id="logout-content" class="content-section">
-                        <h3>登出</h3>
-                        <p>可做一個modal</p>
-                      </div>
+                  <div class="account-security mb-15">
+                    <h6 class="fs-9 fs-lg-6 fw-bold">安全設定</h6>
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <p>密碼</p>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >變更密碼</a
+                      >
                     </div>
                   </div>
 
+                  <div class="mb-10">
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <h6 class="fs-9 fs-lg-6 fw-bold">停用帳號</h6>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >停用帳號</a
+                      >
+                    </div>
+                    <p class="fs-10 fs-lg-7 mt-4">
+                      停用帳號將會關閉您的個人檔案以及您分享過的所有訊息。
+                      <br />
+                      重新登入您的帳號將會啟用被停用的帳號
+                    </p>
+                  </div>
 
+                  <div class="mb-10">
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <h6 class="fs-9 fs-lg-6 fw-bold">刪除帳號</h6>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >刪除帳號</a
+                      >
+                    </div>
+                    <p class="fs-10 fs-lg-7 mt-4">
+                      將帳號永久刪除。
+                      <br />
+                      在帳號被刪除後，你將無法重新恢復你的帳號，也無法再取得你張貼過的任何資訊。
+                    </p>
+                  </div>
+                </div>
 
+                <div class="bg-primary-4 p-3 mb-4">
+                  <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">通知</h3>
+                </div>
+                <div class="notify-content">
+                  <label for="email-toggle" class="toggle-label fs-9 fs-lg-6"
+                    >電子郵件通知</label
+                  >
+                  <div class="notify-toggle-switch mt-1">
+                    <input type="checkbox" id="email-toggle" />
+                    <span class="slider"></span>
+                  </div>
+                </div>
+                <p class="fs-10 fs-lg-7 mt-4">接收最新的酒吧活動訊息</p>
+              </section>
 
-
-
-
-
-
-
-
+              <!-- 帳號管理 -->
+              <div id="account-content" class="content-section">
+                <h3 class="fs-9 fs-lg-6">帳號管理</h3>
+                <p>錨點跳至帳號管理的區塊</p>
+              </div>
+              <div id="notification-content" class="content-section">
+                <h3>通知</h3>
+                <p>錨點跳至通知的區塊</p>
+              </div>
+              <div id="collection-content" class="content-section">
+                <h3>收藏酒譜</h3>
+                <p>內容以卡片方式呈現</p>
+              </div>
+              <div id="bar-content" class="content-section">
+                <h3>收藏酒吧</h3>
+                <p>內容以卡片方式呈現</p>
+              </div>
+              <div id="reviews-content" class="content-section">
+                <h3>查看評論</h3>
+                <p>內容以列表方式呈現</p>
+              </div>
+              <div id="logout-content" class="content-section">
+                <h3>登出</h3>
+                <p>可做一個modal</p>
+              </div>
             </div>
+          </div>
         </div>
-
-       
-
-      
-
+      </div>
     </section>
 
-
-
-
-
-
-
-    <%- include('./layout/footer'); -%>
-
     <script type="module" src="../main.js"></script>
-     
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-     
 
-     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </body>
 </html>
