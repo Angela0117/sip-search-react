@@ -9,6 +9,7 @@ function BarContent() {
   const [bar, setBar] = useState(null);
   const navigate = useNavigate();
 
+  //導航頁面
   const handleTagClick = (tag) => {
     // 移除 modal backdrop (如果有的話)
     const backdrop = document.querySelector(".modal-backdrop");
