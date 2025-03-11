@@ -56,7 +56,49 @@ function IndexPage() {
     navigate(`/barfinder?tags=${tagQuery}`);
   };
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
+  //首頁搜尋功能
+  const handleSearch = async () => {
+    const term = searchTerm.trim();
+    if (!term) return;
+  
+    try {
+      const [recipeRes, barRes] = await Promise.all([
+        axios.get(`${baseUrl}/recipes?search=${term}`),
+        axios.get(`${baseUrl}/bars?search=${term}`),
+      ]);
+  
+      const recipeResults = recipeRes.data;
+      const barResults = barRes.data;
+  
+      // 修改判斷邏輯
+      if (barResults.length > 0 && recipeResults.length === 0) {
+        // 只有酒吧有結果
+        navigate(`/barfinder?search=${term}`);
+      } else if (recipeResults.length > 0 && barResults.length === 0) {
+        // 只有酒譜有結果
+        navigate(`/recipesSearch?search=${term}`);
+      } else if (recipeResults.length > 0 && barResults.length > 0) {
+        // 如果兩邊都有結果，根據相關性決定跳轉目標
+        const barRelevance = barResults.some(bar => 
+          bar.title?.toLowerCase().includes(term.toLowerCase()) || 
+          bar.region?.toLowerCase().includes(term.toLowerCase())
+        );
+        
+        if (barRelevance) {
+          navigate(`/barfinder?search=${term}`);
+        } else {
+          navigate(`/recipesSearch?search=${term}`);
+        }
+      } else {
+        alert("很抱歉，沒有搜尋到相關結果。");
+      }
+    } catch (error) {
+      console.error("搜尋失敗：", error);
+    }
+  };
 
   //modal的開關
   const recipeModalRef = useRef(null);
@@ -525,18 +567,18 @@ function IndexPage() {
                   placeholder="立即搜尋"
                   aria-label="立即搜尋"
                   aria-describedby="button-addon2"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 />
-                <a
-                  href="#"
-                  className="p-lg-3 p-md-2 p-1 text-align-center d-inline-flex"
+                <button
+                  onClick={handleSearch}
+                  className="p-lg-3 p-md-2 p-1 text-align-center d-inline-flex btn-no-bg"
                 >
-                  <span
-                    href="#"
-                    className="material-symbols-outlined index-brightness align-middle fs-lg-5 fs-8"
-                  >
+                  <span className="material-symbols-outlined index-brightness align-middle fs-lg-5 fs-8">
                     search
                   </span>
-                </a>
+                </button>
               </div>
             </div>
 

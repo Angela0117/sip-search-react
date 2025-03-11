@@ -40,6 +40,26 @@ function RecipesSearch() {
     }
   }, [tagFromUrl, allProducts, cardsPerPage]);
 
+  //首頁搜尋結果
+  useEffect(() => {
+    // 從 URL 獲取搜尋參數
+    const search = searchParams.get("search");
+    if (search) {
+      setSearchTerm(search); // 設置搜尋詞
+      
+      // 當資料載入後執行搜尋
+      if (allProducts.length > 0) {
+        const lowerSearch = search.toLowerCase();
+        const filtered = allProducts.filter((product) =>
+          [product.title, product.title_en, product.content]
+            .filter(Boolean)
+            .some((field) => field.toLowerCase().includes(lowerSearch))
+        );
+        setProducts(filtered.slice(0, cardsPerPage));
+      }
+    }
+  }, [searchParams, allProducts]);
+
   // 修改 getAllProducts，移除可選的 tag 參數
   const getAllProducts = async () => {
     try {
