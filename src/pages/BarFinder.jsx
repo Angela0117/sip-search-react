@@ -29,7 +29,7 @@ function BarFinder() {
   }, []);
 
   useEffect(() => {
-    getAllProducts();
+      getAllProducts();
   }, []);
 
   // 取得所有產品
@@ -48,45 +48,46 @@ function BarFinder() {
 
   // 整合搜尋和篩選功能
   const applyFiltersAndSearch = () => {
-    let result = [...allProducts]; // 創建新的數組
+    let result = [...allProducts]; // 確保不累積
+  
+  // 套用篩選條件
+  if (selectedFilters.region) {
+    result = result.filter((bar) => bar.region === selectedFilters.region);
+  }
+  if (selectedFilters.type) {
+    result = result.filter((bar) => bar.type === selectedFilters.type);
+  }
+  if (selectedFilters.minimum_spend) {
+    result = result.filter(
+      (bar) =>
+        bar.minimum_spend >= selectedFilters.minimum_spend.min &&
+        bar.minimum_spend < selectedFilters.minimum_spend.max
+    );
+  }
 
-    // 套用篩選條件
-    if (selectedFilters.region) {
-      result = result.filter((bar) => bar.region === selectedFilters.region);
-    }
-    if (selectedFilters.type) {
-      result = result.filter((bar) => bar.type === selectedFilters.type);
-    }
-    if (selectedFilters.minimum_spend) {
-      result = result.filter(
-        (bar) =>
-          bar.minimum_spend >= selectedFilters.minimum_spend.min &&
-          bar.minimum_spend < selectedFilters.minimum_spend.max
-      );
-    }
-    // 套用搜尋條件
-    if (searchTerm) {
-      const lowerSearch = searchTerm.toLowerCase();
-      result = result.filter((bar) =>
-        [bar.name, bar.description, bar.type, bar.region]
-          .filter(Boolean)
-          .some((field) => field.toLowerCase().includes(lowerSearch))
-      );
-    }
+  // 套用搜尋條件
+  if (searchTerm) {
+    const lowerSearch = searchTerm.toLowerCase();
+    result = result.filter((bar) =>
+      [bar.name, bar.description, bar.type, bar.region]
+        .filter(Boolean)
+        .some((field) => field.toLowerCase().includes(lowerSearch))
+    );
+  }
 
-    // 套用當前的排序
-    if (sortType === "favoriteCount") {
-      result.sort((a, b) => b.favoriteCount - a.favoriteCount);
-    } else if (sortType === "likeCount") {
-      result.sort((a, b) => b.likeCount - a.likeCount);
-    } else {
-      // 預設按 id 排序
-      result.sort((a, b) => a.id - b.id);
-    }
+  // 排序邏輯
+  if (sortType === "favoriteCount") {
+    result.sort((a, b) => b.favoriteCount - a.favoriteCount);
+  } else if (sortType === "likeCount") {
+    result.sort((a, b) => b.likeCount - a.likeCount);
+  } else {
+    result.sort((a, b) => a.id - b.id); // 預設按 id 排序
+  }
 
-    setFilteredProducts(result);
-    setProducts(result.slice(0, cardsPerPage));
-    setCurrentPage(1);
+  // **重置 `filteredProducts`，確保不累積
+  setFilteredProducts(result);
+  setCurrentPage(1); // 重置回第一頁
+  setProducts(result.slice(0, cardsPerPage)); // 只顯示第一頁
   };
 
   // 搜尋功能處理
@@ -154,19 +155,20 @@ function BarFinder() {
     // 重置為原始數據
     const originalOrderProducts = [...allProducts].sort((a, b) => a.id - b.id);
     setFilteredProducts(originalOrderProducts);
-    setProducts(originalOrderProducts.slice(0, cardsPerPage));
+    // 使用 handlePageChange 來設置第一頁的資料
     setCurrentPage(1);
-
-    // 強制觸發重新渲染
-    applyFiltersAndSearch();
+  // 只顯示第一頁的數據
+  setProducts(originalOrderProducts.slice(0, cardsPerPage));
   };
 
   // 分頁功能
   const handlePageChange = (page) => {
     setCurrentPage(page);
     const startIndex = (page - 1) * cardsPerPage;
-    const endIndex = page * cardsPerPage;
-    setProducts(filteredProducts.slice(startIndex, endIndex));
+    const endIndex = startIndex + cardsPerPage;
+    
+    // 確保只設置新的分頁資料，而不是累積
+    setProducts([...filteredProducts].slice(startIndex, endIndex));
   };
 
   //首頁tag篩選過來後的接收
@@ -627,7 +629,7 @@ function BarFinder() {
                   role="group"
                   aria-label="First group"
                 >
-                  {[...Array(Math.ceil(14 / cardsPerPage)).keys()].map(
+                  {[...Array(Math.ceil(filteredProducts.length / cardsPerPage)).keys()].map(
                     (page) => (
                       <button
                         key={page + 1}
