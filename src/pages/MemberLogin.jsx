@@ -1,8 +1,8 @@
 import React, { useEffect,  useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 
 function MemberLogin() {
@@ -11,6 +11,8 @@ const [account, setAccount] = useState({
     email: "",
     password:"",
 });
+
+const navigate = useNavigate();
 
 const handleInputChange = (e) => {
   const { value, name } = e.target;
@@ -26,7 +28,10 @@ const handleLogin = async (e) => {
   try {
     const res = await axios.post(`${baseUrl}/login`, account);
     console.log(res.data);
-    
+    // 將使用者資訊存到 localStorage
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    // 重新導向到首頁
+    navigate('/');
   } catch (error) {
     alert("登入失敗");
     console.error(error);

@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 
 function Layout() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // 從 localStorage 取得使用者資訊
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // 登出處理函數
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
     <div>
       <header>
@@ -58,13 +74,25 @@ function Layout() {
                 </li>
               </ul>
               <div className="log-custom-border">
-                <Link
-                  className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8 ps-5 "
-                  to="/memberlogin"
-                >
-                  註冊/登入
-                  <i className="bi bi-search text-primary-1"></i>
-                </Link>
+                {user ? (
+                  <div className="d-flex align-items-center">
+                    <span className="text-primary-1 me-3 ms-3">{user.nickname}</span>
+                    <button
+                      onClick={handleLogout}
+                      className="btn btn-link text-primary-1 text-decoration-none"
+                    >
+                      登出
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8 ps-5"
+                    to="/memberlogin"
+                  >
+                    註冊/登入
+                    <i className="bi bi-search text-primary-1"></i>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

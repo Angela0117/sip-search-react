@@ -4,7 +4,7 @@ import { Modal } from "bootstrap";
 import { useNavigate } from "react-router-dom";
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 function MemberSignup() {
   const [email, setEmail] = useState("");
@@ -26,13 +26,25 @@ function MemberSignup() {
       const modal = new Modal(modalRef.current);
       modal.show();
 
-       // 設置定時器，在 5 秒後跳轉到首頁
-       setTimeout(() => {
-        navigate("/");
-      }, 3000);
-    } catch (error) {
-      console.error(error);
-    }
+       // 設置定時器，在跳轉前移除 modal 相關元素
+    setTimeout(() => {
+      // 移除 modal backdrop
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+
+      // 移除 body 上的 modal 相關 class 和樣式
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+
+      // 跳轉到首頁
+      navigate("/");
+    }, 3000);
+  } catch (error) {
+    console.error(error);
+  }
   };
 
   return (
