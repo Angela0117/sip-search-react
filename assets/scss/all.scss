@@ -9,18 +9,11 @@
 @import "./helpers/mixins.scss";
 @import "../../node_modules/bootstrap";
 
-$utilities: map-merge(
-  $utilities,
-  (
-    "font-size":
-      map-merge(
-        map-get($utilities, "font-size"),
-        (
-          responsive: true,
-        )
-      ),
-  )
-);
+$utilities: map-merge($utilities,
+    ("font-size": map-merge(map-get($utilities, "font-size"),
+        (responsive: true,
+        )),
+    ));
 
 @import "bootstrap/scss/utilities/api";
 
@@ -44,3 +37,5 @@ $utilities: map-merge(
 
 @import "./pages/member-login";
 @import "./pages/member-signup";
+
+@import "./pages/edit-recipe";
