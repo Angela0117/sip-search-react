@@ -709,14 +709,14 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">叢林鳥</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
                           <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             甜苦艾酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             鳳梨
                           </span>
                         </div>
@@ -757,7 +757,7 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">尼格羅尼</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
                           <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
@@ -805,14 +805,14 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">瑪格麗特</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             甜苦艾酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             金巴利
                           </span>
                         </div>
@@ -853,14 +853,14 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">花花公子</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             甜苦艾酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             金巴利
                           </span>
                         </div>
@@ -901,14 +901,14 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">阿佩羅雞尾酒</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             甜苦艾酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             金巴利
                           </span>
                         </div>
@@ -949,14 +949,14 @@ function IndexPage() {
                           </h3>
                           <h4 className="fs-7 fs-lg-5">奧林匹克</h4>
                         </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             琴酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             甜苦艾酒
                           </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
+                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
                             金巴利
                           </span>
                         </div>
