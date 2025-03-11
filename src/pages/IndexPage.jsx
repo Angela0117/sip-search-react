@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swiper from "swiper/bundle";
+import axios from "axios";
 import "swiper/css/bundle";
 import { Link, Links, useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
+import HotRecipeCard from "../components/HotRecipeCard";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function IndexPage() {
   //跳轉頁面
@@ -136,6 +140,45 @@ function IndexPage() {
       },
     });
   }, []);
+
+  // 熱門酒譜
+
+  const [allRecipes, setAllRecipes] = useState([]); // 存所有酒譜
+  const [hotRecipes, setHotRecipes] = useState([]); // 存熱門酒譜（按 likes 排序）
+
+  // 取得所有酒譜
+  const fetchRecipes = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/recipes`);
+      console.log("API 回傳的全部酒譜:", res.data);
+      setAllRecipes(res.data);
+    } catch (error) {
+      console.error("取得酒譜失敗:", error);
+    }
+  };
+
+  // 根據 likes 排序並篩選前 6 名
+  const sortHotRecipes = () => {
+    const sorted = [...allRecipes]
+      .filter((recipe) => recipe && recipe.likes !== undefined) // 過濾無效資料
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 6);
+
+    setHotRecipes(sorted);
+  };
+
+  // 在組件載入時取得所有酒譜
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
+  // 當 allRecipes 更新時，自動排序熱門酒譜
+  useEffect(() => {
+    if (allRecipes.length > 0) {
+      sortHotRecipes();
+    }
+  }, [allRecipes]);
+
 
   return (
     <>
@@ -695,302 +738,18 @@ function IndexPage() {
           <div className="main-content">
             <div className="swiper swiper-popular-recipe">
               <div className="swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Jungle Bird
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">叢林鳥</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            鳳梨
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款充滿熱帶風情的經典雞尾酒，以黑朗姆酒為基底，搭配鳳梨汁、萊姆汁、甘蔗糖漿及苦艾酒調製而成。酸甜的口感與豐富的層次感，讓人彷彿置身熱帶叢林。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine01.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Negroni
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">尼格羅尼</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          源自義大利的經典雞尾酒，風味濃郁、層次豐富又易調製。帶有明顯的草本與苦味，並以橙皮作為裝飾。適合喜愛苦中帶甘的飲酒愛好者。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine02.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Margarita
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">瑪格麗特</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          經典的墨西哥雞尾酒，由龍舌蘭酒、萊姆汁和橙酒調製而成，並以鹽邊杯盛裝。酸甜適中的口感，結合龍舌蘭的獨特風味，成為夏日清爽解渴的最佳選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine03.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Boulevardier
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">花花公子</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款風格時尚的雞尾酒，通常以伏特加或龍舌蘭為基底，加入蔓越莓汁、橙酒與檸檬汁調製而成。酸甜清爽的口感，搭配鮮豔的顏色，為派對增添一抹活力和誘惑。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine04.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Aperol Spritz
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">阿佩羅雞尾酒</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款清爽的義大利經典雞尾酒，由阿佩羅苦味酒、氣泡酒（通常是普羅賽克）和蘇打水調製而成。其橙色外觀與微苦的果香口感，完美適合作為夏日午後的輕飲選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine05.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Olympic
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">奧林匹克</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-13 mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          優雅的經典雞尾酒，由白蘭地、橙酒和新鮮橙汁調製而成。口感圓潤，融合了果香和濃郁的酒體，讓人感受到層次分明的滋味，是一款適合各種場合的經典選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine06.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {hotRecipes.map((recipe) => (
+                  <HotRecipeCard key={recipe.id} recipe={recipe} />
+                ))}
               </div>
-              {/* <div className="swiper-pagination"></div>  */}
             </div>
+            {/* <div className="swiper-pagination"></div>  */}
           </div>
         </div>
-      </section>
+
+      </section >
       {/* 熱門酒吧  */}
-      <section className="section section-popular-bars bg-dark-brown">
+      < section className="section section-popular-bars bg-dark-brown" >
         <div className="container">
           <div className="main-title text-center mb-lg-11 mb-6">
             <div data-aos="fade-down" data-aos-duration="1500">
@@ -1230,9 +989,9 @@ function IndexPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
       {/* <!-- 最新活動 --> */}
-      <div className="container">
+      < div className="container" >
         <section className="event">
           <div
             className="event-title text-center"
@@ -1355,7 +1114,7 @@ function IndexPage() {
             </div>
           </div>
         </section>
-      </div>
+      </div >
       <div className="container">
         <section className="comments text-primary-4">
           <div
