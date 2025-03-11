@@ -3,6 +3,8 @@ import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
+import axios from "axios";
+import images from "../images";
 
 function IndexPage() {
   //跳轉頁面
@@ -153,7 +155,7 @@ function IndexPage() {
               </div>
               <img
                 className="modalImg mt-lg-9 mb-lg-10 mt-5 mb-6"
-                src="/sip-search-react/assets/images/image-sip&search chi.png"
+                src={images["image-sip-search-chi"]}
                 alt="sip&search"
               />
               <div className="text-center mb-lg-10 mb-5">
@@ -583,7 +585,7 @@ function IndexPage() {
                 <div className="img-ctrl">
                   <img
                     className="discover-img"
-                    src="/sip-search-react/assets/images/webinfo-1.jpg"
+                    src={images["webinfo-1"]}
                     alt="cocktail"
                   />
                 </div>
@@ -638,7 +640,7 @@ function IndexPage() {
                 <div className="img-ctrl">
                   <img
                     className="discover-img"
-                    src="/sip-search-react/assets/images/webinfo-2.jpg"
+                    src={images["webinfo-2"]}
                     alt="cocktail"
                   />
                 </div>
@@ -1373,10 +1375,7 @@ function IndexPage() {
           <ul className="comments-list bg-primary-1 d-flex">
             <li className="comments-list-item" data-aos="zoom-in-right">
               <div className="comments-list-item-title d-flex mb-8">
-                <img
-                  src="/sip-search-react/assets/images/Ellipse 6.png"
-                  alt="user-1"
-                />
+                <img src={images["Ellipse 6"]} alt="user-1" />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     eilloee
@@ -1414,10 +1413,7 @@ function IndexPage() {
               data-aos-delay="300"
             >
               <div className="comments-list-item-title d-flex mb-8">
-                <img
-                  src="/sip-search-react/assets/images/Ellipse 2.png"
-                  alt="user-2"
-                />
+                <img src={images["Ellipse 2"]} alt="user-2" />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     Mindy Lo
@@ -1449,10 +1445,7 @@ function IndexPage() {
 
             <li className="comments-list-item" data-aos="zoom-in-right">
               <div className="comments-list-item-title d-flex mb-8">
-                <img
-                  src="/sip-search-react/assets/images/Ellipse 7.png"
-                  alt="user-3"
-                />
+                <img src={images["Ellipse 7"]} alt="user-3" />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     bboyhaha
@@ -1488,10 +1481,7 @@ function IndexPage() {
               data-aos-delay="300"
             >
               <div className="comments-list-item-title d-flex mb-8">
-                <img
-                  src="/sip-search-react/assets/images/Ellipse 5.png"
-                  alt="user-4"
-                />
+                <img src={images["Ellipse 5"]} alt="user-4" />
                 <div className="comments-list-item-name ms-5">
                   <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                     xxxcindysss
