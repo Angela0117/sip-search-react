@@ -54,10 +54,7 @@ function IndexPage() {
     navigate(`/barfinder?tags=${tagQuery}`);
   };
 
-  // 清除所有選中的 tag
-  const handleClearBarTags = () => {
-    setSelectedBarTags([]);
-  };
+
 
   //modal的開關
   const recipeModalRef = useRef(null);

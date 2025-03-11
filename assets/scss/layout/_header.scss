@@ -69,6 +69,9 @@
       border: none;
     }
   }
+  .navbar-collapse {
+    background-color: rgba(24, 24, 24, 0.75);
+  }
 }
 
 @media (max-width: 768px) {
