@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect, useNavigate } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
