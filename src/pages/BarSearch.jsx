@@ -5,6 +5,11 @@ import popularBar02 from "../../assets/images/barsearch/popularBar02.png";
 import popularBar03 from "../../assets/images/barsearch/popularBar03.png";
 import popularBar04 from "../../assets/images/barsearch/popularBar04.png";
 import popularBar05 from "../../assets/images/barsearch/popularBar05.png";
+import uniqueBar01 from "../../assets/images/barsearch/uniquebar01.png";
+import uniqueBar02 from "../../assets/images/barsearch/uniquebar02.png";
+import uniqueBar03 from "../../assets/images/barsearch/uniquebar03.png";
+import barNearby01 from "../../assets/images/bar-nearby-1.jpg";
+import barNearby02 from "../../assets/images/bar-nearby-2.jpg";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import axios from "axios";
@@ -408,10 +413,7 @@ export default function BarSearch() {
                 <div className="unique-bar-list mb-11 mb-lg-13">
                   <div className="unique-bar-item d-flex flex-column">
                     <div className="pic">
-                      <img
-                        src="../assets/images/barsearch/uniquebar01.png"
-                        alt="bar"
-                      />
+                      <img src={uniqueBar01} alt="bar" />
                     </div>
                     <div className="txt text-white">
                       <h4 className="fs-6 fs-md-5 my-3 my-md-6">
@@ -439,10 +441,7 @@ export default function BarSearch() {
                   </div>
                   <div className="unique-bar-item d-flex flex-column">
                     <div className="pic">
-                      <img
-                        src="../assets/images/barsearch/uniquebar02.png"
-                        alt="bar"
-                      />
+                      <img src={uniqueBar02} alt="bar" />
                     </div>
                     <div className="txt text-white">
                       <h4 className="fs-6 fs-md-5 my-3 my-md-6">隱士酒吧</h4>
@@ -468,10 +467,7 @@ export default function BarSearch() {
                   </div>
                   <div className="unique-bar-item d-flex flex-column">
                     <div className="pic">
-                      <img
-                        src="../assets/images/barsearch/uniquebar03.png"
-                        alt="bar"
-                      />
+                      <img src={uniqueBar03} alt="bar" />
                     </div>
                     <div className="txt text-white">
                       <h4 className="fs-6 fs-md-5 my-3 my-md-6">迷霧調酒所</h4>
@@ -530,7 +526,7 @@ export default function BarSearch() {
             <div className="swiper mySwipe nearby-event-swipe">
               <div className="swiper-wrapper">
                 <div className="swiper-slide nearby-card">
-                  <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
+                  <img src={barNearby01} alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
                     <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono
@@ -557,7 +553,7 @@ export default function BarSearch() {
                   </div>
                 </div>
                 <div className="swiper-slide nearby-card">
-                  <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
+                  <img src={barNearby02} alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
                     <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
@@ -581,7 +577,7 @@ export default function BarSearch() {
                   </div>
                 </div>
                 <div className="swiper-slide nearby-card text-start">
-                  <img src="/assets/images/bar-nearby-2.jpg" alt="bar" />
+                  <img src={barNearby01} alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
                     <h5 className="fs-lg-5 fs-6 text-neutral-1">隱士餐酒館</h5>
                     <div className="mt-auto">
@@ -605,7 +601,7 @@ export default function BarSearch() {
                   </div>
                 </div>
                 <div className="swiper-slide nearby-card text-start">
-                  <img src="/assets/images/bar-nearby-1.jpg" alt="bar" />
+                  <img src={barNearby02} alt="bar" />
                   <div className="card-body d-flex py-lg-12 px-lg-10 px-6 py-10 flex-column">
                     <h5 className="fs-lg-5 fs-6 text-neutral-1 eng-font">
                       Mono Mono

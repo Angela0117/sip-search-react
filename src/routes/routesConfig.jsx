@@ -46,7 +46,7 @@ const routesConfig = [
         element: <WineContent />,
       },
       {
-        path: "barcontent",
+        path: "bar/:id",
         element: <BarContent />,
       },
       {

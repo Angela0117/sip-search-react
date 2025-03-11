@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -17,34 +17,36 @@ function RecipesSearch() {
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 6;
   const [searchParams] = useSearchParams(); //取得首頁篩選tag的結果
-    //首頁的tag篩選功能
-    const tagFromUrl = searchParams.get("tag");
-
-
+  const [topRecipes, setTopRecipes] = useState({
+    mostLiked: [],
+    mostFavorites: [],
+  });
+  //首頁的tag篩選功能
+  const tagFromUrl = searchParams.get("tag");
   useEffect(() => {
     if (tagFromUrl) {
       // 設置選中的標籤
       setSelectedTags((prev) =>
         prev.includes(tagFromUrl) ? prev : [...prev, tagFromUrl]
       );
-  
+
       // 根據標籤篩選產品
       const filteredProducts = allProducts.filter((product) =>
         product.tags.includes(tagFromUrl)
       );
-      
+
       // 更新顯示的產品
       setProducts(filteredProducts.slice(0, cardsPerPage));
     }
   }, [tagFromUrl, allProducts, cardsPerPage]);
-  
+
   // 修改 getAllProducts，移除可選的 tag 參數
   const getAllProducts = async () => {
     try {
       const res = await axios.get(`${baseUrl}/recipes`);
       console.log("取得所有產品成功", res.data);
       setAllProducts(res.data);
-  
+
       // 如果有 tagFromUrl，就篩選產品
       if (tagFromUrl) {
         const filteredProducts = res.data.filter((product) =>
@@ -55,13 +57,13 @@ function RecipesSearch() {
         // 沒有 tag 時顯示所有產品
         setProducts(res.data.slice(0, cardsPerPage));
       }
+      // 獲取熱門資料
+      getTopRecipes(res.data);
     } catch (error) {
       console.error("取得產品失敗", error);
       alert("取得產品失敗");
     }
   };
-
-
 
   // 取得所有產品
   // const getAllProducts = async (tag) => {
@@ -154,10 +156,25 @@ function RecipesSearch() {
     );
   };
 
+  // 為您推薦資料取得
+  const getTopRecipes = (data) => {
+    // 複製資料避免修改原始資料
+    const sortedByLikes = [...data]
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 6);
+    const sortedByFavorites = [...data]
+      .sort((a, b) => b.favorite - a.favorite)
+      .slice(0, 6);
+
+    setTopRecipes({
+      mostLiked: sortedByLikes,
+      mostFavorites: sortedByFavorites,
+    });
+  };
+
   useEffect(() => {
     getAllProducts();
   }, []);
-  
 
   //swiper
   useEffect(() => {
@@ -293,6 +310,7 @@ function RecipesSearch() {
                           "苦艾酒",
                           "金酒",
                           "金巴利",
+                          "白朗姆酒",
                         ].map((tag) => (
                           <button
                             key={tag}
@@ -421,6 +439,8 @@ function RecipesSearch() {
                           "葡萄",
                           "葡萄柚",
                           "熱情果",
+                          "苦精",
+                          "杏仁",
                         ].map((tag) => (
                           <button
                             key={tag}
@@ -615,27 +635,27 @@ function RecipesSearch() {
                 <span className="material-symbols-outlined text-primary-1 fs-lg-3 pb-lg-11">
                   thumb_up
                 </span>
-                <button className="btn-rs-primary-3 border-0 rounded-0 py-lg-3 py-1 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
+                <Link to="/" className="btn-rs-primary-3 border-0 rounded-0 py-lg-3 py-1 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
                   探索更多
-                </button>
+                </Link>
               </div>
             </div>
 
             <div className="col-lg-9 d-flex align-items-center rsbg-custom">
               <div className="swiper mySwiper-rs ms-lg-9 mx-5">
                 <div className="swiper-wrapper eng-font">
-                  <div className="swiper-slide">
+                  {topRecipes.mostLiked.map((recipe) => ( <div key={recipe.id} className="swiper-slide">
                     <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
+                      <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
                         <img
                           className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-daiquiri.png"
-                          alt="image-daiquiri"
+                          src={recipe.imagesUrl[1]}
+                          alt={recipe.title}
                         />
-                      </a>
+                      </Link>
                     </div>
                     <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      奧綸莉 Daiquiri
+                    {recipe.title}
                     </div>
 
                     <div className="likes text-white mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
@@ -644,155 +664,17 @@ function RecipesSearch() {
                           thumb_up
                         </span>
                       </a>
-                      118
+                      {recipe.likes}
                       <span className="px-lg-3">|</span>
                       <a href="#">
                         <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
                           favorite
                         </span>
                       </a>
-                      99
+                      {recipe.favorite}
                     </div>
+                  </div>))}
                   </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-holdwine.png"
-                          alt="image-holdwine"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      琴湯尼 Gin Tonic
-                    </div>
-
-                    <div className="likes text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        thumb_up
-                      </span>
-                      132
-                      <span className="px-lg-3">|</span>
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        favorite
-                      </span>
-                      49
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-manhattam.png"
-                          alt="image-manhattam"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2 fs-8">
-                      曼哈頓 Manhattam
-                    </div>
-
-                    <div className="likes text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        thumb_up
-                      </span>
-                      112
-                      <span className="px-lg-3">|</span>
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        favorite
-                      </span>
-                      29
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-daiquiri.png"
-                          alt="image-daiquiri"
-                        />
-                      </a>
-                    </div>
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      奧綸莉 Daiquiri
-                    </div>
-
-                    <div className="likes text-white mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <a href="#">
-                        <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                          thumb_up
-                        </span>
-                      </a>
-                      118
-                      <span className="px-lg-3">|</span>
-                      <a href="#">
-                        <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                          favorite
-                        </span>
-                      </a>
-                      99
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-holdwine.png"
-                          alt="image-holdwine"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      琴湯尼 Gin Tonic
-                    </div>
-
-                    <div className="likes text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        thumb_up
-                      </span>
-                      132
-                      <span className="px-lg-3">|</span>
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        favorite
-                      </span>
-                      49
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-manhattam.png"
-                          alt="image-manhattam"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2 fs-8">
-                      曼哈頓 Manhattam
-                    </div>
-
-                    <div className="likes text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        thumb_up
-                      </span>
-                      112
-                      <span className="px-lg-3">|</span>
-                      <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                        favorite
-                      </span>
-                      29
-                    </div>
-                  </div>
-                </div>
 
                 <div className="custom-button-next cardBtn-primary-4 rounded-circle text-center">
                   <span className="material-symbols-outlined pt-6">
@@ -825,145 +707,37 @@ function RecipesSearch() {
                 <span className="material-symbols-outlined text-primary-4 fs-lg-3 pb-lg-11">
                   forum
                 </span>
-                <button className="btn-rs-primary-4 rounded-0 border-0 py-lg-3 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
+                <Link to="/" className="btn-rs-primary-4 rounded-0 border-0 py-lg-3 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
                   探索更多
-                </button>
+                </Link>
               </div>
             </div>
 
             <div className="col-lg-9 d-flex align-items-center rsbg-custom">
               <div className="swiper mySwiper-rs ms-lg-9 mx-5">
                 <div className="swiper-wrapper eng-font">
-                  <div className="swiper-slide">
+                {topRecipes.mostFavorites.map((recipe) => (
+                  <div key={recipe.id} className="swiper-slide">
                     <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
+                      <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
                         <img
                           className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-margarita.png"
-                          alt="image-margarita"
+                          src={recipe.imagesUrl[0]}
+                          alt={recipe.title}
                         />
-                      </a>
+                      </Link>
                     </div>
-
-                    <div className="title text-white fs-lg-7 fs-8 mt-lg-6 mt-md-4 mt-2">
-                      瑪格麗特 Margarita
-                    </div>
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      318
-                    </div>
-                  </div>
-
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-vieux carre.png"
-                          alt="image-vieux"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 fs-8 mt-lg-6 mt-md-4 mt-2">
-                      老廣場 Vieux Carre
-                    </div>
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      1218
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-godfather.png"
-                          alt="image-godfather"
-                        />
-                      </a>
-                    </div>
-
                     <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      教父 Godfather
-                    </div>
-
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      418
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-margarita.png"
-                          alt="image-margarita"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 fs-8 mt-lg-6 mt-md-4 mt-2">
-                      瑪格麗特 Margarita
+                      {recipe.title}
                     </div>
                     <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
                       <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
                         forum
                       </span>
-                      318
+                      {recipe.favorite}
                     </div>
                   </div>
-
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-vieux carre.png"
-                          alt="image-vieux"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 fs-8 mt-lg-6 mt-md-4 mt-2">
-                      老廣場 Vieux Carre
-                    </div>
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      1218
-                    </div>
-                  </div>
-                  <div className="swiper-slide">
-                    <div className="img-container">
-                      <a href="wine-content.html" className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-godfather.png"
-                          alt="image-godfather"
-                        />
-                      </a>
-                    </div>
-
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      教父 Godfather
-                    </div>
-
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      418
-                    </div>
-                  </div>
+                ))}
                 </div>
 
                 <div className="custom-button-next cardBtn-primary-4 rounded-circle text-center">
