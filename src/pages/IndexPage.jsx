@@ -636,7 +636,7 @@ function IndexPage() {
               <div className="img-ctrl">
                 <img
                   className="discover-img"
-                  src="/sip-search-react/assets/images/webinfo-2.jpg"
+                  src="./sip-search-react/assets/images/webinfo-2.jpg"
                   alt="cocktail"
                 />
               </div>

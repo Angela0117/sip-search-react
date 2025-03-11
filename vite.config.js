@@ -25,6 +25,7 @@ function moveOutputPlugin() {
 }
 
 export default defineConfig({
+  base:process.env.NODE_ENV === 'production' ? '/sip-search-react/' : '/',
   plugins: [react()],
   // base 的寫法：
   // base: '/Repository 的名稱/'

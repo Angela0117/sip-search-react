@@ -839,7 +839,7 @@ function RecipesSearch() {
                       <a href="wine-content.html" className="h-100 w-100">
                         <img
                           className="card-img1 img-gradient-border d-block"
-                          src="/assets/images/image-margarita.png"
+                          src="./assets/images/image-margarita.png"
                           alt="image-margarita"
                         />
                       </a>

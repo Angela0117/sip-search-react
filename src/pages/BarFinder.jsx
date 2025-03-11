@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -15,6 +15,7 @@ function BarFinder() {
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 12;
   const [searchParams] = useSearchParams(); //取得url參數
+  const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]); // 存放篩選後的資料
   const [selectedFilters, setSelectedFilters] = useState({
     region: "",
@@ -45,13 +46,7 @@ function BarFinder() {
     }
   };
 
-  // 更新頁面資料，處理分頁邏輯
-  const updateDisplayedProducts = (dataSource, page = 1) => {
-    setCurrentPage(page);
-    setProducts(
-      dataSource.slice((page - 1) * cardsPerPage, page * cardsPerPage)
-    );
-  };
+
 
   // 整合搜尋和篩選功能
   const applyFiltersAndSearch = () => {
@@ -108,6 +103,18 @@ function BarFinder() {
         // 如果該條件已經選取，再點一次則清除；否則就更新成新的值
         [filterType]: prevFilters[filterType] === value ? "" : value,
       };
+      // 更新 URL
+      const tags = [];
+      if (newFilters.region) tags.push(newFilters.region);
+      if (newFilters.type) tags.push(newFilters.type);
+      
+      const newSearchParams = new URLSearchParams();
+      if (tags.length > 0) {
+        newSearchParams.set("tags", tags.join(","));
+      }
+      
+      navigate(`?${newSearchParams.toString()}`);
+      
       return newFilters;
     });
   };
@@ -167,15 +174,30 @@ function BarFinder() {
   useEffect(() => {
     const tagsParam = searchParams.get("tags");
     if (tagsParam && allProducts.length > 0) {
-      // 確保有數據後再處理
       const tagArray = tagsParam.split(",");
-      const tag = tagArray[0]?.trim(); // 先只處理第一個標籤
-      if (tag) {
-        setSelectedFilters((prev) => ({
-          ...prev,
-          region: tag,
-        }));
-      }
+      
+      // 檢查是否為地區標籤
+      const regionTag = tagArray.find(tag => 
+        ["基隆市", "新北市", "台北市", "桃園市", "新竹縣", "新竹市", 
+         "苗栗縣", "苗栗市", "台中市", "彰化縣", "南投縣", "雲林縣", 
+         "嘉義縣", "嘉義市", "台南市", "高雄市", "屏東縣", "台東縣", 
+         "花蓮縣", "宜蘭縣"].includes(tag)
+      );
+
+      // 檢查是否為類型標籤
+      const typeTag = tagArray.find(tag => 
+        ["音樂", "特色", "日式", "複合", "運動", "熱門"].includes(tag)
+      );
+
+      // 更新篩選條件
+      setSelectedFilters(prev => ({
+        ...prev,
+        region: regionTag || "",
+        type: typeTag || "",
+      }));
+
+      // 強制觸發篩選
+      applyFiltersAndSearch();
     }
   }, [searchParams, allProducts]);
 
