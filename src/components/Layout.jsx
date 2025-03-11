@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
+import images from '../images' 
 
 function Layout() {
   const [user, setUser] = useState(null);
@@ -108,7 +109,7 @@ function Layout() {
               未滿18歲禁止飲酒
               <img
                 className="ban"
-                src="/assets/images/image-banned.png"
+                src={images["image-banned"]}
                 alt="image-banned"
               />
               禁止酒駕
@@ -121,7 +122,7 @@ function Layout() {
               <Link className="d-flex justify-content-center" to="#">
                 <img
                   className="pic1"
-                  src="/assets/images/image.png"
+                  src={images["image"]} 
                   alt="pic1"
                 />
               </Link>
@@ -192,21 +193,21 @@ function Layout() {
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon"
-                      src="/assets/images/image-fb-light.png"
+                      src={images["image-fb-light"]}
                       alt="fb"
                     />
                   </Link>
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon mx-lg-9 mx-3"
-                      src="/assets/images/image-ig-light.png"
+                      src={images["image-ig-light"]}
                       alt="ig"
                     />
                   </Link>
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon"
-                      src="/assets/images/image-mail-light.png"
+                      src={images["image-mail-light"]}
                       alt="mail"
                     />
                   </Link>
