@@ -1,7 +1,28 @@
 import React from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import BarContentCard from "../components/BarContentCard";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
 function BarContent() {
+  const { id } = useParams();
+  const [recommendedBars, setRecommendedBars] = useState([]);
+
+  //取得推薦酒吧名單
+  useEffect(() => {
+    const getBarContentCard = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/bars`);
+        setRecommendedBars(res.data.slice(0, 3));
+      } catch (error) {
+        console.error("取得產品失敗", error);
+      }
+    };
+    getBarContentCard();
+  }, []);
 
 
 
@@ -12,7 +33,7 @@ function BarContent() {
       <section className="section section-breadcrumb">
         <div className="container">
           <ol className="breadcrumb fs-8 fs-lg-7 ps-lg-11">
-            <li className="breadcrumb-item"><a href="#">酒吧區</a></li>
+            <li className="breadcrumb-item"><Link to="/barfinder">酒吧區</Link></li>
             <li className="breadcrumb-item"><a href="#">台北酒吧</a></li>
             <li className="breadcrumb-item active">
               <a href="#" className="eng-font">Blue Note Taipei</a>
@@ -235,14 +256,19 @@ function BarContent() {
     >
       <div className="container">
         <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
+
+        {/* 套用酒吧詳情卡片元件*/}
+
+
         <div className="similar-bars-list mx-lg-15">
-          <div
+        {recommendedBars.map((bar) => (<BarContentCard key={bar.id} bar={bar}/>))}
+        
+          {/* <div
             className="similar-bars-item"
             data-aos="flip-left"
             data-aos-duration="1200"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), 
-                                url(../assets/images/barcontent/similarbar01.jpg)`
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),url(../assets/images/barcontent/similarbar01.jpg)`
             }}
           >
             <div className="txt">
@@ -262,8 +288,7 @@ function BarContent() {
             data-aos="flip-left"
             data-aos-duration="1200"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), 
-                                url(../assets/images/barcontent/similarbar02.jpg)`
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),url(../assets/images/barcontent/similarbar02.jpg)`
             }}
           >
             <div className="txt">
@@ -295,9 +320,10 @@ function BarContent() {
                 <span className="tag">台北酒吧</span>
                 <span className="tag">特色酒吧</span>
               </div>
+              
               <a href="#" className="button"> 立即前往 </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
