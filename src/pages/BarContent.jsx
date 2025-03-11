@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useNavigate } from "react";
+import { Link, useParams } from "react-router-dom";
+import BarContentCard from "../components/BarContentCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
+
+
 function BarContent() {
   const { id } = useParams();
+  const [recommendedBars, setRecommendedBars] = useState([]);
   const [bar, setBar] = useState(null);
   const navigate = useNavigate();
+
+  //取得推薦酒吧名單
+  useEffect(() => {
+    const getBarContentCard = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/bars`);
+        setRecommendedBars(res.data.slice(0, 3));
+      } catch (error) {
+        console.error("取得產品失敗", error);
+      }
+    };
+    getBarContentCard();
+  }, []);
+  
+  
 
   //導航頁面
   const handleTagClick = (tag) => {
@@ -315,88 +335,85 @@ function BarContent() {
         </div>
       </section>
 
-      <section
-        className="section section-similar-bars"
-        data-aos="fade-up"
-        data-aos-duration="1000"
-      >
-        <div className="container">
-          <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
-          <div className="similar-bars-list mx-lg-15">
-            <div
-              className="similar-bars-item"
-              data-aos="flip-left"
-              data-aos-duration="1200"
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), 
-                                url(../assets/images/barcontent/similarbar01.jpg)`,
-              }}
-            >
-              <div className="txt">
-                <h3 className="bar-name fs-7 fs-lg-6">爵式</h3>
-                <p className="bar-intro">
-                  爵士樂手的現場演奏，充滿即興魅力的旋律環繞四周，讓每位來賓沉浸在音樂的世界中，感受無與倫比的聲音共鳴。
-                </p>
-                <div className="tags">
-                  <span className="tag">高雄酒吧</span>
-                  <span className="tag">特色酒吧</span>
-                </div>
-                <a href="#" className="button">
-                  {" "}
-                  立即前往{" "}
-                </a>
+    <section
+      className="section section-similar-bars"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+    >
+      <div className="container">
+        <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
+
+        {/* 套用酒吧詳情卡片元件*/}
+
+
+        <div className="similar-bars-list mx-lg-15">
+        {recommendedBars.map((bar) => (<BarContentCard key={bar.id} bar={bar}/>))}
+        
+          {/* <div
+            className="similar-bars-item"
+            data-aos="flip-left"
+            data-aos-duration="1200"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),url(../assets/images/barcontent/similarbar01.jpg)`
+            }}
+          >
+            <div className="txt">
+              <h3 className="bar-name fs-7 fs-lg-6">爵式</h3>
+              <p className="bar-intro">
+                爵士樂手的現場演奏，充滿即興魅力的旋律環繞四周，讓每位來賓沉浸在音樂的世界中，感受無與倫比的聲音共鳴。
+              </p>
+              <div className="tags">
+                <span className="tag">高雄酒吧</span>
+                <span className="tag">特色酒吧</span>
               </div>
-            </div>
-            <div
-              className="similar-bars-item"
-              data-aos="flip-left"
-              data-aos-duration="1200"
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), 
-                                url(../assets/images/barcontent/similarbar02.jpg)`,
-              }}
-            >
-              <div className="txt">
-                <h3 className="bar-name eng-font fs-7 fs-lg-6">Sappho</h3>
-                <p className="bar-intro">
-                  手工調製的創意雞尾酒，與爵士樂完美搭配，每一口酒香都隨著音樂的節奏，令人享受醇厚且獨特的味覺體驗。
-                </p>
-                <div className="tags">
-                  <span className="tag">台北酒吧</span>
-                  <span className="tag">特色酒吧</span>
-                </div>
-                <a href="#" className="button">
-                  {" "}
-                  立即前往{" "}
-                </a>
-              </div>
-            </div>
-            <div
-              className="similar-bars-item"
-              data-aos="flip-left"
-              data-aos-duration="1200"
-              style={{
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)), url(../assets/images/barcontent/similarbar03.jpg)`,
-              }}
-            >
-              <div className="txt">
-                <h3 className="bar-name eng-font fs-7 fs-lg-6">Brown Sugar</h3>
-                <p className="bar-intro">
-                  酒吧內燈光昏黃，座椅舒適，營造出靜謐而溫馨的氛圍，是放鬆心情、與好友共享時光的理想場所。
-                </p>
-                <div className="tags">
-                  <span className="tag">台北酒吧</span>
-                  <span className="tag">特色酒吧</span>
-                </div>
-                <a href="#" className="button">
-                  {" "}
-                  立即前往{" "}
-                </a>
-              </div>
+              <a href="#" className="button"> 立即前往 </a>
             </div>
           </div>
+          <div
+            className="similar-bars-item"
+            data-aos="flip-left"
+            data-aos-duration="1200"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),url(../assets/images/barcontent/similarbar02.jpg)`
+            }}
+          >
+            <div className="txt">
+              <h3 className="bar-name eng-font fs-7 fs-lg-6">Sappho</h3>
+              <p className="bar-intro">
+                手工調製的創意雞尾酒，與爵士樂完美搭配，每一口酒香都隨著音樂的節奏，令人享受醇厚且獨特的味覺體驗。
+              </p>
+              <div className="tags">
+                <span className="tag">台北酒吧</span>
+                <span className="tag">特色酒吧</span>
+              </div>
+              <a href="#" className="button"> 立即前往 </a>
+            </div>
+          </div>
+          <div
+            className="similar-bars-item"
+            data-aos="flip-left"
+            data-aos-duration="1200"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9)), url(../assets/images/barcontent/similarbar03.jpg)`
+            }}
+          >
+            <div className="txt">
+              <h3 className="bar-name eng-font fs-7 fs-lg-6">Brown Sugar</h3>
+              <p className="bar-intro">
+                酒吧內燈光昏黃，座椅舒適，營造出靜謐而溫馨的氛圍，是放鬆心情、與好友共享時光的理想場所。
+              </p>
+              <div className="tags">
+                <span className="tag">台北酒吧</span>
+                <span className="tag">特色酒吧</span>
+              </div>
+              
+              <a href="#" className="button"> 立即前往 </a>
+            </div>
+          </div> */}
         </div>
-      </section>
+      </div>
+    </section>
+
     </>
   );
 }
