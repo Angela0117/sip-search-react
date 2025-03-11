@@ -59,7 +59,7 @@ function Layout() {
               </ul>
               <div className="log-custom-border">
                 <Link
-                  className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8"
+                  className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8 ps-5 "
                   to="/memberlogin"
                 >
                   註冊/登入

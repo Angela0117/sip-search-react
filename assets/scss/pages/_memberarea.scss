@@ -1,63 +1,67 @@
-
 //將member-bg往下推：104(navbar高度)
 
-.member-bg{
+.member-bg {
   padding-top: 104px;
+
   @media (max-width: 768px) {
     padding-top: 36px;
   }
 }
 
 
-.memberinfo-btn{
+.memberinfo-btn {
   background: $primary-1 ;
   color: $primary-4;
   font-size: 24px;
-  padding: 20px 16px;//py與預設a連結樣式相同才能對齊
+  padding: 20px 16px; //py與預設a連結樣式相同才能對齊
+
   @media (max-width: 768px) {
     font-size: 12px;
     padding: 12px 8px;
   }
-  &:active{
+
+  &:active {
     background: $primary-3;
   }
 }
 
 
 
-.nav-link { 
-  cursor: pointer; 
+.nav-link {
+  cursor: pointer;
   color: $primary-4;
   font-size: 24px;
+
   @media (max-width: 768px) {
     font-size: 12px;
   }
-  
-  &:hover{
+
+  &:hover {
     color: $primary-4; //預設為藍色，所以要再加上 color: $primary-4
     opacity: 0.6;
   }
 }
 
-.memberinfo-accordion{
+.memberinfo-accordion {
   background: $primary-1;
 }
 
-.content-section { 
-  display: none; 
+.content-section {
+  display: none;
 }
-.active-section { 
-  display: block; 
+
+.active-section {
+  display: block;
 }
 
 //修改手風琴按鈕展開時的底色，當按鈕處於展開狀態時，會去掉 collapsed 類別 
 .memberinfo-btn:not(.collapsed) {
-  background-color:$primary-4; 
+  background-color: $primary-4;
   color: $primary-1;
   box-shadow: none; //消除預設的藍色陰影
 }
 
-.memberinfo-btn.collapsed{
+.memberinfo-btn.collapsed {
   box-shadow: none;
 }
 
@@ -65,89 +69,100 @@
 
 //修改手風琴按鈕展開時的箭頭顏色 
 .memberinfo-btn:not(.collapsed)::after {
-  color:$primary-4; //箭頭 
+  color: $primary-4; //箭頭 
 }
 
 //右側內容-個人檔案
-.profile-img-btn{
+.profile-img-btn {
   width: 90%;
   border-radius: 20px;
   background: $primary-1;
-  &:hover{
+
+  &:hover {
     //background: $primary-4;
   }
-  &-text{
+
+  &-text {
     color: $primary-4;
-    &:hover{
+
+    &:hover {
       opacity: 0.6;
     }
-  
+
   }
 }
 
-.profile-userimg{
+.profile-userimg {
   width: 160px;
   height: 160px;
+
   @media (max-width: 992px) {
     width: 100px;
     height: 100px;
   }
+
   @media (max-width: 768px) {
     width: 80px;
     height: 80px;
   }
 }
 
-.profile-box-1{
+.profile-box-1 {
   width: 25%;
   padding: 40px;
   background: $primary-4;
+
   @media (max-width: 768px) {
     width: 50%;
   }
-  
+
 }
 
-.profile-record li:hover{
+.profile-record li:hover {
   opacity: 0.6;
 }
 
 //帳號管理 
 
-.account-title{
+.account-title {
   width: 100%;
 }
 
-.account-content-box{
+.account-content-box {
   border: 3px solid $primary-4;
   border-radius: 5px;
-  
-  
-  
+
+
+
 }
-.account-icon{
+
+.account-icon {
   position: absolute;
   //right: 430px;
   //bottom: 50px;
   top: 25%;
   left: 45%;
+
   @media (max-width: 992px) {
     top: 28%;
     left: 45%;
   }
+
   @media (max-width: 768px) {
     top: 28%;
     left: 40%;
   }
-  &:hover{
+
+  &:hover {
     opacity: 0.6;
   }
 }
 
-.account-password-btn{
+.account-password-btn {
   width: 15%;
   border-radius: 20px;
-  &:hover{
+
+  &:hover {
     opacity: 0.6;
   }
 }
@@ -170,6 +185,7 @@
   border-radius: 15px;
   cursor: pointer;
   transition: background-color 0.3s;
+
   @media (max-width: 768px) {
     width: 30px;
     height: 16px;
@@ -192,6 +208,7 @@
   background-color: white;
   border-radius: 50%;
   transition: 0.3s;
+
   @media (max-width: 768px) {
     top: 0%;
     width: 12px;
@@ -200,11 +217,11 @@
 }
 
 //當切換到 "開" 的狀態 
-.notify-toggle-switch input:checked + .slider {
+.notify-toggle-switch input:checked+.slider {
   left: 26px; //塊移動到右側 
   background-color: $primary-4; //滑塊顏色變為primary-4 
+
   @media (max-width: 768px) {
     left: 14px;
   }
 }
-
