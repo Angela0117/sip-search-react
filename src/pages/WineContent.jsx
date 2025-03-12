@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import WineCard from "../components/WineCard";
 import RecipeCard from "../components/RecipeCard";
+import images from "../images";
+
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -122,7 +124,7 @@ function WineContent() {
                 >
                   <div className="wine-comments-list-info d-flex align-items-center">
                     <img
-                      src={"/assets/images/Ellipse 11.png"}
+                      src={images["Ellipse 11"]}
                       alt="User's avatar"
                     />
                     <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
