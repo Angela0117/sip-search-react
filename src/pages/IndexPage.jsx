@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import Swiper from "swiper/bundle";
-import "swiper/css/bundle";
-import { useNavigate } from "react-router-dom";
-import { Modal } from "bootstrap";
 import axios from "axios";
+import "swiper/css/bundle";
+import { Link, useNavigate } from "react-router-dom";
+import { Modal } from "bootstrap";
 import images from "../images";
+import HotRecipeCard from "../components/HotRecipeCard";
+import HotBarCard from "../components/HotBarCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -249,6 +250,8 @@ function IndexPage() {
     modalInstance.hide();
   };
 
+ 
+
   useEffect(() => {
     // 初始化首頁熱門酒譜swiper
     new Swiper(".swiper-popular-recipe", {
@@ -285,7 +288,7 @@ function IndexPage() {
 
     // 初始化首頁熱門酒吧swiper
     new Swiper(".swiper-popular-bars", {
-      loop: true,
+      // loop: true,
       speed: 2000,
       effect: "fade",
       fadeEffect: {
@@ -297,6 +300,107 @@ function IndexPage() {
       },
     });
   }, []);
+
+
+  // 熱門酒譜
+
+  const [allRecipes, setAllRecipes] = useState([]); // 存所有酒譜
+  const [hotRecipes, setHotRecipes] = useState([]); // 存熱門酒譜（按 likes 排序）
+
+  // 取得所有酒譜
+  const fetchRecipes = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/recipes`);
+      // console.log("API 回傳的全部酒譜:", res.data);
+      setAllRecipes(res.data);
+    } catch (error) {
+      console.error("取得酒譜失敗:", error);
+    }
+  };
+
+  // 根據 likes 排序並篩選前 6 名
+  const sortHotRecipes = () => {
+    const sorted = [...allRecipes]
+      // .filter((recipe) => recipe && recipe.likes !== undefined) // 過濾無效資料
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 6);
+
+    setHotRecipes(sorted);
+  };
+
+  // 熱門酒吧
+  const [swiperInitialized, setSwiperInitialized] = useState(false);
+  const [allBars, setAllBars] = useState([]);
+  const [hotBars, setHotBars] = useState([]);
+
+  const fetchBars = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/bars`);
+      // console.log("API 回傳的全部酒吧:", res.data);
+      setAllBars(res.data);
+    } catch (error) {
+      console.error("取得酒吧失敗:", error);
+    }
+  };
+
+  useEffect(() => {
+    // 確保有資料且還沒初始化過
+    if (hotBars.length > 0 && !swiperInitialized) {
+      const barSwiper = new Swiper(".swiper-popular-bars", {
+        loop: true,
+        speed: 2000,
+        slidesPerView: 1,
+        effect: "fade",
+        fadeEffect: {
+          crossFade: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+       
+      });
+      
+      setSwiperInitialized(true);
+      console.log('Bar Swiper initialized with', hotBars.length, 'slides');
+    }
+  }, [hotBars]);
+
+  // 根據 likes 排序並篩選前 6 名
+  const sortHotBars = () => {
+    if (allBars.length === 0) {
+      console.log('No bars data available');
+      return;
+    }
+  
+    console.log('Sorting bars from:', allBars.length, 'total bars');
+    const sorted = [...allBars]
+      .sort((a, b) => b.likeCount - a.likeCount)
+      .slice(0, 6);
+  
+    console.log('Sorted hot bars:', sorted.length, 'bars');
+    setHotBars(sorted);
+  };
+
+
+  // 在組件載入時取得所有酒譜和酒吧
+  useEffect(() => {
+    fetchRecipes();
+    fetchBars();
+  }, []);
+
+  // 當 allRecipes & allBars 更新時，自動排序
+  useEffect(() => {
+    sortHotRecipes();
+    sortHotBars();
+
+  }, [allRecipes, allBars]);
+
+  useEffect(() => {
+    console.log("更新後的 hotBars:", hotBars);
+  }, [hotBars]);
+
+
 
   return (
     <>
@@ -412,9 +516,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -442,9 +545,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -460,9 +562,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -478,9 +579,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -760,15 +860,15 @@ function IndexPage() {
                     每一杯都是放鬆時光！
                   </p>
                   <div className="btn-md">
-                    <a
-                      href="https://vicfirth5a.github.io/sip-search/recipessearch"
+                    <Link
+                      to="/recipessearch"
                       className="btn-search btn-index-primaryl-light d-flex"
                     >
                       我想找酒譜
                       <span className="material-symbols-outlined ms-3">
                         arrow_forward_ios
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -788,15 +888,15 @@ function IndexPage() {
                     發現喝酒的好去處！
                   </p>
                   <div className="btn-md">
-                    <a
-                      href="https://vicfirth5a.github.io/sip-search/barsearch"
+                    <Link
+                      to="/barsearch"
                       className="btn-search btn-index-primary1 d-flex"
                     >
                       我想找酒吧
                       <span className="material-symbols-outlined ms-3">
                         arrow_forward_ios
                       </span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="img-ctrl">
@@ -864,302 +964,18 @@ function IndexPage() {
           <div className="main-content">
             <div className="swiper swiper-popular-recipe">
               <div className="swiper-wrapper">
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Jungle Bird
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">叢林鳥</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            鳳梨
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款充滿熱帶風情的經典雞尾酒，以黑朗姆酒為基底，搭配鳳梨汁、萊姆汁、甘蔗糖漿及苦艾酒調製而成。酸甜的口感與豐富的層次感，讓人彷彿置身熱帶叢林。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine01.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Negroni
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">尼格羅尼</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-4 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          源自義大利的經典雞尾酒，風味濃郁、層次豐富又易調製。帶有明顯的草本與苦味，並以橙皮作為裝飾。適合喜愛苦中帶甘的飲酒愛好者。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine02.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Margarita
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">瑪格麗特</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          經典的墨西哥雞尾酒，由龍舌蘭酒、萊姆汁和橙酒調製而成，並以鹽邊杯盛裝。酸甜適中的口感，結合龍舌蘭的獨特風味，成為夏日清爽解渴的最佳選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine03.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Boulevardier
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">花花公子</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款風格時尚的雞尾酒，通常以伏特加或龍舌蘭為基底，加入蔓越莓汁、橙酒與檸檬汁調製而成。酸甜清爽的口感，搭配鮮豔的顏色，為派對增添一抹活力和誘惑。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine04.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Aperol Spritz
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">阿佩羅雞尾酒</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          一款清爽的義大利經典雞尾酒，由阿佩羅苦味酒、氣泡酒（通常是普羅賽克）和蘇打水調製而成。其橙色外觀與微苦的果香口感，完美適合作為夏日午後的輕飲選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine05.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="swiper-slide">
-                  <div className="wine-card p-6 p-lg-12">
-                    <div className="decoration pb-5 mb-6">
-                      <div className="wrap"></div>
-                    </div>
-
-                    <div className="wine-card-body d-flex flex-column flex-lg-row justify-content-lg-between gap-3 gap-lg-11">
-                      <div className="txt d-flex flex-column text-primary-4">
-                        <div className="wine-name">
-                          <h3 className="fs-6 fs-lg-4 mb-1 mb-lg-3 eng-font">
-                            Olympic
-                          </h3>
-                          <h4 className="fs-7 fs-lg-5">奧林匹克</h4>
-                        </div>
-                        <div className="wine-tags d-flex mt-6 mt-lg-auto mb-6 gap-4">
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            琴酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            甜苦艾酒
-                          </span>
-                          <span className="d-block px-2 px-lg-6 py-1 py-lg-2 bg-primary-3 rounded-pill text-white">
-                            金巴利
-                          </span>
-                        </div>
-                        <div className="wine-intro">
-                          優雅的經典雞尾酒，由白蘭地、橙酒和新鮮橙汁調製而成。口感圓潤，融合了果香和濃郁的酒體，讓人感受到層次分明的滋味，是一款適合各種場合的經典選擇。
-                        </div>
-                      </div>
-                      <div className="pic position-relative">
-                        <img
-                          src="/sip-search-react/assets/images/index_wine/wine06.png"
-                          alt="wine"
-                        />
-                        <div className="arrow position-absolute bottom-0 end-0">
-                          <a
-                            href="./wine-content.html"
-                            className="d-flex align-items-center justify-content-center text-white rounded-circle"
-                          >
-                            <span className="material-symbols-outlined d-block fs-lg-4">
-                              arrow_forward
-                            </span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {hotRecipes.map((recipe) => (
+                  <HotRecipeCard key={recipe.id} recipe={recipe} />
+                ))}
               </div>
-              {/* <div className="swiper-pagination"></div>  */}
             </div>
+            {/* <div className="swiper-pagination"></div>  */}
           </div>
         </div>
-      </section>
+
+      </section >
       {/* 熱門酒吧  */}
-      <section className="section section-popular-bars bg-dark-brown">
+      < section className="section section-popular-bars bg-dark-brown" >
         <div className="container">
           <div className="main-title text-center mb-lg-11 mb-6">
             <div data-aos="fade-down" data-aos-duration="1500">
@@ -1194,197 +1010,9 @@ function IndexPage() {
                 {/* Additional required wrapper  */}
                 <div className="swiper-wrapper">
                   {/* Slides  */}
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar01.png"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">貓下去敦北俱樂部</h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              結合復古風情與現代創意，提供精緻調酒與特別氛圍，是品味夜晚的絕佳去處！
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar02.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5s eng-font">
-                          Indulge Experimental Bistro
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              以創新調酒聞名，曾獲亞洲50最佳酒吧獎，結合在地風味與前衛概念，提供獨特的品飲體驗。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar03.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">
-                          酒客 <span className="eng-font"> Bar Pun</span>
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              提供多元風味的調酒，結合輕鬆氛圍與創意調飲，是下班放鬆的好去處。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar04.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5 eng-font">
-                          Bar Mood
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              風格獨特的調酒酒吧，注重細膩口感與美學呈現，調酒師的創意調飲常令人耳目一新。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar05.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">迷霧調酒所</h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              以濃烈煙霧效果和創意調酒聞名，店內裝潢充滿神秘感，吸引眾多愛好新奇體驗的酒客。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  {hotBars.map((bar) => (
+                    <HotBarCard key={bar.id} bar={bar} />
+                  ))}
                 </div>
                 {/* <!-- If we need pagination --> */}
                 {/* <!-- <div className="swiper-pagination"></div> --> */}
@@ -1399,9 +1027,9 @@ function IndexPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
       {/* <!-- 最新活動 --> */}
-      <div className="container">
+      < div className="container" >
         <section className="event">
           <div
             className="event-title text-center"
@@ -1485,7 +1113,7 @@ function IndexPage() {
             </div>
           </div>
         </section>
-      </div>
+      </div >
       <div className="container">
         <section className="comments text-primary-4">
           <div
