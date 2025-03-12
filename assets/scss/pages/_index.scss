@@ -668,7 +668,7 @@ $x-large: 1200px;
     // padding: 0 100px;
     .swiper-wrapper {
       flex-grow: 1;
-      height: auto;
+      height: 70vh;
 
       // flex-direction: column; //swiper已經有下display:flex
       .swiper-slide {
@@ -676,7 +676,7 @@ $x-large: 1200px;
         text-align: start;
 
         @include respond-to($large) {
-          height: auto;
+          height: 70vh;
           // min-height: 530px;
         }
       }
