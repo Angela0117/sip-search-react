@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +7,46 @@ import { Modal } from "bootstrap";
 import axios from "axios";
 import images from "../images";
 
+const baseUrl = import.meta.env.VITE_BASE_URL;
+
 function IndexPage() {
+  const [events, setEvents] = useState([]);
+  const [latestEvents, setLatestEvents] = useState([]);
+
+  //取得所有活動
+  const getAllEvents = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/events`);
+      console.log("取得活動成功", res.data);
+      setEvents(res.data);
+      filterLatestEvents(res.data); // 直接傳入取得的資料
+    } catch (error) {
+      console.error("取得活動失敗", error);
+    }
+  };
+  //取得最新的活動
+  const filterLatestEvents = (eventsData) => {
+    const today = new Date();
+
+    // 篩選未來的活動
+    const futureEvents = eventsData.filter((event) => {
+      const eventDate = new Date(event.startDate);
+      return eventDate >= today;
+    });
+
+    // 根據日期排序
+    const sortedEvents = futureEvents.sort((a, b) => {
+      return new Date(a.startDate) - new Date(b.startDate);
+    });
+
+    // 只取前4筆資料
+    setLatestEvents(sortedEvents.slice(0, 4));
+  };
+
+  useEffect(() => {
+    getAllEvents();
+  }, []);
+
   //跳轉頁面
   const navigate = useNavigate();
   //跳轉前移除backdrop
@@ -38,7 +78,7 @@ function IndexPage() {
     });
   };
 
-  // 處理酒吧搜尋跳轉
+  // 處理酒吧tag跳轉
   const handleBarSearch = () => {
     // 移除 modal backdrop
     const backdrop = document.querySelector(".modal-backdrop");
@@ -63,16 +103,16 @@ function IndexPage() {
   const handleSearch = async () => {
     const term = searchTerm.trim();
     if (!term) return;
-  
+
     try {
       const [recipeRes, barRes] = await Promise.all([
         axios.get(`${baseUrl}/recipes?search=${term}`),
         axios.get(`${baseUrl}/bars?search=${term}`),
       ]);
-  
+
       const recipeResults = recipeRes.data;
       const barResults = barRes.data;
-  
+
       // 修改判斷邏輯
       if (barResults.length > 0 && recipeResults.length === 0) {
         // 只有酒吧有結果
@@ -82,11 +122,12 @@ function IndexPage() {
         navigate(`/recipesSearch?search=${term}`);
       } else if (recipeResults.length > 0 && barResults.length > 0) {
         // 如果兩邊都有結果，根據相關性決定跳轉目標
-        const barRelevance = barResults.some(bar => 
-          bar.title?.toLowerCase().includes(term.toLowerCase()) || 
-          bar.region?.toLowerCase().includes(term.toLowerCase())
+        const barRelevance = barResults.some(
+          (bar) =>
+            bar.title?.toLowerCase().includes(term.toLowerCase()) ||
+            bar.region?.toLowerCase().includes(term.toLowerCase())
         );
-        
+
         if (barRelevance) {
           navigate(`/barfinder?search=${term}`);
         } else {
@@ -1311,82 +1352,43 @@ function IndexPage() {
               </div>
 
               <ul className="event-list-content  fw-medium">
-                <li className="event-list-card">
-                  {/* <!-- 會員專區暫存連結 --> */}
-                  <a className="event-list-a border p-5" href="barcontent.html">
-                    <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
-                      <p>
-                        週三
-                        <span className="eng-font ms-2 ms-lg-4">9/11</span>
-                      </p>
-                    </div>
-                    <div className="list-card-name d-flex justify-content-between align-items-center text-neutral-1">
-                      <p className="fs-8 fs-lg-6">
-                        台北＿<span className="eng-font">Fuzzy April</span>
-                        四月餐酒館
-                      </p>
-                      <span className="material-symbols-outlined">
-                        arrow_forward_ios
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-                <li className="event-list-card">
-                  <a className="event-list-a border p-5" href="barcontent.html">
-                    <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
-                      <p>
-                        週五
-                        <span className="eng-font ms-2 ms-lg-4">9/13</span>
-                      </p>
-                    </div>
-                    <div className="list-card-name d-flex justify-content-between align-items-center text-neutral-1">
-                      <p className="fs-8 fs-lg-6">
-                        台北＿<span className="eng-font">Mono Mono</span>
-                      </p>
-                      <span className="material-symbols-outlined">
-                        arrow_forward_ios
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-                <li className="event-list-card">
-                  <a className="event-list-a border p-5" href="barcontent.html">
-                    <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
-                      <p>
-                        週二
-                        <span className="eng-font ms-2 ms-lg-4">9/17</span>
-                      </p>
-                    </div>
-                    <div className="list-card-name mt-1 d-flex justify-content-between align-items-center text-neutral-1">
-                      <p className="fs-8 fs-lg-6">新竹＿隱士餐酒館</p>
-                      <span className="material-symbols-outlined">
-                        arrow_forward_ios
-                      </span>
-                    </div>
-                  </a>
-                </li>
-
-                <li className="event-list-card">
-                  <a className="event-list-a border p-5" href="barcontent.html">
-                    <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
-                      <p>
-                        週六
-                        <span className="eng-font ms-2 ms-lg-4">9/21</span>
-                      </p>
-                    </div>
-                    <div className="list-card-name mt-1 d-flex justify-content-between align-items-center text-neutral-1">
-                      <p className="fs-8 fs-lg-6">
-                        台中＿
-                        <span className="eng-font">P.S. I LOVE YOU BAR</span>
-                      </p>
-                      <span className="material-symbols-outlined">
-                        arrow_forward_ios
-                      </span>
-                    </div>
-                  </a>
-                </li>
+                {latestEvents.map((event) => (
+                  <li key={event.id} className="event-list-card">
+                    {/* <!-- 會員專區暫存連結 --> */}
+                    <Link
+                      to={`/bar/${event.barId}`}
+                      className="event-list-a border p-5"
+                    >
+                      <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
+                        <p>
+                          {new Date(event.startDate).toLocaleDateString(
+                            "zh-TW",
+                            {
+                              weekday: "short",
+                            }
+                          )}
+                          <span className="eng-font ms-2 ms-lg-4">
+                            {new Date(event.startDate).toLocaleDateString(
+                              "zh-TW",
+                              {
+                                month: "numeric",
+                                day: "numeric",
+                              }
+                            )}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="list-card-name d-flex justify-content-between align-items-center text-neutral-1">
+                        <p className="fs-8 fs-lg-6">
+                          {event.area}_{event.name}
+                        </p>
+                        <span className="material-symbols-outlined">
+                          arrow_forward_ios
+                        </span>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
               </ul>
 
               <a className="d-block" href="barcontent.html">

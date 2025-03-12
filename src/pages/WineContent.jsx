@@ -172,7 +172,7 @@ function WineContent() {
           </div>
         </a>
 
-        {/* 酒譜卡片 此處需套用emma的卡片元件 尚未修改*/}
+        {/* 酒譜卡片 */}
 
         <div
           className="row gx-lg-13 gy-lg-13 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13"
