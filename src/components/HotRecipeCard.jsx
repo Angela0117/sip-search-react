@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const HotRecipeCard = ({ recipe }) => {
-
-
     return (<div className="swiper-slide">
         <div className="wine-card p-6 p-lg-12">
             <div className="decoration pb-5 mb-6">

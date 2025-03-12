@@ -5,6 +5,7 @@ import "swiper/css/bundle";
 import { Link, Links, useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
 import HotRecipeCard from "../components/HotRecipeCard";
+import HotBarCard from "../components/HotBarCard";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -150,7 +151,7 @@ function IndexPage() {
   const fetchRecipes = async () => {
     try {
       const res = await axios.get(`${baseUrl}/recipes`);
-      console.log("API 回傳的全部酒譜:", res.data);
+      // console.log("API 回傳的全部酒譜:", res.data);
       setAllRecipes(res.data);
     } catch (error) {
       console.error("取得酒譜失敗:", error);
@@ -167,17 +168,52 @@ function IndexPage() {
     setHotRecipes(sorted);
   };
 
-  // 在組件載入時取得所有酒譜
+  // 熱門酒吧
+
+  const [allBars, setAllBars] = useState([]);
+  const [hotBars, setHotBars] = useState([]);
+
+  const fetchBars = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/bars`);
+      console.log("API 回傳的全部酒吧:", res.data);
+      setAllBars(res.data);
+    } catch (error) {
+      console.error("取得酒吧失敗:", error);
+    }
+  };
+
+  // 根據 likes 排序並篩選前 6 名
+  const sortHotBars = () => {
+    const sorted = [...allBars]
+      // .filter((bar) => bar && bar.likes !== undefined) // 過濾無效資料
+      .sort((a, b) => b.likeCount - a.likeCount)
+      .slice(0, 6);
+
+    setHotBars(sorted);
+  };
+
+
+  // 在組件載入時取得所有酒譜和酒吧
   useEffect(() => {
     fetchRecipes();
+    fetchBars();
   }, []);
 
-  // 當 allRecipes 更新時，自動排序熱門酒譜
+  // 當 allRecipes & allBars 更新時，自動排序
   useEffect(() => {
-    if (allRecipes.length > 0) {
-      sortHotRecipes();
-    }
-  }, [allRecipes]);
+    // if (allRecipes.length > 0) {
+    // }
+    sortHotRecipes();
+    sortHotBars();
+    console.log()
+
+  }, [allRecipes, allBars]);
+
+  useEffect(() => {
+    console.log("更新後的 hotBars:", hotBars);
+  }, [hotBars]);
+
 
 
   return (
@@ -784,44 +820,11 @@ function IndexPage() {
                 {/* Additional required wrapper  */}
                 <div className="swiper-wrapper">
                   {/* Slides  */}
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar01.png"
-                      alt="bar"
-                      className="bar-pic"
-                    />
+                  {hotBars.map((bar) => (
+                    <HotBarCard key={bar.id} bar={bar} />
+                  ))}
 
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">貓下去敦北俱樂部</h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              結合復古風情與現代創意，提供精緻調酒與特別氛圍，是品味夜晚的絕佳去處！
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
+                  {/*<div className="swiper-slide position-relative">
                     <img
                       src="/sip-search-react/assets/images/index_bar/bar02.jpg"
                       alt="bar"
@@ -974,7 +977,7 @@ function IndexPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                </div>*/}
                 </div>
                 {/* <!-- If we need pagination --> */}
                 {/* <!-- <div className="swiper-pagination"></div> --> */}
