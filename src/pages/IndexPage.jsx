@@ -47,78 +47,87 @@ function IndexPage() {
     getAllEvents();
   }, []);
 
- 
-// 分開管理酒吧和酒譜評論的 state
-const [barComments, setBarComments] = useState([]);
-const [recipeComments, setRecipeComments] = useState([]);
+  // 分開管理酒吧和酒譜評論的 state
+  const [barComments, setBarComments] = useState([]);
+  const [recipeComments, setRecipeComments] = useState([]);
 
-// 分別取得酒吧評論和酒譜評論
-const getBarComments = async () => {
-  try {
-    // 1. 先取得評論
-    const commentRes = await axios.get(`${baseUrl}/barcomments`);
-    
-    // 2. 針對每個評論取得對應的酒吧資訊
-    const commentsWithBarInfo = await Promise.all(
-      commentRes.data.map(async (comment) => {
-        const barRes = await axios.get(`${baseUrl}/bars/${comment.barId}`);
-        return {
-          ...comment,
-          type: 'bar',
-          date: new Date(comment.createdAt),
-          barName: barRes.data.name // 加入酒吧名稱
-        };
-      })
-    );
+  // 分別取得酒吧評論和酒譜評論
+  const getBarComments = async () => {
+    try {
+      // 1. 先取得評論
+      const commentRes = await axios.get(`${baseUrl}/barcomments`);
 
-    // 3. 排序並只取前兩筆
-    const sortedComments = commentsWithBarInfo
-      .sort((a, b) => b.date - a.date)
-      .slice(0, 2);
-      
-    setBarComments(sortedComments);
-  } catch (error) {
-    console.error('取得酒吧評論失敗', error);
-  }
-};
+      // 2. 針對每個評論取得對應的酒吧資訊
+      const commentsWithBarInfo = await Promise.all(
+        commentRes.data.map(async (comment) => {
+          const barRes = await axios.get(`${baseUrl}/bars/${comment.barId}`);
+          return {
+            ...comment,
+            type: "bar",
+            date: new Date(comment.createdAt),
+            barName: barRes.data.name, // 加入酒吧名稱
+          };
+        })
+      );
 
-const getRecipeComments = async () => {
-  try {
-    // 1. 先取得評論
-    const commentRes = await axios.get(`${baseUrl}/recipscomments`);
-    
-    // 2. 針對每個評論取得對應的酒譜資訊
-    const commentsWithRecipeInfo = await Promise.all(
-      commentRes.data.map(async (comment) => {
-        const recipeRes = await axios.get(`${baseUrl}/recipes/${comment.recipeId}`);
-        return {
-          ...comment,
-          type: 'recipe',
-          date: new Date(comment.date),
-          recipeName: recipeRes.data.title // 加入酒譜名稱
-        };
-      })
-    );
+      // 3. 排序並只取前兩筆
+      const sortedComments = commentsWithBarInfo
+        .sort((a, b) => b.date - a.date)
+        .slice(0, 2);
 
-    // 3. 排序並只取前兩筆
-    const sortedComments = commentsWithRecipeInfo
-      .sort((a, b) => b.date - a.date)
-      .slice(0, 2);
-      
-    setRecipeComments(sortedComments);
-  } catch (error) {
-    console.error('取得酒譜評論失敗', error);
-  }
-};
+      setBarComments(sortedComments);
+    } catch (error) {
+      console.error("取得酒吧評論失敗", error);
+    }
+  };
 
-useEffect(() => {
-  getBarComments();
-  getRecipeComments();
-}, []);
- 
+  const getRecipeComments = async () => {
+    try {
+      // 1. 先取得評論
+      const commentRes = await axios.get(`${baseUrl}/recipscomments`);
+
+      // 2. 針對每個評論取得對應的酒譜資訊
+      const commentsWithRecipeInfo = await Promise.all(
+        commentRes.data.map(async (comment) => {
+          const recipeRes = await axios.get(
+            `${baseUrl}/recipes/${comment.recipeId}`
+          );
+          return {
+            ...comment,
+            type: "recipe",
+            date: new Date(comment.date),
+            recipeName: recipeRes.data.title, // 加入酒譜名稱
+          };
+        })
+      );
+
+      // 3. 排序並只取前兩筆
+      const sortedComments = commentsWithRecipeInfo
+        .sort((a, b) => b.date - a.date)
+        .slice(0, 2);
+
+      setRecipeComments(sortedComments);
+    } catch (error) {
+      console.error("取得酒譜評論失敗", error);
+    }
+  };
+
+  useEffect(() => {
+    getBarComments();
+    getRecipeComments();
+  }, []);
+
+  const [signupEmail, setSignupEmail] = useState(""); //會員信箱
 
   //跳轉頁面
   const navigate = useNavigate();
+  //註冊的跳轉
+  const handleSignup = (e) => {
+    e.preventDefault();
+    if (signupEmail) {
+      navigate(`/membersignup?email=${encodeURIComponent(signupEmail)}`);
+    }
+  };
   //跳轉前移除backdrop
   const handleTagSelect = (tag) => {
     // 移除 modal backdrop
@@ -813,7 +822,7 @@ useEffect(() => {
                 解鎖每月專屬微醺體驗
               </h2>
             </div>
-            <div className="text-center d-flex justify-content-center join-input m-auto">
+            <form className="text-center d-flex justify-content-center join-input m-auto">
               <div className="input-group join-input-text">
                 <span className="input-group-text">
                   <span className="material-symbols-outlined text-primary-1 fs-lg-4 fs-8">
@@ -821,18 +830,22 @@ useEffect(() => {
                   </span>
                 </span>
                 <input
-                  type="text"
+                  type="email"
                   placeholder="請輸入您的 Email"
                   className="form-control text-primary-1 eng-font mt-2"
+                  value={signupEmail}
+                  onChange={(e) => setSignupEmail(e.target.value)}
+                  required
                 />
               </div>
-              <a
-                href="#"
+              <button
+                type="button"
+                onClick={handleSignup}
                 className="btn-rs-primary-4 join-input-btn fs-lg-7 fs-9 text-nowrap"
               >
                 加入會員
-              </a>
-            </div>
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -1487,84 +1500,83 @@ useEffect(() => {
           </div>
 
           <ul className="comments-list bg-primary-1 d-flex">
-           
-          {barComments.map((comment, index) => (
-      <React.Fragment key={`bar-${comment.id}`}>
-        <li 
-          className="comments-list-item" 
-          data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
-        >
-          <div className="comments-list-item-title d-flex mb-8">
-            <img src={images["Ellipse 7"]} alt="" />
-            <div className="comments-list-item-name ms-5">
-              <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
-                {comment.userName}
-              </h3>
-              <div className="d-flex align-items-center mt-auto">
-                <span className="material-symbols-outlined comments-icon">
-                  location_on
-                </span>
-                <p className="eng-font fs-8 fs-lg-7 ms-2">
-                  {comment.barName}
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="comments-list-item-text fs-9 fs-lg-7 mb-lg-8 mb-6">
-            {comment.content}
-          </p>
-          <Link
-            to={`/bar/${comment.barId}`}
-            className="comments-list-item-btn d-flex justify-content-between"
-          >
-            <p className="fs-9 fs-lg-6">查看更多</p>
-            <span className="material-symbols-outlined fs-9 fs-lg-6">
-              arrow_forward_ios
-            </span>
-          </Link>
-        </li>
-        {index === 0 && <div className="comments-divider"></div>}
-      </React.Fragment>
-    ))}
+            {barComments.map((comment, index) => (
+              <React.Fragment key={`bar-${comment.id}`}>
+                <li
+                  className="comments-list-item"
+                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                >
+                  <div className="comments-list-item-title d-flex mb-8">
+                    <img src={images["Ellipse 7"]} alt="" />
+                    <div className="comments-list-item-name ms-5">
+                      <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
+                        {comment.userName}
+                      </h3>
+                      <div className="d-flex align-items-center mt-auto">
+                        <span className="material-symbols-outlined comments-icon">
+                          location_on
+                        </span>
+                        <p className="eng-font fs-8 fs-lg-7 ms-2">
+                          {comment.barName}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="comments-list-item-text fs-9 fs-lg-7 mb-lg-8 mb-6">
+                    {comment.content}
+                  </p>
+                  <Link
+                    to={`/bar/${comment.barId}`}
+                    className="comments-list-item-btn d-flex justify-content-between"
+                  >
+                    <p className="fs-9 fs-lg-6">查看更多</p>
+                    <span className="material-symbols-outlined fs-9 fs-lg-6">
+                      arrow_forward_ios
+                    </span>
+                  </Link>
+                </li>
+                {index === 0 && <div className="comments-divider"></div>}
+              </React.Fragment>
+            ))}
 
-    {recipeComments.map((comment, index) => (
-      <React.Fragment key={`recipe-${comment.id}`}>
-        <li 
-          className="comments-list-item" 
-          data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
-        >
-          <div className="comments-list-item-title d-flex mb-8">
-            <img src={images["Ellipse 5"]} alt="" />
-            <div className="comments-list-item-name ms-5">
-              <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
-                {comment.userName}
-              </h3>
-              <div className="d-flex align-items-center mt-auto">
-                <span className="material-symbols-outlined comments-icon">
-                  local_bar
-                </span>
-                <p className="eng-font fs-8 fs-lg-7 ms-2">
-                  {comment.recipeName}
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="comments-list-item-text fs-9 fs-lg-7 mb-lg-8 mb-6">
-            {comment.content}
-          </p>
-          <Link
-            to={`/recipe/${comment.recipeId}`}
-            className="comments-list-item-btn d-flex justify-content-between"
-          >
-            <p className="fs-9 fs-lg-6">查看更多</p>
-            <span className="material-symbols-outlined fs-9 fs-lg-6">
-              arrow_forward_ios
-            </span>
-          </Link>
-        </li>
-        {index === 0 && <div className="comments-divider"></div>}
-      </React.Fragment>
-    ))}
+            {recipeComments.map((comment, index) => (
+              <React.Fragment key={`recipe-${comment.id}`}>
+                <li
+                  className="comments-list-item"
+                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                >
+                  <div className="comments-list-item-title d-flex mb-8">
+                    <img src={images["Ellipse 5"]} alt="" />
+                    <div className="comments-list-item-name ms-5">
+                      <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
+                        {comment.userName}
+                      </h3>
+                      <div className="d-flex align-items-center mt-auto">
+                        <span className="material-symbols-outlined comments-icon">
+                          local_bar
+                        </span>
+                        <p className="eng-font fs-8 fs-lg-7 ms-2">
+                          {comment.recipeName}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="comments-list-item-text fs-9 fs-lg-7 mb-lg-8 mb-6">
+                    {comment.content}
+                  </p>
+                  <Link
+                    to={`/recipe/${comment.recipeId}`}
+                    className="comments-list-item-btn d-flex justify-content-between"
+                  >
+                    <p className="fs-9 fs-lg-6">查看更多</p>
+                    <span className="material-symbols-outlined fs-9 fs-lg-6">
+                      arrow_forward_ios
+                    </span>
+                  </Link>
+                </li>
+                {index === 0 && <div className="comments-divider"></div>}
+              </React.Fragment>
+            ))}
           </ul>
         </section>
       </div>
