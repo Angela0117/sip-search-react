@@ -288,7 +288,7 @@ function IndexPage() {
 
     // 初始化首頁熱門酒吧swiper
     new Swiper(".swiper-popular-bars", {
-      loop: true,
+      // loop: true,
       speed: 2000,
       effect: "fade",
       fadeEffect: {
