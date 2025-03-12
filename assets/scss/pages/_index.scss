@@ -31,7 +31,6 @@
   &-btn {
     padding: 12px 20px;
 
-
     &:focus {
       background: $primary-4;
       border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
@@ -41,7 +40,6 @@
 
 @media (max-width: 992px) {
   .banner {
-
     &-btn {
       padding: 8px 12px;
       font-size: 12px;
@@ -62,7 +60,6 @@
       font-size: 20px;
       padding-bottom: 24px;
     }
-
   }
 }
 
@@ -75,7 +72,6 @@
   font-size: 20px;
   padding-left: 18px;
   color: white;
-
 }
 
 .banner-selector-input {
@@ -223,7 +219,6 @@
           font-size: 12px;
           padding: 8px 12px;
         }
-
       }
 
       a {
@@ -327,7 +322,6 @@
 // }
 
 .webinfo-2 {
-
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
     url(/assets/images/webinfo-3.jpg);
 
@@ -380,10 +374,8 @@
   }
 }
 
-
 @media (max-width: 767px) {
   .webinfo-2 {
-
     .join-text {
       padding-top: 0px;
       padding-bottom: 0px;
@@ -477,7 +469,6 @@ $x-large: 1200px;
 
   .swiper {
     width: 100%;
-
   }
 
   .swiper-slide {
@@ -500,57 +491,49 @@ $x-large: 1200px;
     &:hover {
       background-color: #fff;
     }
+  }
 
-    // .wind-card {
-    //   @include respond-to($large) {
-    //     max-height: 536px;
+  .txt {
+    width: 50%;
+    // height: 100%;
+
+    @include respond-to($large) {
+      width: 100%;
+      height: 50%;
+    }
+
+    // .wine-name {
+    //   h4 {
+    //     @include respond-to($large) {
+    //       font-size: 24px;
+    //     }
     //   }
-    // }
-    img {
-      max-width: 241px;
-      max-height: 313px;
+  }
 
-      @include respond-to($large) {
-        max-width: 127px;
-        max-height: 166px;
+  @include respond-to($large) {
+    max-width: 127px;
+    max-height: 166px;
+  }
+  .wine-tags {
+    font-size: 16px;
 
-      }
+    @include respond-to($large) {
+      font-size: 10px;
     }
 
-    .txt {
-      width: 50%;
-
-      @include respond-to($large) {
-        width: auto;
-      }
-
-      // .wine-name {
-      //   h4 {
-      //     @include respond-to($large) {
-      //       font-size: 24px;
-      //     }
-      //   }
+    span {
+      display: flex;
+      align-items: center;
     }
+  }
 
-    .wine-tags {
-      font-size: 16px;
+  .wine-intro {
+    font-size: 20px;
+    height: 100px;
 
-      @include respond-to($large) {
-        font-size: 10px;
-      }
-
-      span {
-        display: flex;
-        align-items: center;
-      }
-    }
-
-    .wine-intro {
-      font-size: 20px;
-
-      @include respond-to($large) {
-        font-size: 12px;
-      }
+    @include respond-to($large) {
+      font-size: 12px;
+      height: 40px;
     }
   }
 }
@@ -559,10 +542,22 @@ $x-large: 1200px;
   width: 50%;
 
   @include respond-to($large) {
-    width: auto;
+    width: 100%;
+  }
+
+  & img {
+    width: 241px;
+    height: 313px;
+
+    object-fit: contain;
+    object-position: center;
+
+    @include respond-to($large) {
+      width: 127px;
+      height: 166px;
+    }
   }
 }
-
 
 .arrow {
   right: 48px;
@@ -649,7 +644,6 @@ $x-large: 1200px;
         border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
 
         @media (max-width: 992px) {
-
           width: 114px;
           height: 34px;
         }
@@ -662,16 +656,13 @@ $x-large: 1200px;
             font-size: 12px;
             padding: 8px 12px;
           }
-
         }
 
         a {
           width: 248px;
           align-items: center;
         }
-
       }
-
     }
   }
 
@@ -683,7 +674,7 @@ $x-large: 1200px;
     // padding: 0 100px;
     .swiper-wrapper {
       flex-grow: 1;
-      height: auto;
+      height: 70vh;
 
       // flex-direction: column; //swiper已經有下display:flex
       .swiper-slide {
@@ -691,7 +682,7 @@ $x-large: 1200px;
         text-align: start;
 
         @include respond-to($large) {
-          height: auto;
+          height: 70vh;
           // min-height: 530px;
         }
       }
@@ -767,13 +758,10 @@ $x-large: 1200px;
   }
 }
 
-
-
 .btn-big {
   transition: 0.5s;
   width: fit-content;
 }
-
 
 //活動
 
@@ -804,10 +792,12 @@ $x-large: 1200px;
 
   &-bg {
     width: 476px;
-    background-image: linear-gradient(180.02deg,
+    background-image: linear-gradient(
+        180.02deg,
         rgba(0, 0, 0, 0.8) 0.01%,
         rgba(0, 0, 0, 0) 50.5%,
-        rgba(0, 0, 0, 0.8) 99.99%),
+        rgba(0, 0, 0, 0.8) 99.99%
+      ),
       url(../images/index-event-bg.png);
     background-size: cover;
     background-size: 450% auto;
@@ -833,7 +823,6 @@ $x-large: 1200px;
         padding-top: 32px;
         padding-left: 32px;
       }
-
     }
   }
 
@@ -956,18 +945,13 @@ $x-large: 1200px;
           width: 48px;
           height: 48px;
         }
-
       }
 
       &-name {
         width: 100%;
 
         .material-symbols-outlined {
-          font-variation-settings:
-            'FILL' 1,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 24
+          font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
         }
       }
 
@@ -1015,9 +999,11 @@ $x-large: 1200px;
   transition: 0.5s;
   color: $primary-1;
   border: 1px solid;
-  border-image-source: linear-gradient(100.25deg,
-      #ffc93d 4.04%,
-      #b5650e 97.53%);
+  border-image-source: linear-gradient(
+    100.25deg,
+    #ffc93d 4.04%,
+    #b5650e 97.53%
+  );
   border-image-slice: 1; //圖像切片設置
   justify-content: center;
   align-items: center;
@@ -1028,7 +1014,6 @@ $x-large: 1200px;
   @media (max-width: 992px) {
     max-width: 102px;
     // padding: 8px 12px;
-
   }
 
   &:hover {
