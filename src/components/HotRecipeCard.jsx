@@ -39,7 +39,7 @@ const HotRecipeCard = ({ recipe }) => {
                     />
                     <div className="arrow position-absolute bottom-0 end-0">
                         <Link
-                            to="./wine-content.html"
+                            to={`/wine/${recipe.id}`}
                             className="d-flex align-items-center justify-content-center text-white rounded-circle"
                         >
                             <span className="material-symbols-outlined d-block">

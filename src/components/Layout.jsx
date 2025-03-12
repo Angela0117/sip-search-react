@@ -1,7 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
+import images from '../images' 
 
 function Layout() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // 從 localStorage 取得使用者資訊
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // 登出處理函數
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
     <div>
       <header>
@@ -58,13 +75,25 @@ function Layout() {
                 </li>
               </ul>
               <div className="log-custom-border">
-                <Link
-                  className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8"
-                  to="/memberlogin"
-                >
-                  註冊/登入
-                  <i className="bi bi-search text-primary-1"></i>
-                </Link>
+                {user ? (
+                  <div className="d-flex align-items-center">
+                    <span className="text-primary-1 me-3 ms-3">{user.nickname}</span>
+                    <button
+                      onClick={handleLogout}
+                      className="btn btn-link text-primary-1 text-decoration-none"
+                    >
+                      登出
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8 ps-5"
+                    to="/memberlogin"
+                  >
+                    註冊/登入
+                    <i className="bi bi-search text-primary-1"></i>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -80,7 +109,7 @@ function Layout() {
               未滿18歲禁止飲酒
               <img
                 className="ban"
-                src="/assets/images/image-banned.png"
+                src={images["image-banned"]}
                 alt="image-banned"
               />
               禁止酒駕
@@ -93,7 +122,7 @@ function Layout() {
               <Link className="d-flex justify-content-center" to="#">
                 <img
                   className="pic1"
-                  src="/assets/images/image.png"
+                  src={images["image"]} 
                   alt="pic1"
                 />
               </Link>
@@ -164,21 +193,21 @@ function Layout() {
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon"
-                      src="/assets/images/image-fb-light.png"
+                      src={images["image-fb-light"]}
                       alt="fb"
                     />
                   </Link>
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon mx-lg-9 mx-3"
-                      src="/assets/images/image-ig-light.png"
+                      src={images["image-ig-light"]}
                       alt="ig"
                     />
                   </Link>
                   <Link className="navItem" to="#">
                     <img
                       className="pic-icon"
-                      src="/assets/images/image-mail-light.png"
+                      src={images["image-mail-light"]}
                       alt="mail"
                     />
                   </Link>
