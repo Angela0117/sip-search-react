@@ -161,7 +161,7 @@ function IndexPage() {
   // 根據 likes 排序並篩選前 6 名
   const sortHotRecipes = () => {
     const sorted = [...allRecipes]
-      .filter((recipe) => recipe && recipe.likes !== undefined) // 過濾無效資料
+      // .filter((recipe) => recipe && recipe.likes !== undefined) // 過濾無效資料
       .sort((a, b) => b.likes - a.likes)
       .slice(0, 6);
 
@@ -176,7 +176,7 @@ function IndexPage() {
   const fetchBars = async () => {
     try {
       const res = await axios.get(`${baseUrl}/bars`);
-      console.log("API 回傳的全部酒吧:", res.data);
+      // console.log("API 回傳的全部酒吧:", res.data);
       setAllBars(res.data);
     } catch (error) {
       console.error("取得酒吧失敗:", error);
@@ -202,11 +202,8 @@ function IndexPage() {
 
   // 當 allRecipes & allBars 更新時，自動排序
   useEffect(() => {
-    // if (allRecipes.length > 0) {
-    // }
     sortHotRecipes();
     sortHotBars();
-    console.log()
 
   }, [allRecipes, allBars]);
 
@@ -823,161 +820,6 @@ function IndexPage() {
                   {hotBars.map((bar) => (
                     <HotBarCard key={bar.id} bar={bar} />
                   ))}
-
-                  {/*<div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar02.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5s eng-font">
-                          Indulge Experimental Bistro
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              以創新調酒聞名，曾獲亞洲50最佳酒吧獎，結合在地風味與前衛概念，提供獨特的品飲體驗。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar03.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">
-                          酒客 <span className="eng-font"> Bar Pun</span>
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              提供多元風味的調酒，結合輕鬆氛圍與創意調飲，是下班放鬆的好去處。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar04.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5 eng-font">
-                          Bar Mood
-                        </h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              風格獨特的調酒酒吧，注重細膩口感與美學呈現，調酒師的創意調飲常令人耳目一新。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="swiper-slide position-relative">
-                    <img
-                      src="/sip-search-react/assets/images/index_bar/bar05.jpg"
-                      alt="bar"
-                      className="bar-pic"
-                    />
-
-                    <div className="content d-flex position-absolute top-0 bottom-0 w-100 flex-column flex-lg-row">
-                      <div className="main-content d-flex flex-column justify-content-between flex-grow-1">
-                        <h2 className="title fs-6 fs-lg-5">迷霧調酒所</h2>
-
-                        <div className="txt mt-auto d-flex flex-column">
-                          <div className="tag rounded-pill mb-4 mb-lg-6 d-flex align-items-center">
-                            最多人按讚
-                          </div>
-
-                          <div className="txt-content d-flex flex-column flex-lg-row justify-content-lg-between">
-                            <div className="introduce fs-8 fs-lg-6">
-                              以濃烈煙霧效果和創意調酒聞名，店內裝潢充滿神秘感，吸引眾多愛好新奇體驗的酒客。
-                            </div>
-
-                            <div className="btn-md mt-6">
-                              <a
-                                href="./barcontent.html"
-                                className="btn-search btn-index-primaryl-light d-flex justify-content-between"
-                              >
-                                查看更多
-                                <span className="material-symbols-outlined fs-lg-6 fs-7">
-                                  chevron_right
-                                </span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>*/}
                 </div>
                 {/* <!-- If we need pagination --> */}
                 {/* <!-- <div className="swiper-pagination"></div> --> */}
