@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 const BarContentCard = ({bar}) => {
   return (
@@ -20,7 +22,7 @@ const BarContentCard = ({bar}) => {
                 <span className="tag">{bar.region}</span>
                 <span className="tag">{bar.type}</span>
               </div>
-              <a href="#" className="button"> 立即前往 </a>
+              <Link to={`/bar/${bar.id}`} className="button">立即前往</Link>
             </div>
           </div>
     </>

@@ -68,13 +68,12 @@ function BarFinder() {
   // 套用搜尋條件
   if (searchTerm) {
     const lowerSearch = searchTerm.toLowerCase();
-    result = result.filter((bar) =>
-      [bar.name, bar.description, bar.type, bar.region]
+    result = result.filter((product) =>
+      [product.title, product.region, product.content]
         .filter(Boolean)
         .some((field) => field.toLowerCase().includes(lowerSearch))
     );
   }
-
   // 排序邏輯
   if (sortType === "favoriteCount") {
     result.sort((a, b) => b.favoriteCount - a.favoriteCount);
@@ -217,6 +216,27 @@ function BarFinder() {
 
       // 強制觸發篩選
       applyFiltersAndSearch();
+    }
+  }, [searchParams, allProducts]);
+
+   //首頁搜尋結果
+   useEffect(() => {
+    const search = searchParams.get("search");
+    if (search && allProducts.length > 0) {
+      setSearchTerm(search); // 設置搜尋詞
+      
+      // 當資料載入後執行搜尋
+      const lowerSearch = search.toLowerCase();
+      const filtered = allProducts.filter((product) =>
+        [product.title, product.region, product.content]
+          .filter(Boolean)
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+      
+      // 更新篩選後的結果
+      setFilteredProducts(filtered);
+      // 設置當前頁面顯示的資料
+      setProducts(filtered.slice(0, cardsPerPage));
     }
   }, [searchParams, allProducts]);
 

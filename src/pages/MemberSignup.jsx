@@ -1,24 +1,42 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_API_URL;
 
 function MemberSignup() {
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const modalRef = useRef(null);
+  const [emailInput, setEmailInput] = useState("");  
+  const location = useLocation();
   const navigate = useNavigate();
+
+   //每次跳轉都在頁面上方
+    useEffect(() => {
+      window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
+    }, []);
+  
+
+
+  useEffect(() => {
+    // 從 URL 參數中獲取 email 並設置到表單
+    const params = new URLSearchParams(location.search);
+    const emailParam = params.get('email');
+    if (emailParam) {
+      setEmailInput(emailParam);
+    }
+  }, [location]);
 
 
   const Signup = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(`${baseUrl}/signup`, {
-        email,
+        email : emailInput,
         password,
         nickname,
       });
@@ -26,13 +44,25 @@ function MemberSignup() {
       const modal = new Modal(modalRef.current);
       modal.show();
 
-       // 設置定時器，在 5 秒後跳轉到首頁
-       setTimeout(() => {
-        navigate("/");
-      }, 3000);
-    } catch (error) {
-      console.error(error);
-    }
+       // 設置定時器，在跳轉前移除 modal 相關元素
+    setTimeout(() => {
+      // 移除 modal backdrop
+      const backdrop = document.querySelector('.modal-backdrop');
+      if (backdrop) {
+        backdrop.remove();
+      }
+
+      // 移除 body 上的 modal 相關 class 和樣式
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+
+      // 跳轉到首頁
+      navigate("/");
+    }, 3000);
+  } catch (error) {
+    console.error(error);
+  }
   };
 
   return (
@@ -77,8 +107,8 @@ function MemberSignup() {
                       className="form-control text-primary-1"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={emailInput}
+                      onChange={(e) => setEmailInput(e.target.value)}
                       required
                     />
                   </div>

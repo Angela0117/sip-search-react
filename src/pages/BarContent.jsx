@@ -3,15 +3,17 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
+import images from "../images";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
-
-
 
 function BarContent() {
   const { id } = useParams();
   const [recommendedBars, setRecommendedBars] = useState([]);
   const [bar, setBar] = useState(null);
+  const [barEvent, setBarEvent] = useState(null);
+  const [comment, setComment] = useState([]);
+
   const navigate = useNavigate();
 
   //取得推薦酒吧名單
@@ -26,8 +28,6 @@ function BarContent() {
     };
     getBarContentCard();
   }, []);
-  
-  
 
   //導航頁面
   const handleTagClick = (tag) => {
@@ -62,6 +62,40 @@ function BarContent() {
       }
     };
     fetchBar();
+  }, [id]);
+
+  //取得活動
+  const getBarEvent = async () => {
+    try {
+      const res = await axios.get(`${baseUrl}/events`);
+      console.log("取得活動成功", res.data);
+      // 找出對應這個酒吧的活動
+      const barSpecificEvent = res.data.find(
+        (event) => event.barId === parseInt(id)
+      );
+      setBarEvent(barSpecificEvent);
+    } catch (error) {
+      console.error("取得活動失敗", error);
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      getBarEvent();
+    }
+  }, [id]);
+
+  //取得評論
+  useEffect(() => {
+    const getBarComments = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/barcomments?barId=${id}`);
+        setComment(res.data); // 設定評論為該酒譜的評論
+      } catch (error) {
+        console.error("取得評論失敗", error);
+        alert("取得評論失敗");
+      }
+    };
+    getBarComments();
   }, [id]);
 
   //如果沒取到產品
@@ -181,9 +215,7 @@ function BarContent() {
             <div className="title me-lg-12">
               <h3 className="fs-7 fs-lg-6">最新活動</h3>
               <p className="activity-intro me-lg-12">
-                每個週六夜晚！Kaoru Uno Quartet 烏野薰四重奏
-                由演奏/教學資歷豐富的鋼琴名家烏野薰老師領銜 搭檔樂壇摯友重奏組
-                跳脫音符的酷派爵士 繞樑入魂
+                {barEvent ? barEvent.description : "目前沒有活動"}
               </p>
             </div>
           </div>
@@ -271,7 +303,7 @@ function BarContent() {
             <h2 className="text-center mb-4 fs-6 fs-lg-5">聊聊這間酒吧</h2>
             <div className="user-item">
               <div className="user-avatar">
-                <img src="../assets/images/barcontent/avatar01.png" alt="" />
+                <img src={images["avatar01"]} alt="" />
               </div>
               <span className="user-name eng-font">Aaron</span>
             </div>
@@ -288,68 +320,38 @@ function BarContent() {
             </div>
 
             <div className="user-past grid-list">
-              <div className="grid-item">
-                <div className="user-item">
-                  <div className="user-avatar">
-                    <img
-                      src="../assets/images/barcontent/avatar02.png"
-                      alt=""
-                    />
+              {comment.map((comment) => (
+                <div key={comment.id} className="grid-item">
+                  <div className="user-item">
+                    <div className="user-avatar">
+                      <img src={images["avatar02"]} alt="" />
+                    </div>
+                    <span className="user-name eng-font">Emily</span>
                   </div>
-                  <span className="user-name eng-font">Emily</span>
+                  <p className="user-past-comment">{comment.content}</p>
                 </div>
-                <p className="user-past-comment">
-                  這裡的餐點精緻且美味，爵士樂的現場演奏更是增添了氣氛！不僅是美食愛好者的天堂，也是音樂迷不可錯過的好去處。
-                </p>
-              </div>
-              <div className="grid-item">
-                <div className="user-item">
-                  <div className="user-avatar">
-                    <img
-                      src="../assets/images/barcontent/avatar03.png"
-                      alt=""
-                    />
-                  </div>
-                  <span className="user-name eng-font">James</span>
-                </div>
-                <p className="user-past-comment">
-                  現場樂隊水準很高，每晚都有不同的演出，感覺就像置身於紐約的地下爵士酒吧，非常難忘的體驗。
-                </p>
-              </div>
-              <div className="grid-item">
-                <div className="user-item">
-                  <div className="user-avatar">
-                    <img
-                      src="../assets/images/barcontent/avatar04.png"
-                      alt=""
-                    />
-                  </div>
-                  <span className="user-name eng-font">Sophia</span>
-                </div>
-                <p className="user-past-comment">
-                  服務生友善且專業，提供了細心的建議。點的雞尾酒非常精緻，還有超棒的爵士樂背景，是約會的絕佳地點！
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-    <section
-      className="section section-similar-bars"
-      data-aos="fade-up"
-      data-aos-duration="1000"
-    >
-      <div className="container">
-        <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
+      <section
+        className="section section-similar-bars"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
+        <div className="container">
+          <h2 className="text-center mb-8 fs-6 fs-lg-5">你或許會喜歡</h2>
 
-        {/* 套用酒吧詳情卡片元件*/}
+          {/* 套用酒吧詳情卡片元件*/}
 
+          <div className="similar-bars-list mx-lg-15">
+            {recommendedBars.map((bar) => (
+              <BarContentCard key={bar.id} bar={bar} />
+            ))}
 
-        <div className="similar-bars-list mx-lg-15">
-        {recommendedBars.map((bar) => (<BarContentCard key={bar.id} bar={bar}/>))}
-        
-          {/* <div
+            {/* <div
             className="similar-bars-item"
             data-aos="flip-left"
             data-aos-duration="1200"
@@ -410,10 +412,9 @@ function BarContent() {
               <a href="#" className="button"> 立即前往 </a>
             </div>
           </div> */}
+          </div>
         </div>
-      </div>
-    </section>
-
+      </section>
     </>
   );
 }

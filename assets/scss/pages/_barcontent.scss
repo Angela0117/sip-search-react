@@ -422,6 +422,8 @@ $x-large: 1200px;
         background-color: $primary-3;
         padding: 0.5em;
         border-radius: 15px;
+        display: flex;
+        align-items: center;
         // background-image: linear-gradient($primary-1 0%,$primary-3 100%);
       }
     }
