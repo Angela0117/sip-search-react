@@ -24,17 +24,17 @@ const HotBarCard = ({ bar }) => {
                             {bar.description}
                         </div>
 
-                        <div className="btn-md mt-6">
-                            <Link
-                                to={"./barcontent.html"}
+                        <Link to={`/bar/${bar.id}`} className="btn-md mt-6">
+                            <div
+                                
                                 className="btn-search btn-index-primaryl-light d-flex justify-content-between"
                             >
                                 查看更多
                                 <span className="material-symbols-outlined fs-lg-6 fs-7">
                                     chevron_right
                                 </span>
-                            </Link>
-                        </div>
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
