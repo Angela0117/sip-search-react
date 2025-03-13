@@ -1214,7 +1214,7 @@ function IndexPage() {
           </ul>
         </section>
       </div>
-      <div className="container">
+      <div className="container container-scroll">
         <div className="d-flex justify-content-end custom-padding">
           <button
             className="cardBtn-primary-4 btn btn-size rounded-circle"
