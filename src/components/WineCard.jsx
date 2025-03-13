@@ -83,7 +83,7 @@ const WineCard = ({recipe}) => {
               data-aos-duration="1000"
             >
               <div className="methods-item-2-text">
-                <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
+                <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex">
                   {recipe.tags?.map((tag, index) => (
                     <a key={index}  className="btn-tags" onClick={() => handleTagClick(tag)}>
                       {tag}
