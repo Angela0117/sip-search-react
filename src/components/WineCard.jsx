@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 const WineCard = ({recipe}) => {
         //用navigate導回去recipessearch
-        const navigate = useNavigate(); 
+        const navigate = useNavigate();
+        const [showShareModal, setShowShareModal] = useState(false);
+        const [copySuccess, setCopySuccess] = useState(false); 
+
+      //分享功能
+      const handleShare = async (e) => {
+        e.preventDefault();
+        setShowShareModal(true);
+      };
+       // 取得當前完整 URL
+  const getShareUrl = () => {
+    const baseUrl = import.meta.env.MODE === 'production' 
+      ? 'https://your-username.github.io/your-repo-name'  // 替換成你的 GitHub Pages URL
+      : window.location.origin;
+    
+    return `${baseUrl}/winecontent/${recipe.id}`;  // 根據你的路由結構調整
+  };
+
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(getShareUrl());
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error('複製失敗:', err);
+    }
+  };
+
 
         const handleTagClick = (tag) => {
           // 移除 modal backdrop (如果有的話)
@@ -66,12 +94,13 @@ const WineCard = ({recipe}) => {
                 </li>
 
                 <li className="methods-icon-item d-flex">
-                  <a
-                    className="material-symbols-outlined methods-icon-btn"
-                    href="#"
+                  <button
+                    className="material-symbols-outlined methods-icon-btn btn-no-bg"
+                    
+                    onClick={handleShare}
                   >
                     share
-                  </a>
+                  </button>
                   <p>分享</p>
                 </li>
               </ul>
@@ -140,7 +169,53 @@ const WineCard = ({recipe}) => {
                 </ul>
               </div>
             </div>
-          </div></>)
+          </div>
+               {/* Share Modal */}
+      {showShareModal && (
+        <>
+          <div className="modal fade show" style={{ display: 'block' }}>
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content bg-primary-1">
+                <div className="modal-header border-0">
+                  <h5 className="modal-title text-primary-4">
+                    分享這個酒譜
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setShowShareModal(false)}
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control bg-neutral-4 text-primary-1"
+                      value={getShareUrl()}
+                      readOnly
+                    />
+                    <button
+                      className="btn btn-primary-3"
+                      type="button"
+                      onClick={handleCopy}
+                    >
+                      複製連結
+                    </button>
+                  </div>
+                  {copySuccess && (
+                    <div className="text-primary-3 mt-2">已成功複製連結！</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div 
+            className="modal-backdrop fade show" 
+            onClick={() => setShowShareModal(false)}
+          ></div>
+        </>
+      )}</>)
 }
 
 export default WineCard;
