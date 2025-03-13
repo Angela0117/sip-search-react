@@ -13,8 +13,38 @@ function BarContent() {
   const [bar, setBar] = useState(null);
   const [barEvent, setBarEvent] = useState(null);
   const [comment, setComment] = useState([]);
-
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState(false);
   const navigate = useNavigate();
+
+ 
+  
+    //分享功能
+    const handleShare = async (e) => {
+      e.preventDefault();
+      setShowShareModal(true);
+    };
+    // 取得當前完整 URL
+    const getShareUrl = () => {
+      const baseUrl =
+        import.meta.env.MODE === "production"
+          ? "https://your-username.github.io/sip-search-react" // 替換成你的 GitHub Pages URL
+          : window.location.origin;
+  
+      return `${baseUrl}/barcontent/${bar.id}`; // 根據你的路由結構調整
+    };
+  
+    const handleCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(getShareUrl());
+        setCopySuccess(true);
+        setTimeout(() => setCopySuccess(false), 2000);
+      } catch (err) {
+        console.error("複製失敗:", err);
+      }
+    };
+
+
 
   //取得推薦酒吧名單
   useEffect(() => {
@@ -146,9 +176,9 @@ function BarContent() {
                 <span>{bar.favoriteCount}</span>
               </li>
               <li className="icon-item">
-                <a href="#">
+                <button className="btn-no-bg" onClick={handleShare}>
                   <span className="material-symbols-outlined"> share </span>
-                </a>
+                </button>
                 <span>分享</span>
               </li>
             </ul>
@@ -415,6 +445,50 @@ function BarContent() {
           </div>
         </div>
       </section>
+        {/* Share Modal */}
+        {showShareModal && (
+        <>
+          <div className="modal fade show" style={{ display: "block" }}>
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content bg-primary-1">
+                <div className="modal-header border-0">
+                  <h5 className="modal-title text-primary-4">分享這個酒吧</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setShowShareModal(false)}
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control bg-neutral-4 text-primary-1"
+                      value={getShareUrl()}
+                      readOnly
+                    />
+                    <button
+                      className="btn btn-primary-3"
+                      type="button"
+                      onClick={handleCopy}
+                    >
+                      複製連結
+                    </button>
+                  </div>
+                  {copySuccess && (
+                    <div className="text-primary-3 mt-2">已成功複製連結！</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="modal-backdrop fade show"
+            onClick={() => setShowShareModal(false)}
+          ></div>
+        </>
+      )}
     </>
   );
 }
