@@ -204,7 +204,7 @@ function IndexPage() {
         // 如果兩邊都有結果，根據相關性決定跳轉目標
         const barRelevance = barResults.some(
           (bar) =>
-            bar.title?.toLowerCase().includes(term.toLowerCase()) ||
+            bar.name?.toLowerCase().includes(term.toLowerCase()) ||
             bar.region?.toLowerCase().includes(term.toLowerCase())
         );
 

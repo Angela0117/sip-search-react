@@ -253,7 +253,7 @@ function BarFinder() {
       // 當資料載入後執行搜尋
       const lowerSearch = search.toLowerCase();
       const filtered = allProducts.filter((product) =>
-        [product.title, product.region, product.content]
+        [product.name, product.region, product.content]
           .filter(Boolean)
           .some((field) => field.toLowerCase().includes(lowerSearch))
       );
