@@ -18,9 +18,9 @@ function BarFinder() {
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]); // 存放篩選後的資料
   const [selectedFilters, setSelectedFilters] = useState({
-    region: "",
-    type: "",
-    minimum_spend: null,
+    region: [], // 陣列
+    type: [],
+    minimum_spend: null, //範圍值
   });
 
   //每次跳轉都在頁面上方
@@ -29,7 +29,7 @@ function BarFinder() {
   }, []);
 
   useEffect(() => {
-      getAllProducts();
+    getAllProducts();
   }, []);
 
   // 取得所有產品
@@ -48,45 +48,48 @@ function BarFinder() {
 
   // 整合搜尋和篩選功能
   const applyFiltersAndSearch = () => {
-    let result = [...allProducts]; // 確保不累積
-  
-  // 套用篩選條件
-  if (selectedFilters.region) {
-    result = result.filter((bar) => bar.region === selectedFilters.region);
-  }
-  if (selectedFilters.type) {
-    result = result.filter((bar) => bar.type === selectedFilters.type);
-  }
-  if (selectedFilters.minimum_spend) {
-    result = result.filter(
-      (bar) =>
-        bar.minimum_spend >= selectedFilters.minimum_spend.min &&
-        bar.minimum_spend < selectedFilters.minimum_spend.max
-    );
-  }
+    let result = [...allProducts]; // 從所有產品開始篩選
 
-  // 套用搜尋條件
-  if (searchTerm) {
-    const lowerSearch = searchTerm.toLowerCase();
-    result = result.filter((product) =>
-      [product.title, product.region, product.content]
-        .filter(Boolean)
-        .some((field) => field.toLowerCase().includes(lowerSearch))
-    );
-  }
-  // 排序邏輯
-  if (sortType === "favoriteCount") {
-    result.sort((a, b) => b.favoriteCount - a.favoriteCount);
-  } else if (sortType === "likeCount") {
-    result.sort((a, b) => b.likeCount - a.likeCount);
-  } else {
-    result.sort((a, b) => a.id - b.id); // 預設按 id 排序
-  }
+    // 1. 先套用搜尋條件
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase();
+      result = result.filter((product) =>
+        [product.title, product.region, product.content]
+          .filter(Boolean)
+          .some((field) => field.toLowerCase().includes(lowerSearch))
+      );
+    }
 
-  // **重置 `filteredProducts`，確保不累積
-  setFilteredProducts(result);
-  setCurrentPage(1); // 重置回第一頁
-  setProducts(result.slice(0, cardsPerPage)); // 只顯示第一頁
+    // 2. 套用標籤篩選條件
+    if (selectedFilters.region.length > 0) {
+      result = result.filter((bar) =>
+        selectedFilters.region.includes(bar.region)
+      );
+    }
+
+    if (selectedFilters.type.length > 0) {
+      result = result.filter((bar) => selectedFilters.type.includes(bar.type));
+    }
+
+    if (selectedFilters.minimum_spend) {
+      result = result.filter(
+        (bar) =>
+          bar.minimum_spend >= selectedFilters.minimum_spend.min &&
+          bar.minimum_spend < selectedFilters.minimum_spend.max
+      );
+    }
+
+    // 3. 套用排序
+    if (sortType === "favoriteCount") {
+      result.sort((a, b) => b.favoriteCount - a.favoriteCount);
+    } else if (sortType === "likeCount") {
+      result.sort((a, b) => b.likeCount - a.likeCount);
+    }
+
+    // 4. 更新狀態
+    setFilteredProducts(result);
+    setCurrentPage(1);
+    setProducts(result.slice(0, cardsPerPage));
   };
 
   // 搜尋功能處理
@@ -97,21 +100,38 @@ function BarFinder() {
   // tag篩選功能
   const handleTagSelect = (filterType, value) => {
     setSelectedFilters((prevFilters) => {
-      const newFilters = {
-        ...prevFilters,
-        // 如果該條件已經選取，再點一次則清除；否則就更新成新的值
-        [filterType]: prevFilters[filterType] === value ? "" : value,
-      };
+      const newFilters = { ...prevFilters };
+
+      if (filterType === "minimum_spend") {
+        // 價格範圍維持單選
+        newFilters[filterType] =
+          prevFilters[filterType]?.min === value.min ? null : value;
+      } else {
+        // region 和 type 支援多選
+        if (!Array.isArray(prevFilters[filterType])) {
+          newFilters[filterType] = [];
+        }
+
+        if (prevFilters[filterType].includes(value)) {
+          // 如果已經選中，則移除
+          newFilters[filterType] = prevFilters[filterType].filter(
+            (item) => item !== value
+          );
+        } else {
+          // 如果未選中，則添加
+          newFilters[filterType] = [...prevFilters[filterType], value];
+        }
+      }
+
       // 更新 URL
       const tags = [];
-      if (newFilters.region) tags.push(newFilters.region);
-      if (newFilters.type) tags.push(newFilters.type);
+      if (newFilters.region.length > 0) tags.push(...newFilters.region);
+      if (newFilters.type.length > 0) tags.push(...newFilters.type);
 
       const newSearchParams = new URLSearchParams();
       if (tags.length > 0) {
         newSearchParams.set("tags", tags.join(","));
       }
-
       navigate(`?${newSearchParams.toString()}`);
 
       return newFilters;
@@ -143,8 +163,8 @@ function BarFinder() {
   const handleClearSort = () => {
     // 重置所有狀態
     setSelectedFilters({
-      region: "",
-      type: "",
+      region: [], // 改為空陣列
+      type: [], // 改為空陣列
       minimum_spend: null,
     });
     setSortType("default");
@@ -152,12 +172,9 @@ function BarFinder() {
     setSearchTerm("");
 
     // 重置為原始數據
-    const originalOrderProducts = [...allProducts].sort((a, b) => a.id - b.id);
-    setFilteredProducts(originalOrderProducts);
-    // 使用 handlePageChange 來設置第一頁的資料
+    setFilteredProducts(allProducts);
     setCurrentPage(1);
-  // 只顯示第一頁的數據
-  setProducts(originalOrderProducts.slice(0, cardsPerPage));
+    setProducts(allProducts.slice(0, cardsPerPage));
   };
 
   // 分頁功能
@@ -165,7 +182,7 @@ function BarFinder() {
     setCurrentPage(page);
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
-    
+
     // 確保只設置新的分頁資料，而不是累積
     setProducts([...filteredProducts].slice(startIndex, endIndex));
   };
@@ -176,8 +193,8 @@ function BarFinder() {
     if (tagsParam && allProducts.length > 0) {
       const tagArray = tagsParam.split(",");
 
-      // 檢查是否為地區標籤
-      const regionTag = tagArray.find((tag) =>
+      // 找出所有符合的地區標籤
+      const regionTags = tagArray.filter((tag) =>
         [
           "基隆市",
           "新北市",
@@ -202,29 +219,37 @@ function BarFinder() {
         ].includes(tag)
       );
 
-      // 檢查是否為類型標籤
-      const typeTag = tagArray.find((tag) =>
+      // 找出所有符合的類型標籤
+      const typeTags = tagArray.filter((tag) =>
         ["音樂", "特色", "日式", "複合", "運動", "熱門"].includes(tag)
       );
 
       // 更新篩選條件
       setSelectedFilters((prev) => ({
         ...prev,
-        region: regionTag || "",
-        type: typeTag || "",
+        region: regionTags, // 直接使用陣列
+        type: typeTags, // 直接使用陣列
       }));
 
       // 強制觸發篩選
-      applyFiltersAndSearch();
+      const filteredResults = allProducts.filter((bar) => {
+        const matchRegion =
+          regionTags.length === 0 || regionTags.includes(bar.region);
+        const matchType = typeTags.length === 0 || typeTags.includes(bar.type);
+        return matchRegion && matchType;
+      });
+
+      setFilteredProducts(filteredResults);
+      setProducts(filteredResults.slice(0, cardsPerPage));
     }
   }, [searchParams, allProducts]);
 
-   //首頁搜尋結果
-   useEffect(() => {
+  //首頁搜尋結果
+  useEffect(() => {
     const search = searchParams.get("search");
     if (search && allProducts.length > 0) {
       setSearchTerm(search); // 設置搜尋詞
-      
+
       // 當資料載入後執行搜尋
       const lowerSearch = search.toLowerCase();
       const filtered = allProducts.filter((product) =>
@@ -232,7 +257,7 @@ function BarFinder() {
           .filter(Boolean)
           .some((field) => field.toLowerCase().includes(lowerSearch))
       );
-      
+
       // 更新篩選後的結果
       setFilteredProducts(filtered);
       // 設置當前頁面顯示的資料
@@ -366,7 +391,9 @@ function BarFinder() {
                             key={region}
                             type="button"
                             className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedFilters.region === region ? "active" : ""
+                              selectedFilters.region.includes(region)
+                                ? "active"
+                                : ""
                             }`}
                             onClick={() => handleTagSelect("region", region)}
                           >
@@ -423,7 +450,9 @@ function BarFinder() {
                               key={type}
                               type="button"
                               className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                                selectedFilters.type === type ? "active" : ""
+                                selectedFilters.type.includes(type)
+                                  ? "active"
+                                  : ""
                               }`}
                               onClick={() => handleTagSelect("type", type)}
                             >
@@ -518,32 +547,27 @@ function BarFinder() {
                   <div role="group" aria-label="Basic outlined example">
                     {Object.entries(selectedFilters).map(
                       ([filterType, value]) => {
-                        if (!value) return null;
+                        if (!value || value.length === 0) return null;
 
-                        let displayText = value;
-                        if (filterType === "minimum_spend") {
-                          if (value.max === Infinity) {
-                            displayText = `${value.min}以上`;
-                          } else if (value.min === 0) {
-                            displayText = `${value.max}以下`;
-                          } else {
-                            displayText = `${value.min}-${value.max}`;
-                          }
+                        if (filterType === "region" || filterType === "type") {
+                          // 確保 value 是陣列
+                          const tags = Array.isArray(value) ? value : [value];
+                          return tags.map((tag) => (
+                            <button
+                              key={`${filterType}-${tag}`}
+                              type="button"
+                              className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
+                              onClick={() => handleTagSelect(filterType, tag)}
+                            >
+                              {tag}
+                              <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
+                                close
+                              </span>
+                            </button>
+                          ));
                         }
 
-                        return (
-                          <button
-                            key={filterType}
-                            type="button"
-                            className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
-                            onClick={() => handleTagSelect(filterType, value)}
-                          >
-                            {displayText}
-                            <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
-                              close
-                            </span>
-                          </button>
-                        );
+                        return null;
                       }
                     )}
                   </div>
@@ -649,22 +673,24 @@ function BarFinder() {
                   role="group"
                   aria-label="First group"
                 >
-                  {[...Array(Math.ceil(filteredProducts.length / cardsPerPage)).keys()].map(
-                    (page) => (
-                      <button
-                        key={page + 1}
-                        type="button"
-                        className={`pageBtn btn ${
-                          currentPage === page + 1
-                            ? "btn-primary-3"
-                            : "btn-neutral-3"
-                        } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
-                        onClick={() => handlePageChange(page + 1)}
-                      >
-                        {page + 1}
-                      </button>
-                    )
-                  )}
+                  {[
+                    ...Array(
+                      Math.ceil(filteredProducts.length / cardsPerPage)
+                    ).keys(),
+                  ].map((page) => (
+                    <button
+                      key={page + 1}
+                      type="button"
+                      className={`pageBtn btn ${
+                        currentPage === page + 1
+                          ? "btn-primary-3"
+                          : "btn-neutral-3"
+                      } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
+                      onClick={() => handlePageChange(page + 1)}
+                    >
+                      {page + 1}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
