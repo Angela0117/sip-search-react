@@ -185,7 +185,7 @@
   }
 
   .discover-cocktail {
-    padding-bottom: 64px;
+    padding-bottom: 100px;
   }
 
   .discover-img {
@@ -514,6 +514,7 @@ $x-large: 1200px;
     max-width: 127px;
     max-height: 166px;
   }
+
   .wine-tags {
     font-size: 16px;
 
@@ -538,71 +539,76 @@ $x-large: 1200px;
   }
 }
 
-.pic {
-  width: 50%;
+.wine-card-body {
 
-  @include respond-to($large) {
-    width: 100%;
-  }
-
-  & img {
-    width: 241px;
-    height: 313px;
-
-    object-fit: contain;
-    object-position: center;
+  .pic {
+    width: 50%;
 
     @include respond-to($large) {
-      width: 127px;
-      height: 166px;
-    }
-  }
-}
-
-.arrow {
-  right: 48px;
-
-  & a {
-    width: 48px;
-    height: 48px;
-    background-color: $primary-4;
-    transition: 0.4s;
-
-    @include respond-to($large) {
-      width: 40px;
-      height: 40px;
-      // .content {
-      //   padding: 96px 64px;
-
-      //   @include respond-to($large) {
-      //     padding: 64px 24px;
-      //   }
-
-      //   .txt-content {
-      //     div {
-      //       width: 50%;
-
-      //       @include respond-to($large) {
-      //         width: auto;
-      //       }
-      //     }
-      //   }
-      // }
+      width: 100%;
     }
 
-    &:hover {
-      background-color: $primary-3;
-    }
+    & img {
+      width: 241px;
+      height: 313px;
 
-    .material-symbols-outlined {
-      font-size: 40px;
+      object-fit: contain;
+      object-position: center;
 
       @include respond-to($large) {
-        font-size: 20px;
+        width: 127px;
+        height: 166px;
+      }
+    }
+
+    .arrow {
+      right: 48px;
+
+      & a {
+        width: 48px;
+        height: 48px;
+        background-color: $primary-4;
+        transition: 0.4s;
+
+        @include respond-to($large) {
+          width: 40px;
+          height: 40px;
+          // .content {
+          //   padding: 96px 64px;
+
+          //   @include respond-to($large) {
+          //     padding: 64px 24px;
+          //   }
+
+          //   .txt-content {
+          //     div {
+          //       width: 50%;
+
+          //       @include respond-to($large) {
+          //         width: auto;
+          //       }
+          //     }
+          //   }
+          // }
+        }
+
+        &:hover {
+          background-color: $primary-3;
+        }
+
+        .material-symbols-outlined {
+          font-size: 40px;
+
+          @include respond-to($large) {
+            font-size: 20px;
+          }
+        }
       }
     }
   }
 }
+
+
 
 // 熱門酒吧
 
@@ -792,12 +798,10 @@ $x-large: 1200px;
 
   &-bg {
     width: 476px;
-    background-image: linear-gradient(
-        180.02deg,
+    background-image: linear-gradient(180.02deg,
         rgba(0, 0, 0, 0.8) 0.01%,
         rgba(0, 0, 0, 0) 50.5%,
-        rgba(0, 0, 0, 0.8) 99.99%
-      ),
+        rgba(0, 0, 0, 0.8) 99.99%),
       url(../images/index-event-bg.png);
     background-size: cover;
     background-size: 450% auto;
@@ -999,11 +1003,9 @@ $x-large: 1200px;
   transition: 0.5s;
   color: $primary-1;
   border: 1px solid;
-  border-image-source: linear-gradient(
-    100.25deg,
-    #ffc93d 4.04%,
-    #b5650e 97.53%
-  );
+  border-image-source: linear-gradient(100.25deg,
+      #ffc93d 4.04%,
+      #b5650e 97.53%);
   border-image-slice: 1; //圖像切片設置
   justify-content: center;
   align-items: center;

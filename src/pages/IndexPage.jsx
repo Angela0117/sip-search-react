@@ -250,7 +250,7 @@ function IndexPage() {
     modalInstance.hide();
   };
 
- 
+
 
   useEffect(() => {
     // 初始化首頁熱門酒譜swiper
@@ -358,9 +358,9 @@ function IndexPage() {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
-       
+
       });
-      
+
       setSwiperInitialized(true);
       console.log('Bar Swiper initialized with', hotBars.length, 'slides');
     }
@@ -372,12 +372,12 @@ function IndexPage() {
       console.log('No bars data available');
       return;
     }
-  
+
     console.log('Sorting bars from:', allBars.length, 'total bars');
     const sorted = [...allBars]
       .sort((a, b) => b.likeCount - a.likeCount)
       .slice(0, 6);
-  
+
     console.log('Sorted hot bars:', sorted.length, 'bars');
     setHotBars(sorted);
   };
@@ -400,6 +400,12 @@ function IndexPage() {
     console.log("更新後的 hotBars:", hotBars);
   }, [hotBars]);
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // 平滑滾動
+    });
+  };
 
 
   return (
@@ -861,7 +867,7 @@ function IndexPage() {
                   </p>
                   <div className="btn-md">
                     <Link
-                      to="/recipessearch"
+                      to={`/recipessearch`}
                       className="btn-search btn-index-primaryl-light d-flex"
                     >
                       我想找酒譜
@@ -889,7 +895,7 @@ function IndexPage() {
                   </p>
                   <div className="btn-md">
                     <Link
-                      to="/barsearch"
+                      to={`/ barsearch`}
                       className="btn-search btn-index-primary1 d-flex"
                     >
                       我想找酒吧
@@ -1067,7 +1073,7 @@ function IndexPage() {
                   <li key={event.id} className="event-list-card">
                     {/* <!-- 會員專區暫存連結 --> */}
                     <Link
-                      to={`/bar/${event.barId}`}
+                      to={`/ bar / ${event.barId}`}
                       className="event-list-a border p-5"
                     >
                       <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
@@ -1207,6 +1213,18 @@ function IndexPage() {
             ))}
           </ul>
         </section>
+      </div>
+      <div className="container">
+        <div className="d-flex justify-content-end custom-padding">
+          <button
+            className="cardBtn-primary-4 btn btn-size rounded-circle"
+            onClick={scrollToTop}
+          >
+            <span className="material-symbols-outlined align-middle">
+              arrow_upward
+            </span>
+          </button>
+        </div>
       </div>
     </>
   );
