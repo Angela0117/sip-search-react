@@ -3,10 +3,12 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
+import { useUser } from "../contexts/UserContext";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+// const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function BarFinder() {
+    const { user, dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索
@@ -35,7 +37,7 @@ function BarFinder() {
   // 取得所有產品
   const getAllProducts = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/bars`); // 取得所有資料
+      const res = await dataAxios.get(`/bars`); // 取得所有資料
       console.log("取得所有產品成功", res.data);
       setAllProducts(res.data);
       setFilteredProducts(res.data);

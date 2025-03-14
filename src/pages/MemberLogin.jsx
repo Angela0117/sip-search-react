@@ -4,11 +4,12 @@ import axios from "axios";
 import { useUser } from '../contexts/UserContext';
 
 
-const baseUrl = import.meta.env.VITE_API_URL;
+
+// const baseUrl = import.meta.env.VITE_API_URL;
 
 
 function MemberLogin() {
-
+  const { user, authAxios } = useUser(); // 添加 useUser hook
   const [account, setAccount] = useState({
     email: "",
     password: "",
@@ -28,7 +29,7 @@ function MemberLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseUrl}/login`, account);
+      const res = await authAxios.post(`/login`, account);
       // json-server-auth 回傳的是 { accessToken, user } 格式
       if (res.data.accessToken) {
         // 將 token 和用戶資訊一起傳給 context

@@ -219,7 +219,7 @@ function IndexPage() {
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-  const baseUrl = import.meta.env.VITE_BASE_URL;
+  // const baseUrl = import.meta.env.VITE_BASE_URL;
 
   //首頁搜尋功能
   const handleSearch = async () => {

@@ -12,7 +12,6 @@ import barNearby01 from "../../assets/images/bar-nearby-1.jpg";
 import barNearby02 from "../../assets/images/bar-nearby-2.jpg";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import axios from "axios";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 

@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 
-const baseUrl = import.meta.env.VITE_API_URL;
+// const baseUrl = import.meta.env.VITE_API_URL;
 
 function MemberSignup() {
   // const [email, setEmail] = useState("");
+  const { user, authAxios } = useUser(); // 添加 useUser hook
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const modalRef = useRef(null);
@@ -41,7 +43,7 @@ function MemberSignup() {
   const Signup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseUrl}/signup`, {
+      const res = await authAxios.post(`/signup`, {
         email : emailInput,
         password,
         nickname,

@@ -4,10 +4,13 @@ import "swiper/css/bundle";
 import axios from "axios";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
+import { useUser } from "../contexts/UserContext";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+
+// const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function RecipesSearch() {
+  const { user, dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索
@@ -66,7 +69,7 @@ function RecipesSearch() {
   // 修改 getAllProducts，移除可選的 tag 參數
   const getAllProducts = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/recipes`);
+      const res = await dataAxios.get(`/recipes`);
       console.log("取得所有產品成功", res.data);
       setAllProducts(res.data);
 
