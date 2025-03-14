@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
 import images from "../images";
-import { useUser } from '../contexts/UserContext';
+import { useUser } from "../contexts/UserContext";
 import { error } from "jquery";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -11,42 +11,42 @@ import { error } from "jquery";
 function BarContent() {
   const { id } = useParams();
   const { user, dataAxios } = useUser(); // 添加 useUser hook
-  const [newComment, setNewComment] = useState(''); // 添加評論內容狀態
+  const [newComment, setNewComment] = useState(""); // 添加評論內容狀態
   const [recommendedBars, setRecommendedBars] = useState([]);
   const [bar, setBar] = useState(null);
   const [barEvent, setBarEvent] = useState(null);
   const [comment, setComment] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const navigate = useNavigate();
 
- 
-  
-    //分享功能
-    const handleShare = async (e) => {
-      e.preventDefault();
-      setShowShareModal(true);
-    };
-    // 取得當前完整 URL
-    const getShareUrl = () => {
-      const appUrl =
-        import.meta.env.MODE === "production"
-          ? "https://your-username.github.io/sip-search-react" // 替換成你的 GitHub Pages URL
-          : window.location.origin;
-  
-      return `${appUrl}/barcontent/${bar.id}`; // 根據你的路由結構調整
-    };
-  
-    const handleCopy = async () => {
-      try {
-        await navigator.clipboard.writeText(getShareUrl());
-        setCopySuccess(true);
-        setTimeout(() => setCopySuccess(false), 2000);
-      } catch (err) {
-        console.error("複製失敗:", err);
-      }
-    };
+  //分享功能
+  const handleShare = async (e) => {
+    e.preventDefault();
+    setShowShareModal(true);
+  };
+  // 取得當前完整 URL
+  const getShareUrl = () => {
+    const appUrl =
+      import.meta.env.MODE === "production"
+        ? "https://your-username.github.io/sip-search-react" // 替換成你的 GitHub Pages URL
+        : window.location.origin;
+
+    return `${appUrl}/barcontent/${bar.id}`; // 根據你的路由結構調整
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(getShareUrl());
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
+    } catch (err) {
+      console.error("複製失敗:", err);
+    }
+  };
 
   //取得推薦酒吧名單
   useEffect(() => {
@@ -100,7 +100,6 @@ function BarContent() {
       }
     };
     fetchBar();
-
   }, [id]);
 
   //取得活動
@@ -126,11 +125,11 @@ function BarContent() {
 
   const handleSubmitComment = async () => {
     if (!user) {
-      alert('請先登入再發表評論');
+      alert("請先登入再發表評論");
       return;
     }
     if (!newComment.trim()) {
-      alert('請輸入評論內容');
+      alert("請輸入評論內容");
       return;
     }
 
@@ -139,12 +138,12 @@ function BarContent() {
         barId: parseInt(id),
         userId: user.id,
         content: newComment,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
-      
-      await dataAxios.post('/barcomments', commentData);
+
+      await dataAxios.post("/barcomments", commentData);
       getBarComments(); // 重新獲取評論
-      setNewComment(''); // 清空輸入框
+      setNewComment(""); // 清空輸入框
     } catch (error) {
       console.error("發布評論失敗", error);
       alert("發布評論失敗");
@@ -167,14 +166,14 @@ function BarContent() {
             return {
               ...comment,
               userName: userRes.data.nickname,
-              userAvatar: userRes.data.imagesUrl || images["Ellipse 11"]
+              userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
             };
           } catch (userError) {
             console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
             return {
               ...comment,
-              userName: '匿名用戶',
-              userAvatar: images["Ellipse 11"]
+              userName: "匿名用戶",
+              userAvatar: images["Ellipse 11"],
             };
           }
         })
@@ -191,6 +190,51 @@ function BarContent() {
       getBarComments();
     }
   }, [id]);
+
+  // 處理點讚功能
+  const handleLike = async () => {
+    if (!user) {
+      alert("請先登入");
+      return;
+    }
+
+    try {
+      const updatedBar = {
+        ...bar,
+        likeCount: isLiked ? bar.likeCount - 1 : bar.likeCount + 1,
+      };
+
+      await dataAxios.patch(`/bars/${id}`, updatedBar);
+      setBar(updatedBar);
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error("點讚失敗:", error);
+      alert("點讚失敗");
+    }
+  };
+  // 處理收藏功能
+  const handleFavorite = async () => {
+    if (!user) {
+      alert("請先登入");
+      return;
+    }
+
+    try {
+      const updatedBar = {
+        ...bar,
+        favoriteCount: isFavorite
+          ? bar.favoriteCount - 1
+          : bar.favoriteCount + 1,
+      };
+
+      await dataAxios.patch(`/bars/${id}`, updatedBar);
+      setBar(updatedBar);
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("收藏失敗:", error);
+      alert("收藏失敗");
+    }
+  };
 
   //如果沒取到產品
   if (!bar) {
@@ -228,15 +272,21 @@ function BarContent() {
             <h2 className="eng-font fs-6 fs-md-5 fs-lg-3">{bar.name}</h2>
             <ul className="icon-list my-auto">
               <li className="icon-item">
-                <a href="#">
-                  <span className="material-symbols-outlined"> thumb_up </span>
-                </a>
+                <button
+                  className={`btn-no-bg ${isLiked ? "active" : ""}`}
+                  onClick={handleLike}
+                >
+                  <span className="material-symbols-outlined">thumb_up</span>
+                </button>
                 <span>{bar.likeCount}</span>
               </li>
               <li className="icon-item">
-                <a href="#">
-                  <span className="material-symbols-outlined"> favorite </span>
-                </a>
+                <button
+                  className={`btn-no-bg ${isFavorite ? "active" : ""}`}
+                  onClick={handleFavorite}
+                >
+                  <span className="material-symbols-outlined">favorite</span>
+                </button>
                 <span>{bar.favoriteCount}</span>
               </li>
               <li className="icon-item">
@@ -326,7 +376,6 @@ function BarContent() {
       <section className="section section-contact">
         <div className="container">
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
-           
             {/* <iframe src="https://www.google.com/maps/embed?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%BE%A9%E8%88%88%E5%8D%97%E8%B7%AF%E4%B8%80%E6%AE%B5219%E5%B7%B711%E8%99%9F" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
             {/* <img src={`https://www.google.com/maps?q=${encodeURIComponent(bar.contactInfo.address)}&output=embed`} alt={bar.name} /> */}
           </div>
@@ -399,19 +448,21 @@ function BarContent() {
             <h2 className="text-center mb-4 fs-6 fs-lg-5">聊聊這間酒吧</h2>
             <div className="user-item">
               <div className="user-avatar">
-              <img 
-              src={user?.imagesUrl || images["Ellipse 11"]} 
-              alt={`${user?.nickname || '訪客'}'s avatar`}
-              className="rounded-circle"
-            />
+                <img
+                  src={user?.imagesUrl || images["Ellipse 11"]}
+                  alt={`${user?.nickname || "訪客"}'s avatar`}
+                  className="rounded-circle"
+                />
               </div>
               <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">
-              {user?.nickname || ''}
-            </span>
+                {user?.nickname || ""}
+              </span>
             </div>
             <div className="user-comment">
-            <textarea
-                placeholder={user ? "分享您對於這間酒吧的看法" : "請登入後發表評論"}
+              <textarea
+                placeholder={
+                  user ? "分享您對於這間酒吧的看法" : "請登入後發表評論"
+                }
                 maxLength="500"
                 value={newComment}
                 onChange={handleCommentChange}
@@ -419,7 +470,7 @@ function BarContent() {
               ></textarea>
               <div className="icon">
                 <span>0/500</span>
-                <button 
+                <button
                   onClick={handleSubmitComment}
                   disabled={!user}
                   className="btn-no-bg"
@@ -430,17 +481,19 @@ function BarContent() {
             </div>
 
             <div className="user-past grid-list">
-            {comment.map((comment) => (
+              {comment.map((comment) => (
                 <div key={comment.id} className="grid-item">
                   <div className="user-item">
                     <div className="user-avatar">
-                      <img 
-                        src={ images["Ellipse 11"]}
+                      <img
+                        src={images["Ellipse 11"]}
                         alt="User's avatar"
                         className="rounded-circle"
                       />
                     </div>
-                    <span className="user-name eng-font">{comment.userName || ''}</span>
+                    <span className="user-name eng-font">
+                      {comment.userName || ""}
+                    </span>
                   </div>
                   <p className="user-past-comment">{comment.content}</p>
                 </div>
@@ -529,8 +582,8 @@ function BarContent() {
           </div>
         </div>
       </section>
-        {/* Share Modal */}
-        {showShareModal && (
+      {/* Share Modal */}
+      {showShareModal && (
         <>
           <div className="modal fade show" style={{ display: "block" }}>
             <div className="modal-dialog modal-dialog-centered">

@@ -15,6 +15,8 @@ function WineContent() {
   const [comment, setComment] = useState([]);
   const [specialsRecipe, setSpecialsRecipe] = useState([]);
   const [newComment, setNewComment] = useState(''); // 新評論的內容
+  const [isLiked, setIsLiked] = useState(false); //點讚
+  const [isFavorite, setIsFavorite] = useState(false); //點收藏
 
   //取得商品資訊
   useEffect(() => {
@@ -75,6 +77,49 @@ function WineContent() {
     };
     getRecipeCard();
   }, []);
+
+  // 處理點讚
+  const handleLike = async () => {
+    if (!user) {
+      alert('請先登入');
+      return;
+    }
+
+    try {
+      const updatedRecipe = {
+        ...recipe,
+        likes: isLiked ? recipe.likes - 1 : recipe.likes + 1
+      };
+
+      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      setRecipe(updatedRecipe);
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error('點讚失敗:', error);
+      alert('點讚失敗');
+    }
+  };
+
+  const handleFavorite = async () => {
+    if (!user) {
+      alert('請先登入');
+      return;
+    }
+
+    try {
+      const updatedRecipe = {
+        ...recipe,
+        favorite: isFavorite ? recipe.favorite - 1 : recipe.favorite + 1
+      };
+
+      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      setRecipe(updatedRecipe);
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error('收藏失敗:', error);
+      alert('收藏失敗');
+    }
+  };
 
    // 處理評論提交
    const handleSubmitComment = async () => {
@@ -142,7 +187,12 @@ function WineContent() {
             </li>
           </ol>
 
-          <WineCard key={recipe.id} recipe={recipe} />
+          <WineCard   key={recipe.id} 
+        recipe={recipe}
+        onLike={handleLike}
+        onFavorite={handleFavorite}
+        isLiked={isLiked}
+        isFavorite={isFavorite} />
         </section>
       </div>
 

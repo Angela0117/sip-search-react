@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const WineCard = ({ recipe }) => {
+const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
   //用navigate導回去recipessearch
   const navigate = useNavigate();
   const [showShareModal, setShowShareModal] = useState(false);
@@ -73,22 +73,26 @@ const WineCard = ({ recipe }) => {
 
           <ul className="methods-icon fs-9 fs-md-8 bg-primary-3 text-neutral-1 d-flex">
             <li className="methods-icon-item d-flex">
-              <a
-                className="material-symbols-outlined methods-icon-btn"
-                href="#"
+              <button
+                className={`material-symbols-outlined methods-icon-btn btn-no-bg ${
+                  isLiked ? "active" : ""
+                }`}
+                onClick={onLike}
               >
                 thumb_up
-              </a>
+              </button>
               <p>{recipe.likes}</p>
             </li>
 
             <li className="methods-icon-item d-flex">
-              <a
-                className="material-symbols-outlined methods-icon-btn"
-                href="#"
+              <button
+                className={`material-symbols-outlined methods-icon-btn btn-no-bg ${
+                  isFavorite ? "active" : ""
+                }`}
+                onClick={onFavorite}
               >
                 favorite
-              </a>
+              </button>
               <p>{recipe.favorite}</p>
             </li>
 
