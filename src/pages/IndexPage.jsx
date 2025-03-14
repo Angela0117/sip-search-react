@@ -57,53 +57,101 @@ function IndexPage() {
   // 分別取得酒吧評論和酒譜評論
   const getBarComments = async () => {
     try {
-      const commentRes = await dataAxios.get('/barcomments'); // 使用 dataAxios
+      const commentRes = await dataAxios.get('/barcomments');
       const commentsWithBarInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
-          const barRes = await dataAxios.get(`/bars/${comment.barId}`); // 使用 dataAxios
-          return {
-            ...comment,
-            type: "bar",
-            date: new Date(comment.createdAt),
-            barName: barRes.data.name,
-          };
+          try {
+            const barRes = await dataAxios.get(`/bars/${comment.barId}`);
+            let userInfo = {
+              name: "匿名用戶",
+              imagesUrl: images["Ellipse 7"] // 預設頭像
+            };
+  
+            // 如果有 userId 才嘗試獲取用戶資訊
+            if (comment.userId) {
+              try {
+                const userRes = await dataAxios.get(`/users/${comment.userId}`);
+                userInfo = userRes.data;
+              } catch (userError) {
+                console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+              }
+            }
+  
+            return {
+              ...comment,
+              type: "bar",
+              date: new Date(comment.createdAt),
+              barName: barRes.data.name,
+              userName: userInfo.name,
+              userAvatar: userInfo.imagesUrl || images["Ellipse 7"]
+            };
+          } catch (error) {
+            console.error(`處理評論 ${comment.id} 時發生錯誤:`, error);
+            return null;
+          }
         })
       );
-
-      // 3. 排序並只取前兩筆
-      const sortedComments = commentsWithBarInfo
+  
+      // 過濾掉 null 值並排序
+      const validComments = commentsWithBarInfo
+        .filter(comment => comment !== null)
         .sort((a, b) => b.date - a.date)
         .slice(0, 2);
-
-      setBarComments(sortedComments);
+  
+      setBarComments(validComments);
     } catch (error) {
       console.error("取得酒吧評論失敗", error);
+      setBarComments([]); // 設置空陣列避免 undefined 錯誤
     }
   };
 
   const getRecipeComments = async () => {
     try {
-      const commentRes = await dataAxios.get('/recipscomments'); // 使用 dataAxios
+      const commentRes = await dataAxios.get('/recipscomments');
       const commentsWithRecipeInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
-          const recipeRes = await dataAxios.get(`/recipes/${comment.recipeId}`); // 使用 dataAxios
-          return {
-            ...comment,
-            type: "recipe",
-            date: new Date(comment.date),
-            recipeName: recipeRes.data.title,
-          };
+          try {
+            const recipeRes = await dataAxios.get(`/recipes/${comment.recipeId}`);
+            let userInfo = {
+              name: "匿名用戶",
+              imagesUrl: images["Ellipse 7"] // 預設頭像
+            };
+  
+            // 如果有 userId 才嘗試獲取用戶資訊
+            if (comment.userId) {
+              try {
+                const userRes = await dataAxios.get(`/users/${comment.userId}`);
+                userInfo = userRes.data;
+              } catch (userError) {
+                console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+              }
+            }
+  
+            return {
+              ...comment,
+              type: "recipe",
+              date: new Date(comment.createdAt),
+              recipeName: recipeRes.data.title,
+              userName: userInfo.name,
+              userAvatar: userInfo.imagesUrl || images["Ellipse 7"]
+            };
+          } catch (error) {
+            console.error(`處理評論 ${comment.id} 時發生錯誤:`, error);
+            return null;
+          }
         })
       );
-
-      // 3. 排序並只取前兩筆
-      const sortedComments = commentsWithRecipeInfo
+  
+      // 過濾掉 null 值並排序
+      const validComments = commentsWithRecipeInfo
+        .filter(comment => comment !== null)
         .sort((a, b) => b.date - a.date)
         .slice(0, 2);
-
-      setRecipeComments(sortedComments);
+  
+      setRecipeComments(validComments);
     } catch (error) {
       console.error("取得酒譜評論失敗", error);
+      setRecipeComments([]); // 設置空陣列避免 undefined 錯誤
     }
   };
 
@@ -1133,7 +1181,7 @@ function IndexPage() {
                   data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
-                    <img src={images["Ellipse 7"]} alt="" />
+                    <img src={comment.userAvatar}  alt="" />
                     <div className="comments-list-item-name ms-5">
                       <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                         {comment.userName}
@@ -1172,7 +1220,7 @@ function IndexPage() {
                   data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
-                    <img src={images["Ellipse 5"]} alt="" />
+                    <img src={comment.userAvatar}  alt="" />
                     <div className="comments-list-item-name ms-5">
                       <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                         {comment.userName}

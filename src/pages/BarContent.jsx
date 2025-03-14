@@ -1,22 +1,23 @@
 import React, { use } from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
 import images from "../images";
+import { useUser } from '../contexts/UserContext';
 import { error } from "jquery";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+// const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function BarContent() {
   const { id } = useParams();
+  const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const [newComment, setNewComment] = useState(''); // 添加評論內容狀態
   const [recommendedBars, setRecommendedBars] = useState([]);
   const [bar, setBar] = useState(null);
   const [barEvent, setBarEvent] = useState(null);
   const [comment, setComment] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [googleMapIframeUrl, setGoogleMapIframeUrl] = useState("");
 
   const navigate = useNavigate();
 
@@ -29,12 +30,12 @@ function BarContent() {
     };
     // 取得當前完整 URL
     const getShareUrl = () => {
-      const baseUrl =
+      const appUrl =
         import.meta.env.MODE === "production"
           ? "https://your-username.github.io/sip-search-react" // 替換成你的 GitHub Pages URL
           : window.location.origin;
   
-      return `${baseUrl}/barcontent/${bar.id}`; // 根據你的路由結構調整
+      return `${appUrl}/barcontent/${bar.id}`; // 根據你的路由結構調整
     };
   
     const handleCopy = async () => {
@@ -47,13 +48,11 @@ function BarContent() {
       }
     };
 
-
-
   //取得推薦酒吧名單
   useEffect(() => {
     const getBarContentCard = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/bars`);
+        const res = await dataAxios.get(`/bars`);
         setRecommendedBars(res.data.slice(0, 3));
       } catch (error) {
         console.error("取得產品失敗", error);
@@ -88,7 +87,7 @@ function BarContent() {
   useEffect(() => {
     const fetchBar = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/bars/${id}`);
+        const res = await dataAxios.get(`/bars/${id}`);
         setBar(res.data);
         // console.log("取得產品成功", res.data);
         // if (res.data.contactInfo.addressUrl) {
@@ -107,7 +106,7 @@ function BarContent() {
   //取得活動
   const getBarEvent = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/events`);
+      const res = await dataAxios.get(`/events`);
       console.log("取得活動成功", res.data);
       // 找出對應這個酒吧的活動
       const barSpecificEvent = res.data.find(
@@ -125,34 +124,73 @@ function BarContent() {
     }
   }, [id]);
 
+  const handleSubmitComment = async () => {
+    if (!user) {
+      alert('請先登入再發表評論');
+      return;
+    }
+    if (!newComment.trim()) {
+      alert('請輸入評論內容');
+      return;
+    }
+
+    try {
+      const commentData = {
+        barId: parseInt(id),
+        userId: user.id,
+        content: newComment,
+        createdAt: new Date().toISOString()
+      };
+      
+      await dataAxios.post('/barcomments', commentData);
+      getBarComments(); // 重新獲取評論
+      setNewComment(''); // 清空輸入框
+    } catch (error) {
+      console.error("發布評論失敗", error);
+      alert("發布評論失敗");
+    }
+  };
+
+  // 處理評論輸入
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
   //取得評論
+  const getBarComments = async () => {
+    try {
+      const res = await dataAxios.get(`/barcomments?barId=${id}`);
+      const commentsWithUserInfo = await Promise.all(
+        res.data.map(async (comment) => {
+          try {
+            const userRes = await dataAxios.get(`/users/${comment.userId}`);
+            return {
+              ...comment,
+              userName: userRes.data.nickname,
+              userAvatar: userRes.data.imagesUrl || images["Ellipse 11"]
+            };
+          } catch (userError) {
+            console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+            return {
+              ...comment,
+              userName: '匿名用戶',
+              userAvatar: images["Ellipse 11"]
+            };
+          }
+        })
+      );
+      setComment(commentsWithUserInfo);
+    } catch (error) {
+      console.error("取得評論失敗", error);
+    }
+  };
+
+  // 在 useEffect 中調用 getBarComments
   useEffect(() => {
-    const getBarComments = async () => {
-      try {
-        const res = await axios.get(`${baseUrl}/barcomments?barId=${id}`);
-        setComment(res.data); // 設定評論為該酒譜的評論
-      } catch (error) {
-        console.error("取得評論失敗", error);
-        alert("取得評論失敗");
-      }
-    };
-    getBarComments();
+    if (id) {
+      getBarComments();
+    }
   }, [id]);
-
-
-  // 生成 Google Maps iframe URL
-  // useEffect(() => {
-
-  //   if (bar.contactInfo.address) {
-  //     const mapUrl = `https://www.google.com/maps/embed?q=${encodeURIComponent(bar.contactInfo.address)}`;
-  //     setGoogleMapIframeUrl(mapUrl);
-  //     console.log("取得地址成功", bar.contactInfo.address);
-  //   }
-
-  // }, [bar]);
-
-
-
 
   //如果沒取到產品
   if (!bar) {
@@ -288,15 +326,7 @@ function BarContent() {
       <section className="section section-contact">
         <div className="container">
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
-            <iframe
-              src={googleMapIframeUrl}
-              // style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={`${bar.name}`}
-              className="addressUrl"
-            ></iframe>
+           
             {/* <iframe src="https://www.google.com/maps/embed?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%BE%A9%E8%88%88%E5%8D%97%E8%B7%AF%E4%B8%80%E6%AE%B5219%E5%B7%B711%E8%99%9F" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
             {/* <img src={`https://www.google.com/maps?q=${encodeURIComponent(bar.contactInfo.address)}&output=embed`} alt={bar.name} /> */}
           </div>
@@ -369,30 +399,48 @@ function BarContent() {
             <h2 className="text-center mb-4 fs-6 fs-lg-5">聊聊這間酒吧</h2>
             <div className="user-item">
               <div className="user-avatar">
-                <img src={images["avatar01"]} alt="" />
+              <img 
+              src={user?.imagesUrl || images["Ellipse 11"]} 
+              alt={`${user?.nickname || '訪客'}'s avatar`}
+              className="rounded-circle"
+            />
               </div>
-              <span className="user-name eng-font">Aaron</span>
+              <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">
+              {user?.nickname || ''}
+            </span>
             </div>
             <div className="user-comment">
-              <textarea
-                name=""
-                id=""
-                placeholder="分享您對於這間酒吧的看法"
+            <textarea
+                placeholder={user ? "分享您對於這間酒吧的看法" : "請登入後發表評論"}
+                maxLength="500"
+                value={newComment}
+                onChange={handleCommentChange}
+                disabled={!user}
               ></textarea>
               <div className="icon">
                 <span>0/500</span>
-                <span className="material-symbols-outlined"> send </span>
+                <button 
+                  onClick={handleSubmitComment}
+                  disabled={!user}
+                  className="btn-no-bg"
+                >
+                  <span className="material-symbols-outlined">send</span>
+                </button>
               </div>
             </div>
 
             <div className="user-past grid-list">
-              {comment.map((comment) => (
+            {comment.map((comment) => (
                 <div key={comment.id} className="grid-item">
                   <div className="user-item">
                     <div className="user-avatar">
-                      <img src={images["avatar02"]} alt="" />
+                      <img 
+                        src={ images["Ellipse 11"]}
+                        alt="User's avatar"
+                        className="rounded-circle"
+                      />
                     </div>
-                    <span className="user-name eng-font">Emily</span>
+                    <span className="user-name eng-font">{comment.userName || ''}</span>
                   </div>
                   <p className="user-past-comment">{comment.content}</p>
                 </div>
