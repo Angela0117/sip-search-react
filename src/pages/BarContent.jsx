@@ -172,7 +172,7 @@ function BarContent() {
             console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
             return {
               ...comment,
-              userName: "匿名用戶",
+              userName: "",
               userAvatar: images["Ellipse 11"],
             };
           }
