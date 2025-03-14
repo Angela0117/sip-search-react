@@ -7,20 +7,22 @@ import { Modal } from "bootstrap";
 import images from "../images";
 import HotRecipeCard from "../components/HotRecipeCard";
 import HotBarCard from "../components/HotBarCard";
+import { useUser } from "../contexts/UserContext";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function IndexPage() {
   const [events, setEvents] = useState([]);
   const [latestEvents, setLatestEvents] = useState([]);
+  const { dataAxios } = useUser();
+
 
   //取得所有活動
   const getAllEvents = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/events`);
+      const res = await dataAxios.get('/events'); // 使用 dataAxios
       console.log("取得活動成功", res.data);
       setEvents(res.data);
-      filterLatestEvents(res.data); // 直接傳入取得的資料
+      filterLatestEvents(res.data);
     } catch (error) {
       console.error("取得活動失敗", error);
     }
@@ -55,18 +57,15 @@ function IndexPage() {
   // 分別取得酒吧評論和酒譜評論
   const getBarComments = async () => {
     try {
-      // 1. 先取得評論
-      const commentRes = await axios.get(`${baseUrl}/barcomments`);
-
-      // 2. 針對每個評論取得對應的酒吧資訊
+      const commentRes = await dataAxios.get('/barcomments'); // 使用 dataAxios
       const commentsWithBarInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
-          const barRes = await axios.get(`${baseUrl}/bars/${comment.barId}`);
+          const barRes = await dataAxios.get(`/bars/${comment.barId}`); // 使用 dataAxios
           return {
             ...comment,
             type: "bar",
             date: new Date(comment.createdAt),
-            barName: barRes.data.name, // 加入酒吧名稱
+            barName: barRes.data.name,
           };
         })
       );
@@ -84,20 +83,15 @@ function IndexPage() {
 
   const getRecipeComments = async () => {
     try {
-      // 1. 先取得評論
-      const commentRes = await axios.get(`${baseUrl}/recipscomments`);
-
-      // 2. 針對每個評論取得對應的酒譜資訊
+      const commentRes = await dataAxios.get('/recipscomments'); // 使用 dataAxios
       const commentsWithRecipeInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
-          const recipeRes = await axios.get(
-            `${baseUrl}/recipes/${comment.recipeId}`
-          );
+          const recipeRes = await dataAxios.get(`/recipes/${comment.recipeId}`); // 使用 dataAxios
           return {
             ...comment,
             type: "recipe",
             date: new Date(comment.date),
-            recipeName: recipeRes.data.title, // 加入酒譜名稱
+            recipeName: recipeRes.data.title,
           };
         })
       );
@@ -186,8 +180,8 @@ function IndexPage() {
 
     try {
       const [recipeRes, barRes] = await Promise.all([
-        axios.get(`${baseUrl}/recipes?search=${term}`),
-        axios.get(`${baseUrl}/bars?search=${term}`),
+        dataAxios.get(`/recipes?search=${term}`), // 使用 dataAxios
+        dataAxios.get(`/bars?search=${term}`),    // 使用 dataAxios
       ]);
 
       const recipeResults = recipeRes.data;
@@ -310,8 +304,7 @@ function IndexPage() {
   // 取得所有酒譜
   const fetchRecipes = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/recipes`);
-      // console.log("API 回傳的全部酒譜:", res.data);
+      const res = await dataAxios.get('/recipes'); // 使用 dataAxios
       setAllRecipes(res.data);
     } catch (error) {
       console.error("取得酒譜失敗:", error);
@@ -335,8 +328,7 @@ function IndexPage() {
 
   const fetchBars = async () => {
     try {
-      const res = await axios.get(`${baseUrl}/bars`);
-      // console.log("API 回傳的全部酒吧:", res.data);
+      const res = await dataAxios.get('/bars'); // 使用 dataAxios
       setAllBars(res.data);
     } catch (error) {
       console.error("取得酒吧失敗:", error);

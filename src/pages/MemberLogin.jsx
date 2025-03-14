@@ -1,51 +1,51 @@
 import React, { useEffect,  useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useUser } from '../contexts/UserContext';
+
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
 
 function MemberLogin() {
 
-const [account, setAccount] = useState({
+  const [account, setAccount] = useState({
     email: "",
-    password:"",
-});
-
-const navigate = useNavigate();
-
-const handleInputChange = (e) => {
-  const { value, name } = e.target;
-
-  setAccount({
-    ...account,
-    [name]: value,
+    password: "",
   });
-};
+  
+  const navigate = useNavigate();
+  const { login } = useUser(); // 從 context 中取得 login 函數
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(`${baseUrl}/login`, account);
-    console.log(res.data);
-    // 將使用者資訊存到 localStorage
-    localStorage.setItem('user', JSON.stringify(res.data.user));
-    // 重新導向到首頁
-    navigate('/');
-  } catch (error) {
-    alert("登入失敗");
-    console.error(error);
-    
-  }
-}
+  const handleInputChange = (e) => {
+    const { value, name } = e.target;
+    setAccount({
+      ...account,
+      [name]: value,
+    });
+  };
 
-useEffect(() => {
-  const token = document.cookie.replace(
-    /(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/,
-    "$1"
-  );
-  axios.defaults.headers.common["Authorization"] = token;
-}, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${baseUrl}/login`, account);
+      // json-server-auth 回傳的是 { accessToken, user } 格式
+      if (res.data.accessToken) {
+        // 將 token 和用戶資訊一起傳給 context
+        const userData = {
+          ...res.data.user,
+          token: res.data.accessToken
+        };
+        login(userData);
+        navigate('/');
+      } else {
+        alert("登入失敗");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "登入失敗");
+      console.error(error);
+    }
+  };
 
   return (
     <>
