@@ -4,7 +4,6 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
 import images from "../images";
 import { useUser } from "../contexts/UserContext";
-import { error } from "jquery";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -18,6 +17,7 @@ function BarContent() {
   const [comment, setComment] = useState([]);
   const [showShareModal, setShowShareModal] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [googleMapIframeUrl, setGoogleMapIframeUrl] = useState(""); //地圖
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
