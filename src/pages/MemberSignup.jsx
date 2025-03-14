@@ -2,18 +2,26 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
 
-const baseUrl = import.meta.env.VITE_API_URL;
+// const baseUrl = import.meta.env.VITE_API_URL;
 
 function MemberSignup() {
   // const [email, setEmail] = useState("");
+  const { user, authAxios } = useUser(); // 添加 useUser hook
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const modalRef = useRef(null);
   const [emailInput, setEmailInput] = useState("");  
   const location = useLocation();
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({
+    nickname: '',
+    email: '',
+    password: ''
+  });
+
 
    //每次跳轉都在頁面上方
     useEffect(() => {
@@ -35,7 +43,7 @@ function MemberSignup() {
   const Signup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${baseUrl}/signup`, {
+      const res = await authAxios.post(`/signup`, {
         email : emailInput,
         password,
         nickname,
@@ -62,7 +70,24 @@ function MemberSignup() {
     }, 3000);
   } catch (error) {
     console.error(error);
+    alert(error.response?.data || '註冊失敗');
   }
+  };
+
+  //密碼驗證
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    
+    if (value.length === 0) {
+      setErrors(prev => ({...prev, password: '請輸入密碼'}));
+    } else if (value.length < 6) {
+      setErrors(prev => ({...prev, password: '密碼長度至少需要 6 個字元'}));
+    } else if (!/^[A-Za-z0-9]*$/.test(value)) {
+      setErrors(prev => ({...prev, password: '密碼只能包含英文字母和數字'}));
+    } else {
+      setErrors(prev => ({...prev, password: ''}));
+    }
   };
 
   return (
@@ -122,22 +147,33 @@ function MemberSignup() {
                     <input
                       type="password"
                       id="inputPassword5"
-                      className="form-control text-primary-1"
+                      className={`form-control text-primary-1 ${
+                        password && (errors.password ? 'is-invalid' : 'is-valid')
+                      }`}
                       aria-describedby="passwordHelpBlock"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={handlePasswordChange}
                       required
                     />
-                    <div id="passwordHelpBlock" className="form-text">
+                    {errors.password ? (
+                      <div className="invalid-feedback">
+                        {errors.password}
+                      </div>
+                    ) : (
+                      <div className="valid-feedback">
+                        密碼格式正確
+                      </div>
+                    )}
+                    {/* <div id="passwordHelpBlock" className="form-text text-primary-1">
                       Your password must be 8-20 characters long, contain
                       letters and numbers, and must not contain spaces, special
                       characters, or emoji.
-                    </div>
+                    </div> */}
                   </div>
 
                   <button
                     type="submit"
-                    className="btn btn-index-primary1 px-lg-8 mb-13 mb-lg-0"
+                    className="btn btn-index-primary1 px-lg-8 mb-13 mb-lg-0 mt-6"
                   >
                     創立一個新帳號
                   </button>

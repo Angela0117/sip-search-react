@@ -185,7 +185,7 @@
   }
 
   .discover-cocktail {
-    padding-bottom: 64px;
+    padding-bottom: 100px;
   }
 
   .discover-img {
@@ -510,10 +510,11 @@ $x-large: 1200px;
     //   }
   }
 
-  @include respond-to($large) {
-    max-width: 127px;
-    max-height: 166px;
-  }
+  // @include respond-to($large) {
+  //   max-width: 127px;
+  //   max-height: 166px;
+  // }
+
   .wine-tags {
     font-size: 16px;
 
@@ -538,67 +539,69 @@ $x-large: 1200px;
   }
 }
 
-.pic {
-  width: 50%;
-
-  @include respond-to($large) {
-    width: 100%;
-  }
-
-  & img {
-    width: 241px;
-    height: 313px;
-
-    object-fit: contain;
-    object-position: center;
+.wine-card-body {
+  .pic {
+    width: 50%;
 
     @include respond-to($large) {
-      width: 127px;
-      height: 166px;
-    }
-  }
-}
-
-.arrow {
-  right: 48px;
-
-  & a {
-    width: 48px;
-    height: 48px;
-    background-color: $primary-4;
-    transition: 0.4s;
-
-    @include respond-to($large) {
-      width: 40px;
-      height: 40px;
-      // .content {
-      //   padding: 96px 64px;
-
-      //   @include respond-to($large) {
-      //     padding: 64px 24px;
-      //   }
-
-      //   .txt-content {
-      //     div {
-      //       width: 50%;
-
-      //       @include respond-to($large) {
-      //         width: auto;
-      //       }
-      //     }
-      //   }
-      // }
+      width: 100%;
     }
 
-    &:hover {
-      background-color: $primary-3;
-    }
+    & img {
+      width: 241px;
+      height: 313px;
 
-    .material-symbols-outlined {
-      font-size: 40px;
+      object-fit: contain;
+      object-position: center;
 
       @include respond-to($large) {
-        font-size: 20px;
+        width: 127px;
+        height: 166px;
+      }
+    }
+
+    .arrow {
+      right: 48px;
+
+      & a {
+        width: 48px;
+        height: 48px;
+        background-color: $primary-4;
+        transition: 0.4s;
+
+        @include respond-to($large) {
+          width: 40px;
+          height: 40px;
+          // .content {
+          //   padding: 96px 64px;
+
+          //   @include respond-to($large) {
+          //     padding: 64px 24px;
+          //   }
+
+          //   .txt-content {
+          //     div {
+          //       width: 50%;
+
+          //       @include respond-to($large) {
+          //         width: auto;
+          //       }
+          //     }
+          //   }
+          // }
+        }
+
+        &:hover {
+          background-color: $primary-3;
+        }
+
+        .material-symbols-outlined {
+          font-size: 40px;
+
+          @include respond-to($large) {
+            font-size: 20px;
+          }
+        }
       }
     }
   }
@@ -1115,6 +1118,19 @@ $x-large: 1200px;
         width: 22px;
         height: 22px;
       }
+    }
+  }
+}
+
+.container-scroll {
+  .btn-size {
+    width: 48px;
+    height: 48px;
+  }
+  .custom-padding {
+    margin-right: -12px;
+    @include respond-to($large) {
+      margin-right: 0;
     }
   }
 }

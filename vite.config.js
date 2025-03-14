@@ -25,11 +25,12 @@ function moveOutputPlugin() {
 }
 
 export default defineConfig({
-  base:process.env.NODE_ENV === 'production' ? '/sip-search-react/' : '/',
+  base: process.env.NODE_ENV === "production" ? "/sip-search-react/" : "/",
   plugins: [react()],
   // base 的寫法：
   // base: '/Repository 的名稱/'
-  base: "/sip-search-react/",
+  base: process.env.NODE_ENV === "production" ? "/sip-search-react/" : "/",
+  // base: "/sip-search-react/",
   plugins: [
     react(),
     // liveReload(["./layout/**/*.ejs", "./pages/**/*.ejs", "./pages/**/*.html"]),

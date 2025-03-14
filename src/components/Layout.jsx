@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import images from '../images' 
+import { useUser } from '../contexts/UserContext';
+
 
 function Layout() {
-  const [user, setUser] = useState(null);
+   const { user, logout } = useUser();
 
-  useEffect(() => {
-    // 從 localStorage 取得使用者資訊
-    const userData = localStorage.getItem("user");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
-
-  // 登出處理函數
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
+    logout();
   };
+  
 
+
+
+  
   return (
     <div>
       <header>

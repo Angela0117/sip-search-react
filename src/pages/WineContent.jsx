@@ -4,21 +4,25 @@ import axios from "axios";
 import WineCard from "../components/WineCard";
 import RecipeCard from "../components/RecipeCard";
 import images from "../images";
+import { useUser } from '../contexts/UserContext'; 
 
-
-const baseUrl = import.meta.env.VITE_BASE_URL;
+// const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function WineContent() {
   const { id } = useParams();
+  const { user, dataAxios } = useUser(); // 獲取用戶資訊
   const [recipe, setRecipe] = useState(null);
   const [comment, setComment] = useState([]);
   const [specialsRecipe, setSpecialsRecipe] = useState([]);
+  const [newComment, setNewComment] = useState(''); // 新評論的內容
+  const [isLiked, setIsLiked] = useState(false); //點讚
+  const [isFavorite, setIsFavorite] = useState(false); //點收藏
 
   //取得商品資訊
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/recipes/${id}`);
+        const res = await dataAxios.get(`/recipes/${id}`);
         setRecipe(res.data);
       } catch (error) {
         console.error("取得產品失敗", error);
@@ -31,8 +35,28 @@ function WineContent() {
   useEffect(() => {
     const getRecipeComments = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/recipscomments?recipeId=${id}`);
-        setComment(res.data); // 設定評論為該酒譜的評論
+        const res = await dataAxios.get(`/recipscomments?recipeId=${id}`);
+        // 為每個評論獲取用戶資訊
+        const commentsWithUserInfo = await Promise.all(
+          res.data.map(async (comment) => {
+            try {
+              const userRes = await dataAxios.get(`/users/${comment.userId}`);
+              return {
+                ...comment,
+                userName: userRes.data.nickname,
+                userAvatar: userRes.data.imagesUrl || images["Ellipse 11"]
+              };
+            } catch (userError) {
+              console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+              return {
+                ...comment,
+                userName: '',
+                userAvatar: images["Ellipse 11"]
+              };
+            }
+          })
+        );
+        setComment(commentsWithUserInfo);
       } catch (error) {
         console.error("取得評論失敗", error);
         alert("取得評論失敗");
@@ -45,7 +69,7 @@ function WineContent() {
   useEffect(() => {
     const getRecipeCard = async () => {
       try {
-        const res = await axios.get(`${baseUrl}/recipes`);
+        const res = await dataAxios.get('/recipes');
         setSpecialsRecipe(res.data.slice(0, 3));
       } catch (error) {
         console.error("取得產品失敗", error);
@@ -54,10 +78,95 @@ function WineContent() {
     getRecipeCard();
   }, []);
 
+  // 處理點讚
+  const handleLike = async () => {
+    if (!user) {
+      alert('請先登入');
+      return;
+    }
+
+    try {
+      const updatedRecipe = {
+        ...recipe,
+        likes: isLiked ? recipe.likes - 1 : recipe.likes + 1
+      };
+
+      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      setRecipe(updatedRecipe);
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error('點讚失敗:', error);
+      alert('點讚失敗');
+    }
+  };
+
+  const handleFavorite = async () => {
+    if (!user) {
+      alert('請先登入');
+      return;
+    }
+
+    try {
+      const updatedRecipe = {
+        ...recipe,
+        favorite: isFavorite ? recipe.favorite - 1 : recipe.favorite + 1
+      };
+
+      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      setRecipe(updatedRecipe);
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error('收藏失敗:', error);
+      alert('收藏失敗');
+    }
+  };
+
+   // 處理評論提交
+   const handleSubmitComment = async () => {
+    if (!user) {
+      alert('請先登入再發表評論');
+      return;
+    }
+    if (!newComment.trim()) {
+      alert('請輸入評論內容');
+      return;
+    }
+    try {
+      const commentData = {
+        content: [newComment], // 改為陣列格式
+        recipeId: parseInt(id), 
+        userId: user.id,
+        date: new Date().toISOString().split('T')[0] // 格式化日期為 YYYY-MM-DD
+      };
+      await dataAxios.post('/recipscomments', commentData);
+     // 重新獲取評論
+    const getRecipeComments = async () => {
+      try {
+        const res = await dataAxios.get(`/recipscomments?recipeId=${id}`);
+        setComment(res.data);
+      } catch (error) {
+        console.error("取得評論失敗", error);
+      }
+    };
+    
+    await getRecipeComments();
+    setNewComment('');
+  } catch (error) {
+    console.error("發布評論失敗", error);
+    alert("發布評論失敗");
+  }
+  };
+
+  // 更新評論文字計數
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
   //每次跳轉都在頁面上方
   useEffect(() => {
     window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
   }, []);
+
 
   //如果沒取到產品
   if (!recipe) {
@@ -78,7 +187,12 @@ function WineContent() {
             </li>
           </ol>
 
-          <WineCard key={recipe.id} recipe={recipe} />
+          <WineCard   key={recipe.id} 
+        recipe={recipe}
+        onLike={handleLike}
+        onFavorite={handleFavorite}
+        isLiked={isLiked}
+        isFavorite={isFavorite} />
         </section>
       </div>
 
@@ -96,24 +210,34 @@ function WineContent() {
 
           <div className="wine-comments-section bg-primary-1 px-6 px-md-15 py-10 py-md-11 mx-md-11">
             <div className="user-info" data-aos="fade-right">
-              <img src="../assets/images/Ellipse 9.png" alt="Angela's avatar" />
+            <img 
+            src={user?.imagesUrl || images["Ellipse 11"]} 
+            alt={`${user?.nickname || '訪客'}'s avatar`} 
+          />
               <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold">
-                Angela
-              </span>
+            {user?.nickname || '訪客'}
+          </span>
               <span className="fs-9 fs-md-9 text-neutral-3">03-16-2025</span>
             </div>
             <div className="comments-box" data-aos="fade-right">
-              <textarea
-                placeholder="分享你調酒的經驗、喜好和看法吧！"
-                maxLength="500"
-              ></textarea>
-              <div className="comments-box-footer">
-                <span className="comments-box-char-count">0/500</span>
-                <button className="comments-box-submit-btn">
-                  <span className="material-symbols-outlined"> send </span>
-                </button>
-              </div>
-            </div>
+            <textarea
+            placeholder={user ? "分享你調酒的經驗、喜好和看法吧！" : "請登入後發表評論"}
+            maxLength="500"
+            value={newComment}
+            onChange={handleCommentChange}
+            disabled={!user}
+          ></textarea>
+             <div className="comments-box-footer">
+            <span className="comments-box-char-count">{newComment.length}/500</span>
+            <button 
+              className="comments-box-submit-btn"
+              onClick={handleSubmitComment}
+              disabled={!user}
+            >
+              <span className="material-symbols-outlined">send</span>
+            </button>
+          </div>
+        </div>
 
             <ul className="wine-comments-list mt-6 mb-10 my-md-11 d-flex">
               {comment.map((comment, index) => (
@@ -124,18 +248,19 @@ function WineContent() {
                 >
                   <div className="wine-comments-list-info d-flex align-items-center">
                     <img
-                      src={images["Ellipse 11"]}
+                     className="rounded-circle"
+                       src={comment.userAvatar || images["Ellipse 11"]}
                       alt="User's avatar"
                     />
                     <span className="eng-font fs-8 fs-md-7 text-primary-4 fw-bold pt-1">
-                      {/* 留空的名字 */}
+                    {comment.userName || ''}
                     </span>
                     <span className="wine-comments-list-date fs-9 fs-md-8 text-neutral-3">
-                      {/* 留空的日期 */}
+                    {new Date(comment.date).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="wine-comments-list-area">
-                    <p className="fs-9 fs-md-8">{comment.content}</p>
+                    <p className="fs-9 fs-md-8">{comment.content[0]}</p>
                   </div>
                 </li>
               ))}
