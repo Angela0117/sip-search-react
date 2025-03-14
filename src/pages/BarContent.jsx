@@ -59,12 +59,7 @@ function BarContent() {
       try {
         const res = await axios.get(`${baseUrl}/bars/${id}`);
         setBar(res.data);
-        // console.log("取得產品成功", res.data);
-        // if (res.data.contactInfo.addressUrl) {
-        //   const mapUrl = res.data.contactInfo.addressUrl;
-        //   setGoogleMapIframeUrl(mapUrl);
-        //   console.log("取得地址成功", mapUrl);
-        // }
+        console.log("取得產品成功", res.data);
       } catch (error) {
         console.error("取得產品失敗", error);
       }
@@ -110,15 +105,18 @@ function BarContent() {
 
 
   // 生成 Google Maps iframe URL
-  // useEffect(() => {
+  useEffect(() => {
+    try {
+      if (bar.contactInfo.addressUrl) {
+        const mapUrl = bar.contactInfo.addressUrl;
+        setGoogleMapIframeUrl(mapUrl);
+        // console.log("取得地址成功", mapUrl);
+      }
+    } catch (error) {
+      console.error("取得地址失敗:", error);
+    }
 
-  //   if (bar.contactInfo.address) {
-  //     const mapUrl = `https://www.google.com/maps/embed?q=${encodeURIComponent(bar.contactInfo.address)}`;
-  //     setGoogleMapIframeUrl(mapUrl);
-  //     console.log("取得地址成功", bar.contactInfo.address);
-  //   }
-
-  // }, [bar]);
+  }, [bar]);
 
 
 
@@ -257,7 +255,7 @@ function BarContent() {
       <section className="section section-contact">
         <div className="container">
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
-            <iframe
+            {googleMapIframeUrl ? (<iframe
               src={googleMapIframeUrl}
               // style={{ border: 0 }}
               allowFullScreen=""
@@ -265,9 +263,9 @@ function BarContent() {
               referrerPolicy="no-referrer-when-downgrade"
               title={`${bar.name}`}
               className="addressUrl"
-            ></iframe>
-            {/* <iframe src="https://www.google.com/maps/embed?q=%E5%8F%B0%E5%8C%97%E5%B8%82%E5%A4%A7%E5%AE%89%E5%8D%80%E5%BE%A9%E8%88%88%E5%8D%97%E8%B7%AF%E4%B8%80%E6%AE%B5219%E5%B7%B711%E8%99%9F" width="600" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
-            {/* <img src={`https://www.google.com/maps?q=${encodeURIComponent(bar.contactInfo.address)}&output=embed`} alt={bar.name} /> */}
+            ></iframe>) : (
+              <p>地圖載入中...</p>
+            )}
           </div>
           <div className="txt" data-aos="fade-left" data-aos-duration="1000">
             <div className="title text-center mb-lg-2">
