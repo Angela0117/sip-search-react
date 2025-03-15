@@ -74,34 +74,34 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
           <ul className="methods-icon fs-9 fs-md-8 bg-primary-3 text-neutral-1 d-flex">
             <li className="methods-icon-item d-flex">
               <button
-                className={`material-symbols-outlined methods-icon-btn btn-no-bg ${
+                className={`methods-icon-btn btn-no-bg ${
                   isLiked ? "active" : ""
                 }`}
                 onClick={onLike}
               >
-                thumb_up
+                <span className="material-symbols-outlined">thumb_up</span>
               </button>
               <p>{recipe.likes}</p>
             </li>
 
             <li className="methods-icon-item d-flex">
               <button
-                className={`material-symbols-outlined methods-icon-btn btn-no-bg ${
+                className={`methods-icon-btn btn-no-bg ${
                   isFavorite ? "active" : ""
                 }`}
                 onClick={onFavorite}
               >
-                favorite
+                <span className="material-symbols-outlined">favorite</span>
               </button>
               <p>{recipe.favorite}</p>
             </li>
 
             <li className="methods-icon-item d-flex">
               <button
-                className="material-symbols-outlined methods-icon-btn btn-no-bg"
+                className="methods-icon-btn btn-no-bg"
                 onClick={handleShare}
               >
-                share
+                <span className="material-symbols-outlined">share</span>
               </button>
               <p>分享</p>
             </li>

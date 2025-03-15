@@ -229,20 +229,19 @@ function BarContent() {
     }
   };
 
-    // 生成 Google Maps iframe URL
-    useEffect(() => {
-      try {
-        if (bar.contactInfo.addressUrl) {
-          const mapUrl = bar.contactInfo.addressUrl;
-          setGoogleMapIframeUrl(mapUrl);
-          // console.log("取得地址成功", mapUrl);
-        }
-      } catch (error) {
-        console.error("取得地址失敗:", error);
+  // 生成 Google Maps iframe URL
+  useEffect(() => {
+    try {
+      if (bar.contactInfo.addressUrl) {
+        const mapUrl = bar.contactInfo.addressUrl;
+        setGoogleMapIframeUrl(mapUrl);
+        // console.log("取得地址成功", mapUrl);
       }
-  
-    }, [bar]);
-    
+    } catch (error) {
+      console.error("取得地址失敗:", error);
+    }
+  }, [bar]);
+
   //如果沒取到產品
   if (!bar) {
     return <div>Loading...</div>;
@@ -298,7 +297,7 @@ function BarContent() {
               </li>
               <li className="icon-item">
                 <button className="btn-no-bg" onClick={handleShare}>
-                  <span className="material-symbols-outlined"> share </span>
+                  <span className="material-symbols-outlined">share</span>
                 </button>
                 <span>分享</span>
               </li>
@@ -383,15 +382,17 @@ function BarContent() {
       <section className="section section-contact">
         <div className="container">
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
-            {googleMapIframeUrl ? (<iframe
-              src={googleMapIframeUrl}
-              // style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title={`${bar.name}`}
-              className="addressUrl"
-            ></iframe>) : (
+            {googleMapIframeUrl ? (
+              <iframe
+                src={googleMapIframeUrl}
+                // style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`${bar.name}`}
+                className="addressUrl"
+              ></iframe>
+            ) : (
               <p>地圖載入中...</p>
             )}
           </div>

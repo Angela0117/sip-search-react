@@ -93,6 +93,20 @@ $x-large: 1200px;
       .icon-item {
         display: flex;
         align-items: center;
+        .btn-no-bg {
+          &.active {
+            .material-symbols-outlined {
+              font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+              color: $primary-3;
+            }
+          }
+
+          &:hover {
+            .material-symbols-outlined {
+              font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+            }
+          }
+        }
       }
     }
 
@@ -410,11 +424,11 @@ $x-large: 1200px;
         }
       }
 
-      .week-item+.week-item {
+      .week-item + .week-item {
         margin-top: 4px;
       }
 
-      .opentimes-item+.opentimes-item {
+      .opentimes-item + .opentimes-item {
         margin-top: 4px;
       }
     }
