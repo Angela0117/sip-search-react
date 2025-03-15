@@ -1113,7 +1113,7 @@ function IndexPage() {
                   <li key={event.id} className="event-list-card">
                     {/* <!-- 會員專區暫存連結 --> */}
                     <Link
-                      to={`/ bar / ${event.barId}`}
+                      to={`/bar/${event.barId}`}
                       className="event-list-a border p-5"
                     >
                       <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">
