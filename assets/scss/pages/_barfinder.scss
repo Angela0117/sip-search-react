@@ -1,5 +1,5 @@
 // 定義變數
-$large: 768px;
+$medium: 768px;
 $large: 992px;
 $x-large: 1200px;
 
@@ -41,8 +41,11 @@ $x-large: 1200px;
       border: 1px solid $primary-1;
       position: relative;
       z-index: 3;
-      @include respond-to(large) {
+      @include respond-to($large) {
         max-width: 400px;
+      }
+      @include respond-to($medium) {
+        max-width: 200px;
       }
 
       .form-control {
@@ -50,14 +53,14 @@ $x-large: 1200px;
         padding: 24px;
         border: none;
         color: $primary-1;
-        @include respond-to(large) {
+        @include respond-to($large) {
           padding: 12px;
         }
 
         &::placeholder {
           color: $primary-2;
           font-size: 24px;
-          @include respond-to(large) {
+          @include respond-to($large) {
             font-size: 16px;
           }
         }
