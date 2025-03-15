@@ -8,7 +8,7 @@ import { useUser } from "../contexts/UserContext";
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function BarFinder() {
-    const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const { user, dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索
@@ -105,37 +105,22 @@ function BarFinder() {
       const newFilters = { ...prevFilters };
 
       if (filterType === "minimum_spend") {
-        // 價格範圍維持單選
+        // 如果點擊的是相同範圍，則取消選擇
         newFilters[filterType] =
           prevFilters[filterType]?.min === value.min ? null : value;
       } else {
-        // region 和 type 支援多選
+        // region 和 type 的處理保持不變
         if (!Array.isArray(prevFilters[filterType])) {
           newFilters[filterType] = [];
         }
-
         if (prevFilters[filterType].includes(value)) {
-          // 如果已經選中，則移除
           newFilters[filterType] = prevFilters[filterType].filter(
             (item) => item !== value
           );
         } else {
-          // 如果未選中，則添加
           newFilters[filterType] = [...prevFilters[filterType], value];
         }
       }
-
-      // 更新 URL
-      const tags = [];
-      if (newFilters.region.length > 0) tags.push(...newFilters.region);
-      if (newFilters.type.length > 0) tags.push(...newFilters.type);
-
-      const newSearchParams = new URLSearchParams();
-      if (tags.length > 0) {
-        newSearchParams.set("tags", tags.join(","));
-      }
-      navigate(`?${newSearchParams.toString()}`);
-
       return newFilters;
     });
   };
@@ -515,7 +500,9 @@ function BarFinder() {
                             key={range.label}
                             type="button"
                             className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedFilters.minimum_spend?.min === range.min
+                              selectedFilters.minimum_spend &&
+                              selectedFilters.minimum_spend.min === range.min &&
+                              selectedFilters.minimum_spend.max === range.max
                                 ? "active"
                                 : ""
                             }`}
@@ -549,10 +536,11 @@ function BarFinder() {
                   <div role="group" aria-label="Basic outlined example">
                     {Object.entries(selectedFilters).map(
                       ([filterType, value]) => {
-                        if (!value || value.length === 0) return null;
+                        // 如果沒有值就不顯示
+                        if (!value) return null;
 
+                        // 處理地區和類型標籤
                         if (filterType === "region" || filterType === "type") {
-                          // 確保 value 是陣列
                           const tags = Array.isArray(value) ? value : [value];
                           return tags.map((tag) => (
                             <button
@@ -567,6 +555,25 @@ function BarFinder() {
                               </span>
                             </button>
                           ));
+                        }
+
+                        // 處理價格範圍標籤
+                        if (filterType === "minimum_spend" && value) {
+                          return (
+                            <button
+                              key={`${filterType}-${value.min}-${value.max}`}
+                              type="button"
+                              className="btn active btn-outline-primary-3 rounded-pill me-lg-6 me-1 fs-lg-8 fs-10 py-lg-2 py-1 px-lg-4 px-2 me-1 text-primary-1 text-nowrap"
+                              onClick={() => handleTagSelect(filterType, value)}
+                            >
+                              {value.max === Infinity
+                                ? `${value.min}以上`
+                                : `${value.min}-${value.max}`}
+                              <span className="material-symbols-outlined align-middle fs-10 fs-lg-6 ms-lg-3">
+                                close
+                              </span>
+                            </button>
+                          );
                         }
 
                         return null;
