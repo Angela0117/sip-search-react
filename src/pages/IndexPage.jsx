@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Swiper from "swiper/bundle";
-import axios from "axios";
 import "swiper/css/bundle";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal } from "bootstrap";
@@ -11,7 +10,6 @@ import { useUser } from "../contexts/UserContext";
 
 
 function IndexPage() {
-  const [events, setEvents] = useState([]);
   const [latestEvents, setLatestEvents] = useState([]);
   const { dataAxios } = useUser();
 
@@ -21,7 +19,6 @@ function IndexPage() {
     try {
       const res = await dataAxios.get('/events'); // 使用 dataAxios
       console.log("取得活動成功", res.data);
-      setEvents(res.data);
       filterLatestEvents(res.data);
     } catch (error) {
       console.error("取得活動失敗", error);
@@ -1113,7 +1110,7 @@ function IndexPage() {
                   <li key={event.id} className="event-list-card">
                     {/* <!-- 會員專區暫存連結 --> */}
                     <Link
-                      to={`/ bar / ${event.barId}`}
+                      to={`/bar/${event.barId}`}
                       className="event-list-a border p-5"
                     >
                       <div className="event-list-card-date fs-9 fs-lg-7 d-flex justify-content-center align-items-center bg-primary-1 text-primary-4">

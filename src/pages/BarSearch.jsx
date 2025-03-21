@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import bannerImage from "../../assets/images/barsearch/bar-search-banner.png";
 import popularBar01 from "../../assets/images/barsearch/popularBar01.png";
 import popularBar02 from "../../assets/images/barsearch/popularBar02.png";
@@ -13,7 +13,6 @@ import barNearby02 from "../../assets/images/bar-nearby-2.jpg";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export default function BarSearch() {
   useEffect(() => {
@@ -77,7 +76,7 @@ export default function BarSearch() {
             <div className="input-group mx-auto mb-5">
               <input
                 type="text"
-                class="form-control p-2 p-md-6 search-input"
+                className="form-control p-2 p-md-6 search-input"
                 placeholder="立即搜尋"
                 aria-label="Search"
                 data-bs-toggle="modal"
@@ -94,7 +93,7 @@ export default function BarSearch() {
           <div
             className="modal fade"
             id="exampleModal"
-            tabindex="-1"
+            tabIndex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
