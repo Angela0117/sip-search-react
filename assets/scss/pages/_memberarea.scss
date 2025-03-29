@@ -1,11 +1,52 @@
-//將member-bg往下推：104(navbar高度)
+// 定義變數
+$medium: 768px;
+$large: 992px;
+$x-large: 1200px;
 
-.member-bg {
-  padding-top: 104px;
-
-  @media (max-width: 768px) {
-    padding-top: 36px;
+@mixin respond-to($size) {
+  @media (max-width: $size) {
+    @content;
   }
+}
+
+
+//將title-bg往下推：104(navbar高度)+58(間距)
+
+.title-bg {
+  padding-top: 162px;
+  padding-bottom: 58px;
+  
+  @include respond-to($medium) {
+    padding-top: 140px;
+  }
+}
+
+.section-member-content{
+  border-top: 1px solid $neutral-3;
+  padding-top: 40px;
+  padding-bottom: 80px;
+
+  .account-item{
+    padding: 16px 12px;
+    justify-content: flex-start;
+
+  }
+  .account-list{
+    text-align: left;
+  }
+
+  .account-notification-count{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    display: block;
+    background: $primary-4;
+    border-radius: 50%;
+  }
+  .account-logout{
+    border-top: 1px solid $neutral-3;
+  }
+
 }
 
 
