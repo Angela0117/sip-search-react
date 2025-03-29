@@ -1,20 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
-import images from '../images' 
-import { useUser } from '../contexts/UserContext';
-
+import images from "../images";
+import { useUser } from "../contexts/UserContext";
 
 function Layout() {
-   const { user, logout } = useUser();
+  const { user, logout } = useUser();
 
   const handleLogout = () => {
     logout();
   };
-  
 
-
-
-  
   return (
     <div>
       <header>
@@ -72,14 +67,33 @@ function Layout() {
               </ul>
               <div className="log-custom-border">
                 {user ? (
-                  <div className="d-flex align-items-center">
-                    <span className="text-primary-1 me-3 ms-3">{user.nickname}</span>
+                  <div className="dropdown">
                     <button
-                      onClick={handleLogout}
-                      className="btn btn-link text-primary-1 text-decoration-none"
+                      className="btn  dropdown-toggle btn-no-bg text-primary-1 mx-lg-5 mx-2 fs-8 fs-md-6 fs-lg-8"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
                     >
-                      登出
+                      {user.nickname}
                     </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <a className="dropdown-item  text-primary-1 " href="#">
+                          會員中心
+                        </a>
+                      </li>
+                      <li>
+                        <hr className="dropdown-divider" />
+                      </li>
+                      <li>
+                        <a
+                          className="dropdown-item text-primary-1 "
+                          onClick={handleLogout}
+                        >
+                          登出
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 ) : (
                   <Link
@@ -116,11 +130,7 @@ function Layout() {
           <div className="container py-lg-11 py-3">
             <div className="row">
               <Link className="d-flex justify-content-center" to="#">
-                <img
-                  className="pic1"
-                  src={images["image"]} 
-                  alt="pic1"
-                />
+                <img className="pic1" src={images["image"]} alt="pic1" />
               </Link>
             </div>
           </div>
