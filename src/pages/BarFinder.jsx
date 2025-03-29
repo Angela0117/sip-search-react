@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 import { useUser } from "../contexts/UserContext";
 
@@ -17,7 +16,6 @@ function BarFinder() {
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 12;
   const [searchParams] = useSearchParams(); //取得url參數
-  const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]); // 存放篩選後的資料
   const [selectedFilters, setSelectedFilters] = useState({
     region: [], // 陣列

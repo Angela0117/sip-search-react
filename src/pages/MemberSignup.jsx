@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
 import { Modal } from "bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
-
 
 // const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -13,38 +11,34 @@ function MemberSignup() {
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const modalRef = useRef(null);
-  const [emailInput, setEmailInput] = useState("");  
+  const [emailInput, setEmailInput] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const [errors, setErrors] = useState({
-    nickname: '',
-    email: '',
-    password: ''
+    nickname: "",
+    email: "",
+    password: "",
   });
 
-
-   //每次跳轉都在頁面上方
-    useEffect(() => {
-      window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
-    }, []);
-  
-
+  //每次跳轉都在頁面上方
+  useEffect(() => {
+    window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
+  }, []);
 
   useEffect(() => {
     // 從 URL 參數中獲取 email 並設置到表單
     const params = new URLSearchParams(location.search);
-    const emailParam = params.get('email');
+    const emailParam = params.get("email");
     if (emailParam) {
       setEmailInput(emailParam);
     }
   }, [location]);
 
-
   const Signup = async (e) => {
     e.preventDefault();
     try {
       const res = await authAxios.post(`/signup`, {
-        email : emailInput,
+        email: emailInput,
         password,
         nickname,
       });
@@ -52,41 +46,44 @@ function MemberSignup() {
       const modal = new Modal(modalRef.current);
       modal.show();
 
-       // 設置定時器，在跳轉前移除 modal 相關元素
-    setTimeout(() => {
-      // 移除 modal backdrop
-      const backdrop = document.querySelector('.modal-backdrop');
-      if (backdrop) {
-        backdrop.remove();
-      }
+      // 設置定時器，在跳轉前移除 modal 相關元素
+      setTimeout(() => {
+        // 移除 modal backdrop
+        const backdrop = document.querySelector(".modal-backdrop");
+        if (backdrop) {
+          backdrop.remove();
+        }
 
-      // 移除 body 上的 modal 相關 class 和樣式
-      document.body.classList.remove('modal-open');
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+        // 移除 body 上的 modal 相關 class 和樣式
+        document.body.classList.remove("modal-open");
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
 
-      // 跳轉到首頁
-      navigate("/");
-    }, 3000);
-  } catch (error) {
-    console.error(error);
-    alert(error.response?.data || '註冊失敗');
-  }
+        // 跳轉到首頁
+        navigate("/");
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+      alert(error.response?.data || "註冊失敗");
+    }
   };
 
   //密碼驗證
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    
+
     if (value.length === 0) {
-      setErrors(prev => ({...prev, password: '請輸入密碼'}));
+      setErrors((prev) => ({ ...prev, password: "請輸入密碼" }));
     } else if (value.length < 6) {
-      setErrors(prev => ({...prev, password: '密碼長度至少需要 6 個字元'}));
+      setErrors((prev) => ({ ...prev, password: "密碼長度至少需要 6 個字元" }));
     } else if (!/^[A-Za-z0-9]*$/.test(value)) {
-      setErrors(prev => ({...prev, password: '密碼只能包含英文字母和數字'}));
+      setErrors((prev) => ({
+        ...prev,
+        password: "密碼只能包含英文字母和數字",
+      }));
     } else {
-      setErrors(prev => ({...prev, password: ''}));
+      setErrors((prev) => ({ ...prev, password: "" }));
     }
   };
 
@@ -148,7 +145,8 @@ function MemberSignup() {
                       type="password"
                       id="inputPassword5"
                       className={`form-control text-primary-1 ${
-                        password && (errors.password ? 'is-invalid' : 'is-valid')
+                        password &&
+                        (errors.password ? "is-invalid" : "is-valid")
                       }`}
                       aria-describedby="passwordHelpBlock"
                       value={password}
@@ -156,13 +154,9 @@ function MemberSignup() {
                       required
                     />
                     {errors.password ? (
-                      <div className="invalid-feedback">
-                        {errors.password}
-                      </div>
+                      <div className="invalid-feedback">{errors.password}</div>
                     ) : (
-                      <div className="valid-feedback">
-                        密碼格式正確
-                      </div>
+                      <div className="valid-feedback">密碼格式正確</div>
                     )}
                     {/* <div id="passwordHelpBlock" className="form-text text-primary-1">
                       Your password must be 8-20 characters long, contain
@@ -201,11 +195,17 @@ function MemberSignup() {
                 <div className="wrap-1"></div>
               </div>
               <div className="d-flex flex-column align-items-center">
-                <h4 className="text-primary-1 mb-lg-8 mt-lg-13">會員註冊成功</h4>
-                <span className="material-symbols-outlined ml-check text-primary-1 ">task_alt</span>
+                <h4 className="text-primary-1 mb-lg-8 mt-lg-13">
+                  會員註冊成功
+                </h4>
+                <span className="material-symbols-outlined ml-check text-primary-1 ">
+                  task_alt
+                </span>
                 <div className="d-flex mt-lg-8 mb-lg-13">
                   <p className="fs-8 text-primary-1 ">正在跳轉至首頁 5...</p>
-                  <span className="material-symbols-outlined text-primary-1 ">progress_activity</span>
+                  <span className="material-symbols-outlined text-primary-1 ">
+                    progress_activity
+                  </span>
                 </div>
               </div>
               <div className="decoration">

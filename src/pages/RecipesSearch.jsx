@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import axios from "axios";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 import { useUser } from "../contexts/UserContext";
-
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -24,8 +22,6 @@ function RecipesSearch() {
     mostLiked: [],
     mostFavorites: [],
   });
-
-  const navigate = useNavigate();
 
   //首頁的tag篩選功能
   const tagFromUrl = searchParams.get("tag");
@@ -52,7 +48,7 @@ function RecipesSearch() {
     const search = searchParams.get("search");
     if (search) {
       setSearchTerm(search); // 設置搜尋詞
-      
+
       // 當資料載入後執行搜尋
       if (allProducts.length > 0) {
         const lowerSearch = search.toLowerCase();
@@ -205,7 +201,7 @@ function RecipesSearch() {
   //swiper
   useEffect(() => {
     new Swiper(".mySwiper-rs", {
-      slidesPerView: "auto",
+      // slidesPerView: "auto",
       spaceBetween: 24,
       slidesPerView: 2,
       slidesPerGroup: 1,
@@ -658,10 +654,13 @@ function RecipesSearch() {
                 <h4 className="text-primary-1 fs-6 fs-lg-5 pb-lg-6">
                   深受好評
                 </h4>
-                <span className="material-symbols-outlined text-primary-1 fs-lg-3 pb-lg-11">
+                <span className="material-symbols-outlined text-primary-1 fs-lg-3 pb-lg-11 px-3 px-md-0">
                   thumb_up
                 </span>
-                <Link to="/" className="btn-rs-primary-3 border-0 rounded-0 py-lg-3 py-1 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
+                <Link
+                  to="/"
+                  className="btn-rs-primary-3 border-0 rounded-0 py-lg-3 py-1 px-lg-9 px-3 mt-lg-0 fs-lg-6 fs-8"
+                >
                   探索更多
                 </Link>
               </div>
@@ -670,37 +669,39 @@ function RecipesSearch() {
             <div className="col-lg-9 d-flex align-items-center rsbg-custom">
               <div className="swiper mySwiper-rs ms-lg-9 mx-5">
                 <div className="swiper-wrapper eng-font">
-                  {topRecipes.mostLiked.map((recipe) => ( <div key={recipe.id} className="swiper-slide">
-                    <div className="img-container">
-                      <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src={recipe.imagesUrl[1]}
-                          alt={recipe.title}
-                        />
-                      </Link>
-                    </div>
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                    {recipe.title}
-                    </div>
+                  {topRecipes.mostLiked.map((recipe) => (
+                    <div key={recipe.id} className="swiper-slide">
+                      <div className="img-container">
+                        <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
+                          <img
+                            className="card-img1 img-gradient-border d-block"
+                            src={recipe.imagesUrl[1]}
+                            alt={recipe.title}
+                          />
+                        </Link>
+                      </div>
+                      <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
+                        {recipe.title}
+                      </div>
 
-                    <div className="likes text-white mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
-                      <a href="#">
-                        <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                          thumb_up
-                        </span>
-                      </a>
-                      {recipe.likes}
-                      <span className="px-lg-3">|</span>
-                      <a href="#">
-                        <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
-                          favorite
-                        </span>
-                      </a>
-                      {recipe.favorite}
+                      <div className="likes text-white mt-md-4 mt-2 fs-9 fs-lg-7 text-nowrap">
+                        <a href="#">
+                          <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
+                            thumb_up
+                          </span>
+                        </a>
+                        {recipe.likes}
+                        <span className="px-lg-3">|</span>
+                        <a href="#">
+                          <span className="material-symbols-outlined align-top px-lg-2 fs-9 fs-lg-6">
+                            favorite
+                          </span>
+                        </a>
+                        {recipe.favorite}
+                      </div>
                     </div>
-                  </div>))}
-                  </div>
+                  ))}
+                </div>
 
                 <div className="custom-button-next cardBtn-primary-4 rounded-circle text-center">
                   <span className="material-symbols-outlined pt-6">
@@ -730,10 +731,13 @@ function RecipesSearch() {
                 <h4 className="text-primary-4 fs-6 fs-lg-4 pb-lg-6">
                   熱門話題
                 </h4>
-                <span className="material-symbols-outlined text-primary-4 fs-lg-3 pb-lg-11">
+                <span className="material-symbols-outlined text-primary-4 fs-lg-3 pb-lg-11 px-3 px-md-0">
                   forum
                 </span>
-                <Link to="/" className="btn-rs-primary-4 rounded-0 border-0 py-lg-3 px-lg-9 mt-lg-0 fs-lg-6 fs-8">
+                <Link
+                  to="/"
+                  className="btn-rs-primary-4 rounded-0 border-0 py-lg-3 px-lg-9 mt-lg-0 fs-lg-6 fs-8 px-3 "
+                >
                   探索更多
                 </Link>
               </div>
@@ -742,28 +746,28 @@ function RecipesSearch() {
             <div className="col-lg-9 d-flex align-items-center rsbg-custom">
               <div className="swiper mySwiper-rs ms-lg-9 mx-5">
                 <div className="swiper-wrapper eng-font">
-                {topRecipes.mostFavorites.map((recipe) => (
-                  <div key={recipe.id} className="swiper-slide">
-                    <div className="img-container">
-                      <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
-                        <img
-                          className="card-img1 img-gradient-border d-block"
-                          src={recipe.imagesUrl[0]}
-                          alt={recipe.title}
-                        />
-                      </Link>
+                  {topRecipes.mostFavorites.map((recipe) => (
+                    <div key={recipe.id} className="swiper-slide">
+                      <div className="img-container">
+                        <Link to={`/wine/${recipe.id}`} className="h-100 w-100">
+                          <img
+                            className="card-img1 img-gradient-border d-block"
+                            src={recipe.imagesUrl[0]}
+                            alt={recipe.title}
+                          />
+                        </Link>
+                      </div>
+                      <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
+                        {recipe.title}
+                      </div>
+                      <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
+                        <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
+                          forum
+                        </span>
+                        {recipe.favorite}
+                      </div>
                     </div>
-                    <div className="title text-white fs-lg-7 mt-lg-6 mt-md-4 mt-2">
-                      {recipe.title}
-                    </div>
-                    <div className="commits text-white mt-lg-4 mt-md-4 mt-2 fs-9 fs-lg-7">
-                      <span className="material-symbols-outlined text-white fs-lg-6 fs-9 align-middle">
-                        forum
-                      </span>
-                      {recipe.favorite}
-                    </div>
-                  </div>
-                ))}
+                  ))}
                 </div>
 
                 <div className="custom-button-next cardBtn-primary-4 rounded-circle text-center">
