@@ -30,7 +30,9 @@ $x-large: 1200px;
   .member-nav-item{
     padding: 16px 12px;
     justify-content: flex-start;
-
+    &:hover {
+      color: $primary-3;
+    }
   }
   .member-nav-list{
     text-align: left;
@@ -43,6 +45,7 @@ $x-large: 1200px;
     display: block;
     background: $primary-4;
     border-radius: 50%;
+  
   }
   .member-logout-link{
     border-top: 1px solid $neutral-3;
@@ -87,10 +90,8 @@ $x-large: 1200px;
     }
   }
 
-
-
   
-  //檔案編輯按鈕
+  //個人檔案編輯按鈕
   .profile-edit-btn {
     display: block;
     color: $primary-1;
@@ -103,18 +104,75 @@ $x-large: 1200px;
     @include respond-to($medium){
       padding: 8px 12px;
     }
-  
+
     &:hover {
       background-color: $primary-1;
       color: $primary-3;
     }
-  
+
     &:active {
       background-color: $primary-3;
       color: $primary-1;
     }
-  }   
+  }
+  .section-title{
+    padding: 16px 20px;
+    background-color: $primary-2;
+  }
+  .setting-list{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    
+  }
+
+  .setting-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $neutral-3;
+    padding: 12px 20px;
+    @include respond-to($medium){
+      padding: 8px;
+    }
+  } 
+  .setting-link{
+    color: $primary-1;
+    &:hover {
+      color: $primary-3;
+    }
+  }  
 }
+//toggle組件測試樣式
+.btn-box {
+  display:inline-block;
+  width: 40px;
+  height: 20px;
+  border-radius:100px;
+  background-color: $primary-3;
+}
+.btn-box .btn-1 {
+  display:inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius:50%;
+  background-color: white;
+}
+.checkbox:checked + .btn-box .btn-1 {
+  margin-left: 20px;
+}
+.checkbox {
+  position:absolute;
+  opacity:0;
+}
+
+
+
+
+
+//截止
 
 
 

@@ -16,7 +16,7 @@ function MemberArea(){
     
     <section className="section-member-content text-neutral-white">
       <div className="container">
-        <div className="row">
+        <div className="row d-flex justify-content-between">
           {/*左側功能選單*/}
           <div className="col-lg-3">
             <ul className="member-nav-list text-primary-1 fs-9 fs-lg-7 ">
@@ -59,30 +59,76 @@ function MemberArea(){
           </div>
           
           {/*右側功能內容*/}
-          <div className="col-lg-9">
+          <div className="col-lg-8">
             <h2 className=" text-primary-1 fs-9 fs-md-8 fs-lg-6">個人檔案</h2>
             <div className="profile-header d-flex justify-content-between  align-items-center">
-              {/*頭像編輯icon絕對定位 */}
 
+              {/*頭像編輯icon絕對定位 */}              
               <div className="profile-avatar d-flex align-items-center position-relative">
                 <img src="/assets/images/Ellipse 5.png" alt="profile-avatar-img" className="profile-avatar-img" />
                 <Link to="/" className="profile-img-icon position-absolute">
                   <span className="material-symbols-outlined d-block">
                     edit_square
                   </span>
-                </Link>
-                
-                <h3 className="profile-name fs-9 fs-md-8 fs-lg-6 ms-3 ms-lg-5">emma</h3>
-                
+                </Link>                
+                <h3 className="profile-name fs-9 fs-md-8 fs-lg-6 ms-3 ms-lg-5">emma</h3>             
               </div>        
-              <Link className="profile-edit-btn">
+              <Link to="/" className="profile-edit-btn">
                 <p>編輯檔案</p>
               </Link>
             </div>
 
-            <ul className="profile-section">
+            {/*設定內容*/}
+            <div className="account-settings">
+              <h3 className="section-title fs-9 fs-lg-7">帳號管理</h3>
+              <ul className="setting-list">
+                <li className="setting-item">
+                  <h4 className="fs-9 fs-lg-7">信箱</h4>
+                  <span className="fs-10 fs-lg-8">123456@gmail.com</span>
+                </li>
+                <li className="setting-item">
+                  <h4 className="fs-9 fs-lg-7">密碼</h4>
+                  <div className="d-flex">
+                    <span className="fs-10 fs-lg-8 me-2 me-lg-5">********</span>
+                    <Link to="/" className="setting-link  text-decoration-underline">變更密碼</Link>
+                  </div>
+                  
+                </li>
+                <li className="setting-item">
+                  <div className="setting-item-content">
+                    <h4 className="fs-9 fs-lg-7 mb-2">停用帳號</h4>
+                    <p className="fs-10 fs-lg-9">停用帳號將會關閉您的個人檔案以及您分享過的所有訊息。重新登入您的帳號將會啟用被停用的帳號。</p>
+                  </div>
+                  <Link to="/" className="setting-link  text-decoration-underline">停用帳號</Link>                
+                </li>
+                <li className="setting-item">
+                  <div className="setting-item-content">
+                    <h4 className="fs-9 fs-lg-7 mb-2">刪除帳號</h4>
+                    <p className="fs-10 fs-lg-9">將帳號永久刪除。在帳號被刪除後，你將無法重新恢復你的帳號，也無法再取得你張貼過的任何訊息。</p>
+                  </div>
+                  <Link to="/" className="setting-link  text-decoration-underline">刪除帳號</Link>                
+                </li>
+              </ul>
+              <h3 className="section-title fs-9 fs-lg-7">通知</h3>
 
-            </ul>
+              {/*toggle組件 */}
+              <div className="setting-item d-flex justify-content-between align-items-center py-4 border-top">
+                <div className="setting-item-content">
+                  <h4 className="fs-9 fs-lg-7 mb-2">電子郵件通知</h4>
+                  <p className="fs-10 fs-lg-9">接收最新的酒吧活動訊息。</p>
+                </div>
+
+                <div>
+                  <label>
+                    <input type="checkbox" name="" id="" className="checkbox"/>
+                    <span className="btn-box ">
+                      <span className="btn-1"></span>      
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
 
           </div>
         </div>
