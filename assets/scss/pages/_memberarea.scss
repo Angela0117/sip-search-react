@@ -17,7 +17,7 @@ $x-large: 1200px;
   padding-bottom: 58px;
   
   @include respond-to($medium) {
-    padding-top: 140px;
+    padding-top: 140px;//含104(navbar高度
   }
 }
 
@@ -26,16 +26,17 @@ $x-large: 1200px;
   padding-top: 40px;
   padding-bottom: 80px;
 
-  .account-item{
+  //左側功能選單
+  .member-nav-item{
     padding: 16px 12px;
     justify-content: flex-start;
 
   }
-  .account-list{
+  .member-nav-list{
     text-align: left;
   }
 
-  .account-notification-count{
+  .member-notification-count{
     width: 30px;
     height: 30px;
     text-align: center;
@@ -43,12 +44,81 @@ $x-large: 1200px;
     background: $primary-4;
     border-radius: 50%;
   }
-  .account-logout{
+  .member-logout-link{
     border-top: 1px solid $neutral-3;
   }
 
+  //右側功能內容
+  .profile-header{
+    margin-top: 48px;
+    margin-bottom: 48px;
+    @include respond-to($medium) {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+  }
+  .profile-avatar-img{
+    border-radius: 50%
+  }
+  .profile-img-icon{
+    padding: 12px;
+    background: $primary-4;
+    border: 4px solid $neutral-5;
+    border-radius: 50%;
+    left: 80px;
+    top: 72px;
+
+  }
+
+  //會員頭像
+  .profile-avatar-img {
+    width: 120px;
+    height: 120px;
+  
+    @include respond-to($large) {
+      width: 100px;
+      height: 100px;
+    }
+  
+    @include respond-to($medium) {
+      width: 72px;
+      height: 72px;
+    }
+  }
+
+
+
+  
+  //檔案編輯按鈕
+  .profile-edit-btn {
+    display: block;
+    color: $primary-1;
+    background-color: $primary-3;
+    transition: 0.5s;
+    padding: 12px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
+    @include respond-to($medium){
+      padding: 8px 12px;
+    }
+  
+    &:hover {
+      background-color: $primary-1;
+      color: $primary-3;
+    }
+  
+    &:active {
+      background-color: $primary-3;
+      color: $primary-1;
+    }
+  }   
 }
 
+
+
+//以下為舊樣式
 
 .memberinfo-btn {
   background: $primary-1 ;
@@ -114,39 +184,7 @@ $x-large: 1200px;
 }
 
 //右側內容-個人檔案
-.profile-img-btn {
-  width: 90%;
-  border-radius: 20px;
-  background: $primary-1;
 
-  &:hover {
-    //background: $primary-4;
-  }
-
-  &-text {
-    color: $primary-4;
-
-    &:hover {
-      opacity: 0.6;
-    }
-
-  }
-}
-
-.profile-userimg {
-  width: 160px;
-  height: 160px;
-
-  @media (max-width: 992px) {
-    width: 100px;
-    height: 100px;
-  }
-
-  @media (max-width: 768px) {
-    width: 80px;
-    height: 80px;
-  }
-}
 
 .profile-box-1 {
   width: 25%;

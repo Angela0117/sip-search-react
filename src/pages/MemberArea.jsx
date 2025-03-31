@@ -13,48 +13,81 @@ function MemberArea(){
         <h1 className="fs-8 fs-md-6 fs-lg-4">會員專區</h1>
     </div>
 
+    
     <section className="section-member-content text-neutral-white">
       <div className="container">
-        <ul className="account-list col-lg-3 text-primary-1 fs-9 fs-lg-7 ">
-          <li className="account-item">
-            <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              <p>個人檔案</p>
-              <span className="account-notification-count">5</span>
-            </Link>            
-          </li>
-          <li className="account-item">
-            <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              <p>收藏酒譜</p>
-              <span className="account-notification-count">5</span>
-            </Link>            
-          </li>
-          <li className="account-item">
-            <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              <p>收藏酒吧</p>
-              <span className="account-notification-count">5</span>
-            </Link>            
-          </li>
-          <li className="account-item">
-            <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              <p>歷史評論</p>
-              <span className="account-notification-count">5</span>
-            </Link>            
-          </li>
-          <li className="account-item">
-            <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              <p>生日優惠券</p>
-              <span className="account-notification-count">5</span>
-            </Link>            
-          </li>
-          <li className="account-item account-logout">
-            <Link to="/">
-              <p>登出</p>
-            </Link>            
-          </li>
+        <div className="row">
+          {/*左側功能選單*/}
+          <div className="col-lg-3">
+            <ul className="member-nav-list text-primary-1 fs-9 fs-lg-7 ">
+              <li className="member-nav-item">
+                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
+                  <p>個人檔案</p>
+                  <span className="member-notification-count">5</span>
+                </Link>            
+              </li>
+              <li className="member-nav-item">
+                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
+                  <p>收藏酒譜</p>
+                  <span className="member-notification-count">5</span>
+                </Link>            
+              </li>
+              <li className="member-nav-item">
+                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
+                  <p>收藏酒吧</p>
+                  <span className="member-notification-count">5</span>
+                </Link>            
+              </li>
+              <li className="member-nav-item">
+                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
+                  <p>歷史評論</p>
+                  <span className="member-notification-count">5</span>
+                </Link>            
+              </li>
+              <li className="member-nav-item">
+                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
+                  <p>生日優惠券</p>
+                  <span className="member-notification-count">5</span>
+                </Link>            
+              </li>
+              <li className="member-nav-item member-logout-link">
+                <Link to="/">
+                  <p>登出</p>
+                </Link>            
+              </li>
+            </ul>
+          </div>
+          
+          {/*右側功能內容*/}
+          <div className="col-lg-9">
+            <h2 className=" text-primary-1 fs-9 fs-md-8 fs-lg-6">個人檔案</h2>
+            <div className="profile-header d-flex justify-content-between  align-items-center">
+              {/*頭像編輯icon絕對定位 */}
 
+              <div className="profile-avatar d-flex align-items-center position-relative">
+                <img src="/assets/images/Ellipse 5.png" alt="profile-avatar-img" className="profile-avatar-img" />
+                <Link to="/" className="profile-img-icon position-absolute">
+                  <span className="material-symbols-outlined d-block">
+                    edit_square
+                  </span>
+                </Link>
+                
+                <h3 className="profile-name fs-9 fs-md-8 fs-lg-6 ms-3 ms-lg-5">emma</h3>
+                
+              </div>        
+              <Link className="profile-edit-btn">
+                <p>編輯檔案</p>
+              </Link>
+            </div>
 
+            <ul className="profile-section">
 
-        </ul>
+            </ul>
+
+          </div>
+        </div>
+        
+
         {/* <div className="account-settings">
           <h2>帳號管理</h2>
           <ul>
