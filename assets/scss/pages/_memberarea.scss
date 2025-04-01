@@ -33,22 +33,60 @@ $x-large: 1200px;
     &:hover {
       color: $primary-3;
     }
+    &:active {
+      background-color: $primary-3;
+      color: $primary-1;
+    }
   }
   .member-nav-list{
     text-align: left;
+    //test
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    @include respond-to($medium) {
+      padding-bottom: 60px;
+    }
   }
-
-  .member-notification-count{
+  .member-noti-count{
     width: 30px;
     height: 30px;
     text-align: center;
     display: block;
     background: $primary-4;
     border-radius: 50%;
-  
   }
   .member-logout-link{
     border-top: 1px solid $neutral-3;
+    //test
+    margin-top: auto;
+    @include respond-to($medium) {
+      background-color: $primary-1;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      margin: 16px 12px 0 12px;
+    }
+  }
+    // 手機版登出按鈕
+  .logout-mobile-btn {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .btn-logout {
+    color: $primary-1;
+    padding: 8px 0;
+    border: 1px solid $neutral-3;
+    font-size: 12px;
+    width: 120px;
+    &:hover {
+      background-color: $primary-3;
+      color: $primary-3;
+    }
+    &:active {
+      background-color: $primary-4;
+    }
   }
 
   //右側功能內容
@@ -151,23 +189,42 @@ $x-large: 1200px;
   width: 40px;
   height: 20px;
   border-radius:100px;
-  background-color: $primary-3;
+  background-color: gray;
+  transition: background-color 0.3s;
+  cursor: pointer;//滑鼠變為小手指
 }
-.btn-box .btn-1 {
+.btn-box .btn-item {
   display:inline-block;
   width: 20px;
   height: 20px;
   border-radius:50%;
   background-color: white;
+  transition: margin-left 0.3s, transform 0.3s;
+  //margin-left: 0;
 }
-.checkbox:checked + .btn-box .btn-1 {
+.email-noti-toggle:checked + .btn-box .btn-item {
   margin-left: 20px;
+  
+  transform: scale(1.1);//點擊時通知球體變大為1.1倍
+  
 }
-.checkbox {
+.email-noti-toggle {
   position:absolute;
   opacity:0;
 }
-
+.email-noti-toggle:checked + .btn-box {
+  background-color:$primary-3 ; /* 或你指定的灰色 */
+}
+label {
+  display: inline-block;
+}
+.btn-box:hover {
+  
+    background-color: lighten(gray, 20%);
+  
+  
+  /* hover 陰影效果 */
+}
 
 
 

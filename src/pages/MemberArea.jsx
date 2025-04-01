@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 
 
+
 function MemberArea(){
   return(
     <>
@@ -23,34 +24,33 @@ function MemberArea(){
               <li className="member-nav-item">
                 <Link to="/"  className="d-flex  gap-2 gap-lg-3">
                   <p>個人檔案</p>
-                  <span className="member-notification-count">5</span>
                 </Link>            
               </li>
               <li className="member-nav-item">
                 <Link to="/"  className="d-flex  gap-2 gap-lg-3">
                   <p>收藏酒譜</p>
-                  <span className="member-notification-count">5</span>
+                  <span className="member-noti-count">5</span>
                 </Link>            
               </li>
               <li className="member-nav-item">
                 <Link to="/"  className="d-flex  gap-2 gap-lg-3">
                   <p>收藏酒吧</p>
-                  <span className="member-notification-count">5</span>
+                  <span className="member-noti-count">5</span>
                 </Link>            
               </li>
               <li className="member-nav-item">
                 <Link to="/"  className="d-flex  gap-2 gap-lg-3">
                   <p>歷史評論</p>
-                  <span className="member-notification-count">5</span>
+                  <span className="member-noti-count">5</span>
                 </Link>            
               </li>
               <li className="member-nav-item">
                 <Link to="/"  className="d-flex  gap-2 gap-lg-3">
                   <p>生日優惠券</p>
-                  <span className="member-notification-count">5</span>
+                  <span className="member-noti-count">5</span>
                 </Link>            
               </li>
-              <li className="member-nav-item member-logout-link">
+              <li className="member-nav-item member-logout-link  d-none d-lg-block">
                 <Link to="/">
                   <p>登出</p>
                 </Link>            
@@ -111,68 +111,32 @@ function MemberArea(){
               </ul>
               <h3 className="section-title fs-9 fs-lg-7">通知</h3>
 
-              {/*toggle組件 */}
-              <div className="setting-item d-flex justify-content-between align-items-center py-4 border-top">
+             
+              <div className="setting-item d-flex justify-content-between align-items-center mt-4 mt-lg-8 b-none">
                 <div className="setting-item-content">
                   <h4 className="fs-9 fs-lg-7 mb-2">電子郵件通知</h4>
                   <p className="fs-10 fs-lg-9">接收最新的酒吧活動訊息。</p>
                 </div>
 
+                 {/*toggle組件 */}
                 <div>
                   <label>
-                    <input type="checkbox" name="" id="" className="checkbox"/>
+                    <input type="checkbox" name="" id="" className="email-noti-toggle"/>
                     <span className="btn-box ">
-                      <span className="btn-1"></span>      
+                      <span className="btn-item"></span>      
                     </span>
                   </label>
                 </div>
               </div>
-
             </div>
-
           </div>
+          {/* 手機版時出現：右側內容的最底部登出按鈕 */}
+          <div className="logout-mobile-btn d-block d-lg-none">
+            <button className="btn btn-logout">登出</button>
+          </div>
+
         </div>
-        
-
-        {/* <div className="account-settings">
-          <h2>帳號管理</h2>
-          <ul>
-            <li className="setting-item">
-              <h3>信箱</h3>
-              <p className="value">123456@gmail.com</p>
-            </li>
-
-            <li className="setting-item">
-              <h3>密碼</h3>
-              <p className="value">******** <a href="#" className="action text-primary-1">變更密碼</a></p>
-            </li>
-
-            <li className="setting-item">
-              <h3>停用帳號</h3>
-              <p className="desc">停用帳號後，團隊將無法使用你的帳號內容。</p>
-              <button className="action-btn">停用帳號</button>
-            </li>
-
-            <li className="setting-item">
-              <h3>刪除帳號</h3>
-              <p className="desc">刪除帳號後資料將永久刪除，無法復原。</p>
-              <button className="action-btn">刪除帳號</button>
-            </li>
-          </ul>
-
-          <h2>通知</h2>
-          <ul>
-            <li className="setting-item">
-              <h3>電子郵件通知</h3>
-              <label className="toggle-switch">
-                <input type="checkbox" checked />
-                <span className="slider"></span>
-              </label>
-            </li>
-          </ul>
-        </div> */}
-
-
+ 
       </div>
     </section >
 
