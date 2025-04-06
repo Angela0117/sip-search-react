@@ -879,7 +879,7 @@ function IndexPage() {
             </div>
             <div
               className="discover-cocktail"
-              data-aos="zoom-out-up"
+              data-aos="fade-up"
               data-aos-duration="1500"
             >
               <div className="discover-container d-flex">
@@ -914,8 +914,9 @@ function IndexPage() {
             </div>
             <div
               className="discover-bar"
-              data-aos="zoom-out-up"
+              data-aos="fade-up"
               data-aos-duration="1500"
+              style={{ overflow: "hidden" }}
             >
               <div className="discover-container d-flex">
                 <div className="discover-text">
@@ -1170,7 +1171,7 @@ function IndexPage() {
               <React.Fragment key={`bar-${comment.id}`}>
                 <li
                   className="comments-list-item"
-                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                  data-aos={index === 0 ? "zoom-in-right" : "fade-up"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
                     <img src={comment.userAvatar} alt="" />
@@ -1209,7 +1210,7 @@ function IndexPage() {
               <React.Fragment key={`recipe-${comment.id}`}>
                 <li
                   className="comments-list-item"
-                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                  data-aos={index === 0 ? "zoom-in-right" : "fade-up"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
                     <img src={comment.userAvatar} alt="" />

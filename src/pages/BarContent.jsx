@@ -365,7 +365,7 @@ function BarContent() {
       </section>
 
       <section className="section section-about">
-        <div className="container">
+        <div className="container " style={{ overflowX: "hidden" }}>
           <div className="txt" data-aos="fade-right">
             <div className="title ms-lg-12">
               <h3 className="fs-7 fs-lg-6">關於酒吧</h3>
@@ -387,7 +387,7 @@ function BarContent() {
       </section>
 
       <section className="section section-activity">
-        <div className="container">
+        <div className="container" style={{ overflowX: "hidden" }}>
           <div className="txt" data-aos="fade-left" data-aos-duration="1000">
             <div className="title me-lg-12">
               <h3 className="fs-7 fs-lg-6">最新活動</h3>
@@ -407,7 +407,7 @@ function BarContent() {
       </section>
 
       <section className="section section-contact">
-        <div className="container">
+        <div className="container" style={{ overflowX: "hidden" }}>
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
             {googleMapIframeUrl ? (
               <iframe
