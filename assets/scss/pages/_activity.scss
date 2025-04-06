@@ -1,0 +1,130 @@
+.activity {
+  margin: auto;
+  padding-top: 104px;
+  color: $primary-1;
+  .section-title {
+    padding: 58px 0;
+  }
+
+  .section-filter {
+    background-color: $primary-1;
+    .container {
+      padding: 48px 120px;
+    }
+    h3 {
+      padding: 12px 0;
+    }
+    .filter-field {
+      padding: 12px 48px;
+      border: 1px solid $primary-3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .filter-item {
+        cursor: pointer;
+      }
+      .btn {
+        color: $primary-1;
+        padding: 16px 20px;
+        gap: 12px;
+        display: flex;
+        align-items: center;
+        span {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .section-results {
+    padding: 48px 0;
+
+    color: $primary-1;
+    .resultsItems {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px;
+      margin: 48px 0;
+      .result-item {
+        flex-grow: 1;
+        cursor: pointer;
+        min-height: 372px;
+        padding: 32px 24px;
+
+        background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+          url("https://images.unsplash.com/photo-1618659525444-49206d11d0b6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover; /* 或其他適合的設定 */
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .activity-date {
+          background-color: $primary-3;
+          padding: 4px 12px;
+        }
+        .tag {
+          background-color: $primary-1;
+          color: $primary-4;
+          padding: 8px 16px;
+          border-radius: 100px;
+        }
+      }
+    }
+
+    .pages {
+      text-align: end;
+      span {
+        cursor: pointer;
+        background-color: #666;
+        color: #fff;
+        padding: 4px 12px;
+        margin-left: 9px;
+      }
+      span.active {
+        background-color: $primary-3;
+      }
+    }
+  }
+
+  .section-popular-events {
+    padding: 0 48px;
+    .main-title {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .popular-event-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 48px;
+      .pic {
+        width: 50%;
+      }
+      .txt {
+        width: 50%;
+        padding: 106px 48px;
+        .activity-date {
+          background-color: $primary-3;
+          padding: 4px 12px;
+        }
+        h4 {
+          margin: 24px 0;
+        }
+        .tags {
+          display: flex;
+          gap: 16px;
+        }
+        .tag {
+          background-color: $primary-1;
+          color: $primary-4;
+          padding: 8px 16px;
+          border-radius: 100px;
+        }
+      }
+    }
+    .popular-event-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+  }
+}
