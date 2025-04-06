@@ -9,10 +9,11 @@ import { useNavigate } from "react-router-dom";
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function RecipesSearch() {
-  const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const { dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索
+  // eslint-disable-next-line no-unused-vars
   const [sortType, setSortType] = useState("default"); //熱門排序
   const [activeSort, setActiveSort] = useState(""); // 排序的類型狀態切換
   const [selectedTags, setSelectedTags] = useState([]); //tag篩選
@@ -148,16 +149,19 @@ function RecipesSearch() {
 
   //熱門/按讚排序功能
   const handleSort = (type) => {
-    setSortType(type);
-    setActiveSort(type); //點擊後變色
+    setSortType(type); // 設置排序類型
+    setActiveSort(type);
+
     let sortedProducts = [...allProducts];
     if (type === "favorite") {
       sortedProducts.sort((a, b) => b.favorite - a.favorite);
     } else if (type === "likes") {
       sortedProducts.sort((a, b) => b.likes - a.likes);
     } else {
+      // 使用 sortType 來判斷預設排序
       sortedProducts.sort((a, b) => a.id - b.id);
     }
+
     setAllProducts(sortedProducts);
     setProducts(sortedProducts.slice(0, cardsPerPage));
     setCurrentPage(1);
@@ -165,6 +169,7 @@ function RecipesSearch() {
     // 清除 URL 查詢參數
     navigate("/recipessearch");
   };
+
   //清除排序功能
   const handleClearSort = () => {
     setSortType("default");

@@ -1,30 +1,26 @@
-import Swiper from 'swiper/bundle';
-import 'swiper/css/bundle';
+// import Swiper from 'swiper/bundle';
+// import 'swiper/css/bundle';
 
-// 初始化 Swiper
-document.addEventListener('DOMContentLoaded', () => {
-  new Swiper('.swiper-container', {
-    // Swiper options
-    slidesPerView: 1,
-    spaceBetween: 10,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
-});
+// // 初始化 Swiper
+// document.addEventListener('DOMContentLoaded', () => {
+//   new Swiper('.swiper-container', {
+//     // Swiper options
+//     slidesPerView: 1,
+//     spaceBetween: 10,
+//     pagination: {
+//       el: '.swiper-pagination',
+//       clickable: true,
+//     },
+//     navigation: {
+//       nextEl: '.swiper-button-next',
+//       prevEl: '.swiper-button-prev',
+//     },
+//   });
+// });
 
-
-$(document).ready(function() {
-    console.log("jQuery is working from CDN!");
-  });
-
-
-
+// $(document).ready(function() {
+//     console.log("jQuery is working from CDN!");
+//   });
 
 // $(document).ready(function() {
 //     var $scrollContainer = $('#scroll-container');
@@ -57,7 +53,6 @@ $(document).ready(function() {
 //         }, 300);
 //     });
 
-
 //     //第三個容器
 //     $('#scroll-left-btn-2').click(function() {
 //         $('#scroll-container-2').animate({
@@ -70,7 +65,6 @@ $(document).ready(function() {
 //             scrollLeft: '+=' + scrollAmount
 //         }, 300);
 //     });
-
 
 // });
 
@@ -95,14 +89,3 @@ $(document).ready(function() {
 //     });
 //   }
 // });
-
-
-
-
-
-
-  
-  
-  
-  
-  

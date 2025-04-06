@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function BarFinder() {
-  const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const { dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索

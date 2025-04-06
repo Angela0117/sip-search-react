@@ -7,7 +7,7 @@ import { useUser } from "../contexts/UserContext";
 
 function MemberSignup() {
   // const [email, setEmail] = useState("");
-  const { user, authAxios } = useUser(); // 添加 useUser hook
+  const { authAxios } = useUser(); // 添加 useUser hook
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const modalRef = useRef(null);
