@@ -4,6 +4,7 @@ import "swiper/css/bundle";
 import { Link, useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 import { useUser } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -22,6 +23,8 @@ function RecipesSearch() {
     mostLiked: [],
     mostFavorites: [],
   });
+
+  const navigate = useNavigate();
 
   //首頁的tag篩選功能
   const tagFromUrl = searchParams.get("tag");
@@ -158,6 +161,9 @@ function RecipesSearch() {
     setAllProducts(sortedProducts);
     setProducts(sortedProducts.slice(0, cardsPerPage));
     setCurrentPage(1);
+
+    // 清除 URL 查詢參數
+    navigate("/recipessearch");
   };
   //清除排序功能
   const handleClearSort = () => {
@@ -168,6 +174,9 @@ function RecipesSearch() {
     setAllProducts(sortedProducts);
     setProducts(allProducts.slice(0, cardsPerPage));
     setCurrentPage(1);
+
+    // 清除 URL 查詢參數
+    navigate("/recipessearch");
   };
 
   // 分頁功能

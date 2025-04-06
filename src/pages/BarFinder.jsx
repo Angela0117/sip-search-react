@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 import { useUser } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -22,6 +23,8 @@ function BarFinder() {
     type: [],
     minimum_spend: null, //範圍值
   });
+
+  const navigate = useNavigate();
 
   //每次跳轉都在頁面上方
   useEffect(() => {
@@ -160,6 +163,8 @@ function BarFinder() {
     setFilteredProducts(allProducts);
     setCurrentPage(1);
     setProducts(allProducts.slice(0, cardsPerPage));
+
+    navigate("/barfinder");
   };
 
   // 分頁功能
