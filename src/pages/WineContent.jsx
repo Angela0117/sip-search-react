@@ -125,7 +125,7 @@ function WineContent() {
       alert("點讚失敗");
     }
   };
-
+  //收藏
   const handleFavorite = async () => {
     if (!user) {
       alert("請先登入");
@@ -180,16 +180,33 @@ function WineContent() {
       };
       await dataAxios.post("/recipscomments", commentData);
       // 重新獲取評論
-      const getRecipeComments = async () => {
-        try {
-          const res = await dataAxios.get(`/recipscomments?recipeId=${id}`);
-          setComment(res.data);
-        } catch (error) {
-          console.error("取得評論失敗", error);
-        }
-      };
+      try {
+        const res = await dataAxios.get(`/recipscomments?recipeId=${id}`);
+        // 為每個評論獲取用戶資訊
+        const commentsWithUserInfo = await Promise.all(
+          res.data.map(async (comment) => {
+            try {
+              const userRes = await dataAxios.get(`/users/${comment.userId}`);
+              return {
+                ...comment,
+                userName: userRes.data.nickname,
+                userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
+              };
+            } catch (userError) {
+              console.log(`無法獲取用戶 ${comment.userId} 的資訊`, userError);
+              return {
+                ...comment,
+                userName: "",
+                userAvatar: images["Ellipse 11"],
+              };
+            }
+          })
+        );
+        setComment(commentsWithUserInfo);
+      } catch (error) {
+        console.error("取得評論失敗", error);
+      }
 
-      await getRecipeComments();
       setNewComment("");
     } catch (error) {
       console.error("發布評論失敗", error);
@@ -335,19 +352,23 @@ function WineContent() {
           </h2>
         </div>
 
-        <a className="d-block mb-6 mb-md-10" href="#">
+        <Link
+          to="/recipessearch"
+          className="d-block mb-6 mb-md-10"
+          style={{ cursor: "pointer" }}
+        >
           <div className="special-list-btn d-flex justify-content-end align-items-center">
             <p className="fs-8 fs-md-7 me-2 me-md-6">查看更多</p>
             <span className="material-symbols-outlined fs-8 fs-md-5 me-6">
               arrow_forward_ios
             </span>
           </div>
-        </a>
+        </Link>
 
         {/* 酒譜卡片 */}
 
         <div
-          className="row gx-lg-13 gy-lg-13 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13"
+          className="row gx-lg-13 gy-lg-6 gy-md-10 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13"
           data-aos="zoom-in"
         >
           {specialsRecipe.map((recipe) => (
