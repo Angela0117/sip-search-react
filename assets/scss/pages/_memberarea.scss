@@ -9,6 +9,9 @@ $x-large: 1200px;
   }
 }
 
+// *, *::after, *::before {
+//   outline: #06a555 1px solid;
+// }
 
 //將title-bg往下推：104(navbar高度)+58(間距)
 
@@ -27,20 +30,67 @@ $x-large: 1200px;
   padding-bottom: 80px;
 
   //左側功能選單
+  .member-nav-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    @include respond-to($large) {
+      flex-direction: row;
+      //text-align: center;
+      //padding: 0px 20px;
+    }
+    @include respond-to($medium) {
+      flex-direction: row;
+      //text-align: center;
+      //padding: 0px 20px;
+      
+    }
+   
+    //讓swiper預設箭頭消失
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      display: none;
+    }
+    .swiper-button-next,
+    .swiper-button-prev {
+      position: absolute;
+      
+      //transform: translateY(-50%);
+      //z-index: 10;
+      cursor: pointer;
+      
+      
+    }
+      /* 右箭頭靠右邊距離 */
+    .swiper-button-next {
+      right: 10px;
+      
+    }
+
+    /* 左箭頭靠左邊距離 */
+    .swiper-button-prev {
+      left: 10px;
+    }
+
+  }
   .member-nav-item{
     padding: 16px 12px;
     justify-content: flex-start;
     &:hover {
       color: $primary-3;
     }
-    &:active {
-      background-color: $primary-3;
-      color: $primary-1;
+  }
+  
+  //當onClick事件觸發，套用此樣式
+  .nav-item-active {
+    background-color: $primary-3;
+    color: $primary-1;
+    &:hover {
+      background-color: $primary-1;
+      color: $primary-3;
     }
   }
-  .member-nav-list{
-    text-align: left;
-  }
+  
   .member-noti-count{
     width: 30px;
     height: 30px;
@@ -79,6 +129,7 @@ $x-large: 1200px;
       background-color: $primary-4;
     }
   }
+
 
   //右側功能內容
   .profile-header{

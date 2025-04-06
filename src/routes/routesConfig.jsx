@@ -56,7 +56,7 @@ const routesConfig = [
         element: <BarSearch />,
       },
       {
-        path: "memberarea",
+        path: "users/:id",
         element: <MemberArea />,
       },
 
