@@ -137,7 +137,34 @@ function BarContent() {
       };
 
       await dataAxios.post("/barcomments", commentData);
-      getBarComments(); // 重新獲取評論
+
+      // 重新獲取評論並包含用戶資訊
+      try {
+        const res = await dataAxios.get(`/barcomments?barId=${id}`);
+        const commentsWithUserInfo = await Promise.all(
+          res.data.map(async (comment) => {
+            try {
+              const userRes = await dataAxios.get(`/users/${comment.userId}`);
+              return {
+                ...comment,
+                userName: userRes.data.nickname,
+                userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
+              };
+            } catch (err) {
+              console.error(`無法獲取用戶 ${comment.userId} 的資訊`, err);
+              return {
+                ...comment,
+                userName: "",
+                userAvatar: images["Ellipse 11"],
+              };
+            }
+          })
+        );
+        setComment(commentsWithUserInfo);
+      } catch (error) {
+        console.error("取得評論失敗", error);
+      }
+
       setNewComment(""); // 清空輸入框
     } catch (error) {
       console.error("發布評論失敗", error);
@@ -503,7 +530,7 @@ function BarContent() {
                   <div className="user-item">
                     <div className="user-avatar">
                       <img
-                        src={images["Ellipse 11"]}
+                        src={comment.userAvatar || images["Ellipse 11"]}
                         alt="User's avatar"
                         className="rounded-circle"
                       />
