@@ -14,10 +14,12 @@ export function useUser() {
 }
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem("user");
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState(null);
+
+  // 更新使用者資訊的函數
+  const updateUser = (userData) => {
+    setUser(userData);
+  };
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -55,6 +57,8 @@ export function UserProvider({ children }) {
     <UserContext.Provider
       value={{
         user,
+        setUser,
+        updateUser,
         login,
         logout,
         authAxios,

@@ -9,7 +9,7 @@ import { useUser } from "../contexts/UserContext";
 
 function WineContent() {
   const { id } = useParams();
-  const { user, dataAxios } = useUser(); // 獲取用戶資訊
+  const { user, dataAxios, setUser } = useUser(); //獲取用戶資訊
   const [recipe, setRecipe] = useState(null);
   const [comment, setComment] = useState([]);
   const [specialsRecipe, setSpecialsRecipe] = useState([]);
@@ -77,6 +77,19 @@ function WineContent() {
     getRecipeCard();
   }, []);
 
+  // 檢查使用者是否已點讚與收藏
+  useEffect(() => {
+    if (user && recipe) {
+      // 檢查點讚狀態
+      const hasLiked = user.like_recipes.includes(Number(id));
+      setIsLiked(hasLiked);
+
+      // 檢查收藏狀態
+      const hasFavorited = user.favorite_recipes.includes(Number(id));
+      setIsFavorite(hasFavorited);
+    }
+  }, [user, recipe, id]);
+
   // 處理點讚
   const handleLike = async () => {
     if (!user) {
@@ -85,14 +98,28 @@ function WineContent() {
     }
 
     try {
+      const updatedUser = { ...user };
+      if (isLiked) {
+        updatedUser.like_recipes = user.like_recipes.filter(
+          (recipeId) => recipeId !== Number(id)
+        );
+      } else {
+        updatedUser.like_recipes = [...user.like_recipes, Number(id)];
+      }
+
       const updatedRecipe = {
         ...recipe,
         likes: isLiked ? recipe.likes - 1 : recipe.likes + 1,
       };
 
-      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      await Promise.all([
+        dataAxios.patch(`/users/${user.id}`, updatedUser),
+        dataAxios.patch(`/recipes/${id}`, updatedRecipe),
+      ]);
+
       setRecipe(updatedRecipe);
       setIsLiked(!isLiked);
+      setUser(updatedUser); // 使用 setUser 而不是 updateUser
     } catch (error) {
       console.error("點讚失敗:", error);
       alert("點讚失敗");
@@ -106,14 +133,28 @@ function WineContent() {
     }
 
     try {
+      const updatedUser = { ...user };
+      if (isFavorite) {
+        updatedUser.favorite_recipes = user.favorite_recipes.filter(
+          (recipeId) => recipeId !== Number(id)
+        );
+      } else {
+        updatedUser.favorite_recipes = [...user.favorite_recipes, Number(id)];
+      }
+
       const updatedRecipe = {
         ...recipe,
         favorite: isFavorite ? recipe.favorite - 1 : recipe.favorite + 1,
       };
 
-      await dataAxios.patch(`/recipes/${id}`, updatedRecipe);
+      await Promise.all([
+        dataAxios.patch(`/users/${user.id}`, updatedUser),
+        dataAxios.patch(`/recipes/${id}`, updatedRecipe),
+      ]);
+
       setRecipe(updatedRecipe);
       setIsFavorite(!isFavorite);
+      setUser(updatedUser);
     } catch (error) {
       console.error("收藏失敗:", error);
       alert("收藏失敗");
