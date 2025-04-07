@@ -9,11 +9,18 @@
 @import "./helpers/mixins.scss";
 @import "../../node_modules/bootstrap";
 
-$utilities: map-merge($utilities,
-    ("font-size": map-merge(map-get($utilities, "font-size"),
-        (responsive: true,
-        )),
-    ));
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-size":
+      map-merge(
+        map-get($utilities, "font-size"),
+        (
+          responsive: true,
+        )
+      ),
+  )
+);
 
 @import "bootstrap/scss/utilities/api";
 
@@ -32,6 +39,7 @@ $utilities: map-merge($utilities,
 @import "./pages/about";
 @import "./pages/barcontent";
 @import "./pages/barfinder";
+@import "./pages/activity";
 
 @import "./pages/memberarea";
 
