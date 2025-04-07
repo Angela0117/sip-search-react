@@ -42,7 +42,7 @@ $x-large: 1200px;
     @include respond-to($medium) {
       flex-direction: row;
       //text-align: center;
-      //padding: 0px 20px;
+      
       
     }
    
@@ -51,16 +51,7 @@ $x-large: 1200px;
     .swiper-button-prev::after {
       display: none;
     }
-    .swiper-button-next,
-    .swiper-button-prev {
-      position: absolute;
-      
-      //transform: translateY(-50%);
-      //z-index: 10;
-      cursor: pointer;
-      
-      
-    }
+   
       /* 右箭頭靠右邊距離 */
     .swiper-button-next {
       right: 10px;

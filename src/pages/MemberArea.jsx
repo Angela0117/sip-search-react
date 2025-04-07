@@ -9,6 +9,7 @@ import 'swiper/css/scrollbar';
 
 
 
+
 function MemberArea(){
   const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
     const { user, dataAxios } = useUser();
@@ -16,6 +17,9 @@ function MemberArea(){
     const [userDetail, setUserDetail] = useState(null);//預設頁面為null
     const swiperRef = useRef(null);
   const swiperInstance = useRef(null); // 儲存 swiper 物件
+
+  
+
  
 
   //Swiper 設定
@@ -117,7 +121,7 @@ function MemberArea(){
             ))}
 
               {/*手機版顯示swiper */}
-              <div className="swiper mySwiper position-relative ps-3" ref={swiperRef} >
+              <div className="swiper mySwiper  ps-3" ref={swiperRef} >
                 <div className="swiper-wrapper ">
                   <div className="swiper-slide"> 
                     <li className="member-nav-item ">
@@ -158,7 +162,7 @@ function MemberArea(){
                       </li>
                   </div>
                 </div>
-                  <div className="swiper-button-next ">
+                  <div className="swiper-button-next">
                     <span className="material-symbols-outlined ms-8 nav-icon-next">
                     arrow_forward_ios
                     </span>
