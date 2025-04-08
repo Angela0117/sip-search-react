@@ -83,11 +83,6 @@ function MemberArea(){
    
   ];
 
-  
-
-
-
-
 
   return(
     <>
@@ -121,7 +116,7 @@ function MemberArea(){
             ))}
 
               {/*手機版顯示swiper */}
-              <div className="swiper mySwiper  ps-3" ref={swiperRef} >
+              <div className="swiper mySwiper ps-3 d-block d-lg-none" ref={swiperRef} >
                 <div className="swiper-wrapper ">
                   <div className="swiper-slide"> 
                     <li className="member-nav-item ">
