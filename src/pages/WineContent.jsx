@@ -175,6 +175,7 @@ function WineContent() {
 
   return (
     <>
+     <title>酒譜詳情</title>
       {/* 第一區 */}
       <div className="container">
         <section className="wine-content-intro">
