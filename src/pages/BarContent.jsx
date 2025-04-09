@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
@@ -163,8 +163,8 @@ function BarContent() {
               userName: userRes.data.nickname,
               userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
             };
-          } catch (userError) {
-            console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+          } catch (Error) {
+            console.log(`無法獲取用戶 ${comment.userId} 的資訊`, Error);
             return {
               ...comment,
               userName: "",
