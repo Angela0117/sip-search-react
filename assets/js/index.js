@@ -66,21 +66,20 @@
 //   // },
 // });
 
-
 //彈出是否18歲視窗
- // 使用 jQuery 監聽頁面加載
- $(document).ready(function() {
-  // 顯示彈窗
-  $('#ageVerificationModal').modal('show');
-  
-  // 當用戶點擊 "是" 按鈕時，允許訪問網站
-  $('#btnYes').click(function() {
-      $('#ageVerificationModal').modal('hide');
-      window.location.href = '#'; // 替換為你的網站首頁
-  });
+// 使用 jQuery 監聽頁面加載
+//  $(document).ready(function() {
+//   // 顯示彈窗
+//   $('#ageVerificationModal').modal('show');
 
-  // 當用戶點擊 "否" 按鈕時，重定向到其他網站
-  $('#btnNo').click(function() {
-      window.location.href = 'https://www.google.com'; // 替換為其他頁面
-  });
-});
+//   // 當用戶點擊 "是" 按鈕時，允許訪問網站
+//   $('#btnYes').click(function() {
+//       $('#ageVerificationModal').modal('hide');
+//       window.location.href = '#'; // 替換為你的網站首頁
+//   });
+
+//   // 當用戶點擊 "否" 按鈕時，重定向到其他網站
+//   $('#btnNo').click(function() {
+//       window.location.href = 'https://www.google.com'; // 替換為其他頁面
+//   });
+// });

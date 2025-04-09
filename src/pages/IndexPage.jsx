@@ -8,16 +8,14 @@ import HotRecipeCard from "../components/HotRecipeCard";
 import HotBarCard from "../components/HotBarCard";
 import { useUser } from "../contexts/UserContext";
 
-
 function IndexPage() {
   const [latestEvents, setLatestEvents] = useState([]);
   const { dataAxios } = useUser();
 
-
   //取得所有活動
   const getAllEvents = async () => {
     try {
-      const res = await dataAxios.get('/events'); // 使用 dataAxios
+      const res = await dataAxios.get("/events"); // 使用 dataAxios
       console.log("取得活動成功", res.data);
       filterLatestEvents(res.data);
     } catch (error) {
@@ -54,33 +52,33 @@ function IndexPage() {
   // 分別取得酒吧評論和酒譜評論
   const getBarComments = async () => {
     try {
-      const commentRes = await dataAxios.get('/barcomments');
+      const commentRes = await dataAxios.get("/barcomments");
       const commentsWithBarInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
           try {
             const barRes = await dataAxios.get(`/bars/${comment.barId}`);
             let userInfo = {
               name: "匿名用戶",
-              imagesUrl: images["Ellipse 7"] // 預設頭像
+              imagesUrl: images["Ellipse 7"], // 預設頭像
             };
-  
+
             // 如果有 userId 才嘗試獲取用戶資訊
             if (comment.userId) {
               try {
                 const userRes = await dataAxios.get(`/users/${comment.userId}`);
                 userInfo = userRes.data;
               } catch (userError) {
-                console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+                console.log(`無法獲取用戶 ${comment.userId} 的資訊`, userError);
               }
             }
-  
+
             return {
               ...comment,
               type: "bar",
               date: new Date(comment.createdAt),
               barName: barRes.data.name,
               userName: userInfo.name,
-              userAvatar: userInfo.imagesUrl || images["Ellipse 7"]
+              userAvatar: userInfo.imagesUrl || images["Ellipse 7"],
             };
           } catch (error) {
             console.error(`處理評論 ${comment.id} 時發生錯誤:`, error);
@@ -88,13 +86,13 @@ function IndexPage() {
           }
         })
       );
-  
+
       // 過濾掉 null 值並排序
       const validComments = commentsWithBarInfo
-        .filter(comment => comment !== null)
+        .filter((comment) => comment !== null)
         .sort((a, b) => b.date - a.date)
         .slice(0, 2);
-  
+
       setBarComments(validComments);
     } catch (error) {
       console.error("取得酒吧評論失敗", error);
@@ -104,33 +102,35 @@ function IndexPage() {
 
   const getRecipeComments = async () => {
     try {
-      const commentRes = await dataAxios.get('/recipscomments');
+      const commentRes = await dataAxios.get("/recipscomments");
       const commentsWithRecipeInfo = await Promise.all(
         commentRes.data.map(async (comment) => {
           try {
-            const recipeRes = await dataAxios.get(`/recipes/${comment.recipeId}`);
+            const recipeRes = await dataAxios.get(
+              `/recipes/${comment.recipeId}`
+            );
             let userInfo = {
               name: "匿名用戶",
-              imagesUrl: images["Ellipse 7"] // 預設頭像
+              imagesUrl: images["Ellipse 7"], // 預設頭像
             };
-  
+
             // 如果有 userId 才嘗試獲取用戶資訊
             if (comment.userId) {
               try {
                 const userRes = await dataAxios.get(`/users/${comment.userId}`);
                 userInfo = userRes.data;
               } catch (userError) {
-                console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+                console.log(`無法獲取用戶 ${comment.userId} 的資訊`, userError);
               }
             }
-  
+
             return {
               ...comment,
               type: "recipe",
               date: new Date(comment.createdAt),
               recipeName: recipeRes.data.title,
               userName: userInfo.name,
-              userAvatar: userInfo.imagesUrl || images["Ellipse 7"]
+              userAvatar: userInfo.imagesUrl || images["Ellipse 7"],
             };
           } catch (error) {
             console.error(`處理評論 ${comment.id} 時發生錯誤:`, error);
@@ -138,13 +138,13 @@ function IndexPage() {
           }
         })
       );
-  
+
       // 過濾掉 null 值並排序
       const validComments = commentsWithRecipeInfo
-        .filter(comment => comment !== null)
+        .filter((comment) => comment !== null)
         .sort((a, b) => b.date - a.date)
         .slice(0, 2);
-  
+
       setRecipeComments(validComments);
     } catch (error) {
       console.error("取得酒譜評論失敗", error);
@@ -226,7 +226,7 @@ function IndexPage() {
     try {
       const [recipeRes, barRes] = await Promise.all([
         dataAxios.get(`/recipes?search=${term}`), // 使用 dataAxios
-        dataAxios.get(`/bars?search=${term}`),    // 使用 dataAxios
+        dataAxios.get(`/bars?search=${term}`), // 使用 dataAxios
       ]);
 
       const recipeResults = recipeRes.data;
@@ -289,8 +289,6 @@ function IndexPage() {
     modalInstance.hide();
   };
 
-
-
   useEffect(() => {
     // 初始化首頁熱門酒譜swiper
     new Swiper(".swiper-popular-recipe", {
@@ -315,7 +313,6 @@ function IndexPage() {
           spaceBetween: 72,
         },
       },
-      mousewheel: true,
       mousewheel: {
         releaseOnEdges: true,
       },
@@ -340,7 +337,6 @@ function IndexPage() {
     });
   }, []);
 
-
   // 熱門酒譜
 
   const [allRecipes, setAllRecipes] = useState([]); // 存所有酒譜
@@ -349,7 +345,7 @@ function IndexPage() {
   // 取得所有酒譜
   const fetchRecipes = async () => {
     try {
-      const res = await dataAxios.get('/recipes'); // 使用 dataAxios
+      const res = await dataAxios.get("/recipes"); // 使用 dataAxios
       setAllRecipes(res.data);
     } catch (error) {
       console.error("取得酒譜失敗:", error);
@@ -373,7 +369,7 @@ function IndexPage() {
 
   const fetchBars = async () => {
     try {
-      const res = await dataAxios.get('/bars'); // 使用 dataAxios
+      const res = await dataAxios.get("/bars"); // 使用 dataAxios
       setAllBars(res.data);
     } catch (error) {
       console.error("取得酒吧失敗:", error);
@@ -383,7 +379,7 @@ function IndexPage() {
   useEffect(() => {
     // 確保有資料且還沒初始化過
     if (hotBars.length > 0 && !swiperInitialized) {
-      const barSwiper = new Swiper(".swiper-popular-bars", {
+      new Swiper(".swiper-popular-bars", {
         loop: true,
         speed: 2000,
         slidesPerView: 1,
@@ -395,30 +391,28 @@ function IndexPage() {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
-
       });
 
       setSwiperInitialized(true);
-      console.log('Bar Swiper initialized with', hotBars.length, 'slides');
+      console.log("Bar Swiper initialized with", hotBars.length, "slides");
     }
   }, [hotBars]);
 
   // 根據 likes 排序並篩選前 6 名
   const sortHotBars = () => {
     if (allBars.length === 0) {
-      console.log('No bars data available');
+      console.log("No bars data available");
       return;
     }
 
-    console.log('Sorting bars from:', allBars.length, 'total bars');
+    console.log("Sorting bars from:", allBars.length, "total bars");
     const sorted = [...allBars]
       .sort((a, b) => b.likeCount - a.likeCount)
       .slice(0, 6);
 
-    console.log('Sorted hot bars:', sorted.length, 'bars');
+    console.log("Sorted hot bars:", sorted.length, "bars");
     setHotBars(sorted);
   };
-
 
   // 在組件載入時取得所有酒譜和酒吧
   useEffect(() => {
@@ -430,7 +424,6 @@ function IndexPage() {
   useEffect(() => {
     sortHotRecipes();
     sortHotBars();
-
   }, [allRecipes, allBars]);
 
   useEffect(() => {
@@ -443,7 +436,6 @@ function IndexPage() {
       behavior: "smooth", // 平滑滾動
     });
   };
-
 
   return (
     <>
@@ -559,8 +551,9 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
-                                  }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -588,8 +581,9 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
-                                  }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -605,8 +599,9 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
-                                  }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -622,8 +617,9 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
-                                  }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
+                                  selectedBarTags.includes(tag) ? "active" : ""
+                                }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -883,7 +879,7 @@ function IndexPage() {
             </div>
             <div
               className="discover-cocktail"
-              data-aos="zoom-out-up"
+              data-aos="fade-up"
               data-aos-duration="1500"
             >
               <div className="discover-container d-flex">
@@ -918,8 +914,9 @@ function IndexPage() {
             </div>
             <div
               className="discover-bar"
-              data-aos="zoom-out-up"
+              data-aos="fade-up"
               data-aos-duration="1500"
+              style={{ overflow: "hidden" }}
             >
               <div className="discover-container d-flex">
                 <div className="discover-text">
@@ -1015,10 +1012,9 @@ function IndexPage() {
             {/* <div className="swiper-pagination"></div>  */}
           </div>
         </div>
-
-      </section >
+      </section>
       {/* 熱門酒吧  */}
-      < section className="section section-popular-bars bg-dark-brown" >
+      <section className="section section-popular-bars bg-dark-brown">
         <div className="container">
           <div className="main-title text-center mb-lg-11 mb-6">
             <div data-aos="fade-down" data-aos-duration="1500">
@@ -1070,9 +1066,9 @@ function IndexPage() {
             </div>
           </div>
         </div>
-      </section >
+      </section>
       {/* <!-- 最新活動 --> */}
-      < div className="container" >
+      <div className="container">
         <section className="event">
           <div
             className="event-title text-center"
@@ -1108,7 +1104,6 @@ function IndexPage() {
               <ul className="event-list-content  fw-medium">
                 {latestEvents.map((event) => (
                   <li key={event.id} className="event-list-card">
-                   
                     <Link
                       to={`/bar/${event.barId}`}
                       className="event-list-a border p-5"
@@ -1156,7 +1151,7 @@ function IndexPage() {
             </div>
           </div>
         </section>
-      </div >
+      </div>
       <div className="container">
         <section className="comments text-primary-4">
           <div
@@ -1174,11 +1169,11 @@ function IndexPage() {
             {barComments.map((comment, index) => (
               <React.Fragment key={`bar-${comment.id}`}>
                 <li
-                  className="comments-list-item "
-                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                  className="comments-list-item"
+                  data-aos={index === 0 ? "zoom-in-right" : "fade-up"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
-                    <img src={comment.userAvatar}  alt="" />
+                    <img src={comment.userAvatar} alt="" />
                     <div className="comments-list-item-name ms-5">
                       <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                         {comment.userName}
@@ -1215,10 +1210,10 @@ function IndexPage() {
               <React.Fragment key={`recipe-${comment.id}`}>
                 <li
                   className="comments-list-item"
-                  data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
+                  data-aos={index === 0 ? "zoom-in-right" : "fade-up"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
-                    <img src={comment.userAvatar}  alt="" />
+                    <img src={comment.userAvatar} alt="" />
                     <div className="comments-list-item-name ms-5">
                       <h3 className="eng-font fs-7 fs-md-5 text-primary-3 mb-2">
                         {comment.userName}
