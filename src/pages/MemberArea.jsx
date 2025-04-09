@@ -1,10 +1,10 @@
 import React from "react";
 import {useEffect ,useState, useRef } from "react";
 import { useUser } from "../contexts/UserContext";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
-import 'swiper/css/scrollbar';
+//import 'swiper/css/scrollbar';
 
 
 
@@ -12,46 +12,24 @@ import 'swiper/css/scrollbar';
 
 function MemberArea(){
   const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
-    const { user, dataAxios } = useUser();
-    const { id } = useParams();
-    const [userDetail, setUserDetail] = useState(null);//預設頁面為null
-    const swiperRef = useRef(null);
-  const swiperInstance = useRef(null); // 儲存 swiper 物件
+  const { user, dataAxios } = useUser();
+  const { id } = useParams();
+  const [userDetail, setUserDetail] = useState({});//預設頁面為null
+  //const swiperRef = useRef(null);
+  //const swiperInstance = useRef(null); // 儲存 swiper 物件
 
-  
-
+ //左側選單陣列 (count之後要套用api)
+ const menuItems = [
+  { id: 'profile', label: '個人檔案' },
+  { id: 'recipes', label: '收藏酒譜', count:`${userDetail.favorite_recipes?.length}` },
+  { id: 'bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`},
+  { id: 'reviews', label: '歷史評論', count: 2 },
+  { id: 'coupon', label: '生日優惠券', count: "" },
+  //userDetail.favorite_recipes?.length ?? 0
+  //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
  
-
-  //Swiper 設定
-
-  useEffect(() => {
-    if (!userDetail) return; // 防止 swiper 提早啟動
-    if (window.innerWidth <= 992){
-    swiperInstance.current = new Swiper(swiperRef.current, {
-      slidesPerView: 3,//預設顯示3個預設
-      //spaceBetween: 0,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      //   draggable: true, // 使用者可以拖拉滾動條移動 slide
-      // },
-      breakpoints: {
-        // 當螢幕寬度大於等於 480px 時，顯示4個項目
-        480: {
-          slidesPerView: 4,
-        },
-      },
-    });
-  }
-
-  return () => {
-    // 若有初始化過才銷毀
-    swiperInstance.current?.destroy();
-  };
-  }, [userDetail]); // 只有 userDetail 有資料時才初始化 Swiper
+];
+ 
   
   
   //取得會員資訊
@@ -69,19 +47,43 @@ function MemberArea(){
   },[id])
 
   //沒載入完成前，顯示 Loading 
-  if (!userDetail) {
-    return <div>Loading...</div>;
-  }
+  // if (!userDetail) {
+  //   return <div>Loading...</div>;
+  // }
 
-  //左側選單陣列 (count之後要套用api)
-  const menuItems = [
-    { id: 'profile', label: '個人檔案' },
-    { id: 'recipes', label: '收藏酒譜', count:`${userDetail.favorite_recipes?.length ?? 0}` },
-    { id: 'bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length ?? 0}`},
-    { id: 'reviews', label: '歷史評論', count: 2 },
-    { id: 'coupon', label: '生日優惠券', count: "" },
-   
-  ];
+ 
+
+   //Swiper 設定
+
+   useEffect(() => {
+    //if (!userDetail) return; // 防止 swiper 提早啟動
+    // if (userDetail && swiperRef.current && window.innerWidth <= 992){
+    // swiperInstance.current = 
+    new Swiper(".member-nav-swiper", {
+      slidesPerView: 3,//預設顯示3個預設
+      //spaceBetween: 0,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      //   draggable: true, // 使用者可以拖拉滾動條移動 slide
+      // },
+      breakpoints: {
+        // 當螢幕寬度大於等於 480px 時，顯示4個項目
+        480: {
+          slidesPerView: 4,
+        },
+      },
+    });
+  // }
+
+  // return () => {
+  //   // 若有初始化過才銷毀
+  //   //swiperInstance.current?.destroy();
+  // };
+  }, []); // 只有 userDetail 有資料時才初始化 Swiper
 
 
   return(
@@ -115,7 +117,37 @@ function MemberArea(){
               </li>
             ))}
 
-              {/*手機版顯示swiper */}
+            {/* 測試 ref={swiperRef} */}
+            <div className="swiper mySwiper member-nav-swiper ps-3 d-block d-lg-none" >
+              <div className="swiper-wrapper">
+                {menuItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`swiper-slide member-nav-item ${activeItem === item.id ? 'nav-item-active' : ''}`}
+                    onClick={() => setActiveItem(item.id)}
+                  >
+                    <Link to="/memberarea" className="d-flex gap-2 gap-lg-3">
+                      <p>{item.label}</p>
+                      {item.count && <span className="member-noti-count">{item.count}</span>}
+                    </Link>
+                  </div>
+                ))}
+              </div>
+
+              {/* Swiper 導覽箭頭 */}
+              <div className="swiper-button-next">
+                <span className="material-symbols-outlined ms-8 nav-icon-next">arrow_forward_ios</span>
+              </div>
+              <div className="swiper-button-prev">
+                <span className="material-symbols-outlined me-6 nav-icon-prev">arrow_back_ios</span>
+              </div>
+            </div>
+
+
+
+
+
+              {/* 手機版顯示swiper
               <div className="swiper mySwiper ps-3 d-block d-lg-none" ref={swiperRef} >
                 <div className="swiper-wrapper ">
                   <div className="swiper-slide"> 
@@ -167,43 +199,10 @@ function MemberArea(){
                     arrow_back_ios
                     </span>
                   </div>
-                  {/* <div className="swiper-scrollbar member-nav-swiper-scrollbar"></div> */}
-              </div>
-
-            
+                  <div className="swiper-scrollbar member-nav-swiper-scrollbar"></div>
+              </div> */}
 
 
-            {/*swiper */}
-
-              {/* // <li className="member-nav-item">
-              //   <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-              //     <p>個人檔案</p>
-              //   </Link>            
-              // </li> */}
-              {/* <li className="member-nav-item">
-                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                  <p>收藏酒譜</p>
-                  <span className="member-noti-count">5</span>
-                </Link>            
-              </li>
-              <li className="member-nav-item">
-                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                  <p>收藏酒吧</p>
-                  <span className="member-noti-count">5</span>
-                </Link>            
-              </li>
-              <li className="member-nav-item">
-                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                  <p>歷史評論</p>
-                  <span className="member-noti-count">5</span>
-                </Link>            
-              </li>
-              <li className="member-nav-item">
-                <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                  <p>生日優惠券</p>
-                  <span className="member-noti-count">5</span>
-                </Link>            
-              </li> */}
               <li className="member-nav-item member-logout-link  d-none d-lg-block">
                 <Link to="/">
                   <p>登出</p>
@@ -277,7 +276,7 @@ function MemberArea(){
 
                  {/*toggle組件 */}
                 <div>
-                  <label>
+                  <label className="setting-toggle-label ">
                     <input type="checkbox" name="" id="" className="email-noti-toggle"/>
                     <span className="btn-box ">
                       <span className="btn-item"></span>      
@@ -291,9 +290,7 @@ function MemberArea(){
           <div className="logout-mobile-btn d-block d-lg-none">
             <button className="btn btn-logout">登出</button>
           </div>
-
         </div>
- 
       </div>
     </section >
 

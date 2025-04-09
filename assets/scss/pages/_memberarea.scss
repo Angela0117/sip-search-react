@@ -245,42 +245,51 @@ $x-large: 1200px;
     }
   }  
 }
-//toggle組件測試樣式
+
+// toggle 組件測試樣式
 .btn-box {
-  display:inline-block;
+  display: inline-block;
   width: 40px;
   height: 20px;
-  border-radius:100px;
+  border-radius: 100px;
   background-color: gray;
   transition: background-color 0.3s;
-  cursor: pointer;//滑鼠變為小手指
-}
-.btn-box .btn-item {
-  display:inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius:50%;
-  background-color: white;
-  transition: margin-left 0.3s, transform 0.3s;
-  //margin-left: 0;
-}
-.email-noti-toggle:checked + .btn-box .btn-item {
-  margin-left: 20px;
-  
-  transform: scale(1.1);//點擊時通知球體變大為1.1倍
-  
-}
-.email-noti-toggle {
-  position:absolute;
-  opacity:0;
-}
-.email-noti-toggle:checked + .btn-box {
-  background-color:$primary-3 ; /* 或你指定的灰色 */
-}
-label {
-  display: inline-block;
-}
-.btn-box:hover {
+  cursor: pointer;
+
+  &:hover {
     background-color: lighten(gray, 20%);
+  }
+
+  .btn-item {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    transition: margin-left 0.3s, transform 0.3s;
+     //margin-left: 0;
+  }
+}
+
+// 隱藏 checkbox
+.email-noti-toggle {
+  position: absolute;
+  opacity: 0;
+
+  // 勾選後改變 btn-box 背景色
+  &:checked + .btn-box {
+    background-color: $primary-3;
+
+    // 勾選後移動 .btn-item + 放大效果
+    .btn-item {
+      margin-left: 20px;
+      transform: scale(1.1); // 點擊時通知球體變大為 1.1 倍
+    }
+  }
+}
+
+// label 樣式
+.setting-toggle-label {
+  display: inline-block;
 }
 
