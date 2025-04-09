@@ -1,227 +1,286 @@
-//將member-bg往下推：104(navbar高度)
+// 定義變數
+$medium: 768px;
+$large: 992px;
+$x-large: 1200px;
 
-.member-bg {
-  padding-top: 104px;
-
-  @media (max-width: 768px) {
-    padding-top: 36px;
+@mixin respond-to($size) {
+  @media (max-width: $size) {
+    @content;
   }
 }
 
+// *, *::after, *::before {
+//   outline: #06a555 1px solid;
+// }
 
-.memberinfo-btn {
-  background: $primary-1 ;
-  color: $primary-4;
-  font-size: 24px;
-  padding: 20px 16px; //py與預設a連結樣式相同才能對齊
+//將title-bg往下推：104(navbar高度)+58(間距)
 
-  @media (max-width: 768px) {
-    font-size: 12px;
-    padding: 12px 8px;
-  }
-
-  &:active {
-    background: $primary-3;
+.title-bg {
+  padding-top: 162px;
+  padding-bottom: 58px;
+  
+  @include respond-to($medium) {
+    padding-top: 140px;//含104(navbar高度
   }
 }
 
+.section-member-content{
+  border-top: 1px solid $neutral-3;
+  padding-top: 40px;
+  padding-bottom: 80px;
 
+  //左側功能選單
+  .member-nav-list{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    @include respond-to($large) {
+      flex-direction: row;
+      //text-align: center;
+      //padding: 0px 20px;
+    }
+    @include respond-to($medium) {
+      flex-direction: row;
+      //text-align: center;
+      
+      
+    }
+   
+    //讓swiper預設箭頭消失
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+      display: none;
+    }
+   
+      /* 右箭頭靠右邊距離 */
+    .swiper-button-next {
+      right: 10px;
+      
+    }
 
-.nav-link {
-  cursor: pointer;
-  color: $primary-4;
-  font-size: 24px;
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-  }
-
-  &:hover {
-    color: $primary-4; //預設為藍色，所以要再加上 color: $primary-4
-    opacity: 0.6;
-  }
-}
-
-.memberinfo-accordion {
-  background: $primary-1;
-}
-
-.content-section {
-  display: none;
-}
-
-.active-section {
-  display: block;
-}
-
-//修改手風琴按鈕展開時的底色，當按鈕處於展開狀態時，會去掉 collapsed 類別 
-.memberinfo-btn:not(.collapsed) {
-  background-color: $primary-4;
-  color: $primary-1;
-  box-shadow: none; //消除預設的藍色陰影
-}
-
-.memberinfo-btn.collapsed {
-  box-shadow: none;
-}
-
-
-
-//修改手風琴按鈕展開時的箭頭顏色 
-.memberinfo-btn:not(.collapsed)::after {
-  color: $primary-4; //箭頭 
-}
-
-//右側內容-個人檔案
-.profile-img-btn {
-  width: 90%;
-  border-radius: 20px;
-  background: $primary-1;
-
-  &:hover {
-    //background: $primary-4;
-  }
-
-  &-text {
-    color: $primary-4;
-
-    &:hover {
-      opacity: 0.6;
+    /* 左箭頭靠左邊距離 */
+    .swiper-button-prev {
+      left: 10px;
     }
 
   }
-}
-
-.profile-userimg {
-  width: 160px;
-  height: 160px;
-
-  @media (max-width: 992px) {
-    width: 100px;
-    height: 100px;
+  .member-nav-item{
+    padding: 16px 12px;
+    justify-content: flex-start;
+    &:hover {
+      color: $primary-3;
+    }
+    @include respond-to($medium) {
+      //width: 25%;
+      
+      
+    }
   }
-
-  @media (max-width: 768px) {
-    width: 80px;
-    height: 80px;
+  
+  //當onClick事件觸發，套用此樣式
+  .nav-item-active {
+    background-color: $primary-3;
+    color: $primary-1;
+    &:hover {
+      background-color: $primary-1;
+      color: $primary-3;
+    }
   }
-}
-
-.profile-box-1 {
-  width: 25%;
-  padding: 40px;
-  background: $primary-4;
-
-  @media (max-width: 768px) {
-    width: 50%;
-  }
-
-}
-
-.profile-record li:hover {
-  opacity: 0.6;
-}
-
-//帳號管理 
-
-.account-title {
-  width: 100%;
-}
-
-.account-content-box {
-  border: 3px solid $primary-4;
-  border-radius: 5px;
-
-
-
-}
-
-.account-icon {
-  position: absolute;
-  //right: 430px;
-  //bottom: 50px;
-  top: 25%;
-  left: 45%;
-
-  @media (max-width: 992px) {
-    top: 28%;
-    left: 45%;
-  }
-
-  @media (max-width: 768px) {
-    top: 28%;
-    left: 40%;
-  }
-
-  &:hover {
-    opacity: 0.6;
-  }
-}
-
-.account-password-btn {
-  width: 15%;
-  border-radius: 20px;
-
-  &:hover {
-    opacity: 0.6;
-  }
-}
-
-//通知區域
-
-.notify-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-//切換按鈕外殼 
-.notify-toggle-switch {
-  position: relative;
-  width: 50px;
-  height: 24px;
-  background-color: #ccc;
-  border: 2px solid $primary-4;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  @media (max-width: 768px) {
+  
+  .member-noti-count{
     width: 30px;
-    height: 16px;
+    height: 30px;
+    text-align: center;
+    display: block;
+    background: $primary-4;
+    border-radius: 50%;
+    @include respond-to($large) {
+      width: 25px;
+      height: 25px;
+    }
+    @include respond-to($medium) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .member-logout-link{
+    border-top: 1px solid $neutral-3;
+  }
+  // 手機版登出按鈕
+  .logout-mobile-btn {
+    margin-top: 40px;
+    text-align: center;
   }
 
-}
+  .btn-logout {
+    color: $primary-1;
+    padding: 8px 0;
+    border: 1px solid $neutral-3;
+    font-size: 12px;
+    width: 120px;
+    &:hover {
+      background-color: $primary-3;
+    }
+    &:active {
+      background-color: $primary-4;
+    }
+  }
 
-//隱藏原始的 input 
-.notify-toggle-switch input {
-  display: none;
-}
 
-//滑塊 
-.slider {
-  position: absolute;
-  top: 1%;
-  left: 1%;
+  //右側功能內容
+  .profile-header{
+    margin-top: 48px;
+    margin-bottom: 48px;
+    @include respond-to($medium) {
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+  }
+  .profile-avatar-img{
+    border-radius: 50%;
+    width: 128px;
+    height: 120px;
+    @include respond-to($medium) {
+      width: 72px;
+    height: 72px;
+    }
+  }
+  .profile-img-link{
+    text-align: center;
+    padding: 8px;
+    background: $primary-4;
+    border: 4px solid $neutral-5;
+    border-radius: 50%;
+    // left: 80px;
+    // top: 72px;
+    bottom: -5px;
+    right: 0px;
+    @include respond-to($medium) {
+      padding: 2px;
+      border: 2px solid $neutral-5;
+    }
+
+  }
+  .profile-img-icon{
+    @include respond-to($medium) {
+      font-size: 20px;
+    }
+  }
+
+  //會員頭像
+  .profile-avatar-img {
+    width: 120px;
+    height: 120px;
+  
+    @include respond-to($large) {
+      width: 100px;
+      height: 100px;
+    }
+  
+    @include respond-to($medium) {
+      width: 72px;
+      height: 72px;
+    }
+  }
+
+  
+  //個人檔案編輯按鈕
+  .profile-edit-btn {
+    display: block;
+    color: $primary-1;
+    background-color: $primary-3;
+    transition: 0.5s;
+    padding: 12px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
+    @include respond-to($medium){
+      padding: 8px 12px;
+    }
+
+    &:hover {
+      background-color: $primary-1;
+      color: $primary-3;
+    }
+
+    &:active {
+      background-color: $primary-3;
+      color: $primary-1;
+    }
+  }
+  .section-title{
+    padding: 16px 20px;
+    background-color: $primary-2;
+    @include respond-to($medium){
+      padding: 8px;
+    }
+
+  }
+  .setting-list{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 32px;
+    margin-bottom: 48px;
+    
+  }
+
+  .setting-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $neutral-3;
+    padding: 12px 20px;
+    @include respond-to($medium){
+      padding: 8px;
+      gap: 32px;
+    }
+  } 
+  .setting-link{
+    white-space: nowrap;
+    color: $primary-1;
+    &:hover {
+      color: $primary-3;
+    }
+  }  
+}
+//toggle組件測試樣式
+.btn-box {
+  display:inline-block;
+  width: 40px;
+  height: 20px;
+  border-radius:100px;
+  background-color: gray;
+  transition: background-color 0.3s;
+  cursor: pointer;//滑鼠變為小手指
+}
+.btn-box .btn-item {
+  display:inline-block;
   width: 20px;
   height: 20px;
+  border-radius:50%;
   background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-
-  @media (max-width: 768px) {
-    top: 0%;
-    width: 12px;
-    height: 12px;
-  }
+  transition: margin-left 0.3s, transform 0.3s;
+  //margin-left: 0;
+}
+.email-noti-toggle:checked + .btn-box .btn-item {
+  margin-left: 20px;
+  
+  transform: scale(1.1);//點擊時通知球體變大為1.1倍
+  
+}
+.email-noti-toggle {
+  position:absolute;
+  opacity:0;
+}
+.email-noti-toggle:checked + .btn-box {
+  background-color:$primary-3 ; /* 或你指定的灰色 */
+}
+label {
+  display: inline-block;
+}
+.btn-box:hover {
+    background-color: lighten(gray, 20%);
 }
 
-//當切換到 "開" 的狀態 
-.notify-toggle-switch input:checked+.slider {
-  left: 26px; //塊移動到右側 
-  background-color: $primary-4; //滑塊顏色變為primary-4 
-
-  @media (max-width: 768px) {
-    left: 14px;
-  }
-}

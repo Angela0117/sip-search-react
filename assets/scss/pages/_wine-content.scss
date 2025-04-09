@@ -1,3 +1,15 @@
+// 定義變數
+$medium: 768px;
+$large: 992px;
+$x-large: 1200px;
+
+@mixin respond-to($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+
 .wine-content-intro {
   .breadcrumb {
     @include respond-to($medium) {

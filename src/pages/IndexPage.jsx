@@ -1108,7 +1108,7 @@ function IndexPage() {
               <ul className="event-list-content  fw-medium">
                 {latestEvents.map((event) => (
                   <li key={event.id} className="event-list-card">
-                    {/* <!-- 會員專區暫存連結 --> */}
+                   
                     <Link
                       to={`/bar/${event.barId}`}
                       className="event-list-a border p-5"
@@ -1174,7 +1174,7 @@ function IndexPage() {
             {barComments.map((comment, index) => (
               <React.Fragment key={`bar-${comment.id}`}>
                 <li
-                  className="comments-list-item"
+                  className="comments-list-item "
                   data-aos={index === 0 ? "zoom-in-right" : "zoom-in-left"}
                 >
                   <div className="comments-list-item-title d-flex mb-8">
@@ -1198,7 +1198,7 @@ function IndexPage() {
                   </p>
                   <Link
                     to={`/bar/${comment.barId}`}
-                    className="comments-list-item-btn d-flex justify-content-between"
+                    className="comments-list-item-btn d-flex"
                   >
                     <p className="fs-9 fs-lg-6">查看更多</p>
                     <span className="material-symbols-outlined fs-9 fs-lg-6">
@@ -1209,6 +1209,7 @@ function IndexPage() {
                 {index === 0 && <div className="comments-divider"></div>}
               </React.Fragment>
             ))}
+            <div className="comments-divider d-block d-lg-none"></div>
 
             {recipeComments.map((comment, index) => (
               <React.Fragment key={`recipe-${comment.id}`}>
@@ -1237,7 +1238,7 @@ function IndexPage() {
                   </p>
                   <Link
                     to={`/recipe/${comment.recipeId}`}
-                    className="comments-list-item-btn d-flex justify-content-between"
+                    className="comments-list-item-btn d-flex"
                   >
                     <p className="fs-9 fs-lg-6">查看更多</p>
                     <span className="material-symbols-outlined fs-9 fs-lg-6">
