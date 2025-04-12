@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
@@ -137,7 +137,34 @@ function BarContent() {
       };
 
       await dataAxios.post("/barcomments", commentData);
-      getBarComments(); // 重新獲取評論
+
+      // 重新獲取評論並包含用戶資訊
+      try {
+        const res = await dataAxios.get(`/barcomments?barId=${id}`);
+        const commentsWithUserInfo = await Promise.all(
+          res.data.map(async (comment) => {
+            try {
+              const userRes = await dataAxios.get(`/users/${comment.userId}`);
+              return {
+                ...comment,
+                userName: userRes.data.nickname,
+                userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
+              };
+            } catch (err) {
+              console.error(`無法獲取用戶 ${comment.userId} 的資訊`, err);
+              return {
+                ...comment,
+                userName: "",
+                userAvatar: images["Ellipse 11"],
+              };
+            }
+          })
+        );
+        setComment(commentsWithUserInfo);
+      } catch (error) {
+        console.error("取得評論失敗", error);
+      }
+
       setNewComment(""); // 清空輸入框
     } catch (error) {
       console.error("發布評論失敗", error);
@@ -163,8 +190,8 @@ function BarContent() {
               userName: userRes.data.nickname,
               userAvatar: userRes.data.imagesUrl || images["Ellipse 11"],
             };
-          } catch (userError) {
-            console.log(`無法獲取用戶 ${comment.userId} 的資訊`);
+          } catch (err) {
+            console.err(`無法獲取用戶 ${comment.userId} 的資訊`, err);
             return {
               ...comment,
               userName: "",
@@ -338,7 +365,7 @@ function BarContent() {
       </section>
 
       <section className="section section-about">
-        <div className="container">
+        <div className="container " style={{ overflowX: "hidden" }}>
           <div className="txt" data-aos="fade-right">
             <div className="title ms-lg-12">
               <h3 className="fs-7 fs-lg-6">關於酒吧</h3>
@@ -360,7 +387,7 @@ function BarContent() {
       </section>
 
       <section className="section section-activity">
-        <div className="container">
+        <div className="container" style={{ overflowX: "hidden" }}>
           <div className="txt" data-aos="fade-left" data-aos-duration="1000">
             <div className="title me-lg-12">
               <h3 className="fs-7 fs-lg-6">最新活動</h3>
@@ -380,7 +407,7 @@ function BarContent() {
       </section>
 
       <section className="section section-contact">
-        <div className="container">
+        <div className="container" style={{ overflowX: "hidden" }}>
           <div className="pic" data-aos="fade-right" data-aos-duration="1000">
             {googleMapIframeUrl ? (
               <iframe
@@ -503,7 +530,7 @@ function BarContent() {
                   <div className="user-item">
                     <div className="user-avatar">
                       <img
-                        src={images["Ellipse 11"]}
+                        src={comment.userAvatar || images["Ellipse 11"]}
                         alt="User's avatar"
                         className="rounded-circle"
                       />

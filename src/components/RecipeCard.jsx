@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -27,7 +28,10 @@ const RecipeCard = ({ recipe }) => {
                 alt={recipe.title}
               />
               <div className="">
-                <Link to={`/wine/${recipe.id}`} className="cardBtn btn btn-primary-4 rounded-circle">
+                <Link
+                  to={`/wine/${recipe.id}`}
+                  className="cardBtn btn btn-primary-4 rounded-circle"
+                >
                   <span className="material-symbols-outlined align-baseline">
                     arrow_forward
                   </span>
@@ -56,7 +60,11 @@ const RecipeCard = ({ recipe }) => {
                 {recipe.title}
               </h6>
               <div className="col my-2">
-                <div className="btn-group" role="group" aria-label="Basic outlined example">
+                <div
+                  className="btn-group"
+                  role="group"
+                  aria-label="Basic outlined example"
+                >
                   {recipe.tags.map((tag, index) => (
                     <button
                       key={index}
@@ -75,7 +83,10 @@ const RecipeCard = ({ recipe }) => {
                   src={recipe.imagesUrl[1]}
                   alt={recipe.title}
                 />
-                <Link to={`/wine/${recipe.id}`}  className="cardBtn cardBtn-primary-4 rounded-circle eng-font">
+                <Link
+                  to={`/wine/${recipe.id}`}
+                  className="cardBtn cardBtn-primary-4 rounded-circle eng-font"
+                >
                   <span className="material-symbols-outlined align-middle">
                     arrow_forward
                   </span>

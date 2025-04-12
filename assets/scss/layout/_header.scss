@@ -60,6 +60,13 @@
     margin-bottom: -16px;
     margin-top: -16px;
   }
+
+  .dropdown-item {
+    cursor: pointer;
+    &:hover {
+      background-color: #7f7973;
+    }
+  }
 }
 
 @media (max-width: 992px) {

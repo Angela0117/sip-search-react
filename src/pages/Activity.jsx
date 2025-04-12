@@ -35,7 +35,8 @@ function Filter() {
             <FilterItem title="地點與主題" content="選擇適合你的活動" />
             <FilterItem title="活動日期" content="選擇日期與時間" />
             <button className="btn btn-primary-3 fs-md-7">
-              搜尋<span class="fs-md-7 material-symbols-outlined">search</span>
+              搜尋
+              <span className="fs-md-7 material-symbols-outlined">search</span>
             </button>
           </div>
         </div>
@@ -71,7 +72,7 @@ function Results() {
           <span className="active ">1</span>
           <span>2</span>
           <span>3</span>
-          <span>></span>
+          <span>{">"}</span>
         </div>
       </section>
     </div>

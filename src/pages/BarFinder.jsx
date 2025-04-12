@@ -1,14 +1,14 @@
 import React, { useRef } from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 import { useUser } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
 function BarFinder() {
-  const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const { dataAxios } = useUser(); // 添加 useUser hook
   const [allProducts, setAllProducts] = useState([]); // 存放所有資料
   const [products, setProducts] = useState([]); // 存放當前頁面資料
   const [searchTerm, setSearchTerm] = useState(""); //搜索
@@ -17,13 +17,14 @@ function BarFinder() {
   const [currentPage, setCurrentPage] = useState(1); //分頁
   const cardsPerPage = 12;
   const [searchParams] = useSearchParams(); //取得url參數
-  const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]); // 存放篩選後的資料
   const [selectedFilters, setSelectedFilters] = useState({
     region: [], // 陣列
     type: [],
     minimum_spend: null, //範圍值
   });
+
+  const navigate = useNavigate();
 
   //每次跳轉都在頁面上方
   useEffect(() => {
@@ -162,6 +163,8 @@ function BarFinder() {
     setFilteredProducts(allProducts);
     setCurrentPage(1);
     setProducts(allProducts.slice(0, cardsPerPage));
+
+    navigate("/barfinder");
   };
 
   // 分頁功能

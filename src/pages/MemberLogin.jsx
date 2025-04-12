@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useUser } from "../contexts/UserContext";
 
 // const baseUrl = import.meta.env.VITE_API_URL;
 
 function MemberLogin() {
-  const { user, authAxios } = useUser(); // 添加 useUser hook
+  const { authAxios } = useUser(); // 添加 useUser hook
   const [account, setAccount] = useState({
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
