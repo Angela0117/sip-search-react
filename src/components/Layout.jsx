@@ -40,8 +40,7 @@ function Layout() {
                   <NavLink
                     to="/recipessearch"
                     className={({ isActive }) =>
-                      `nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem ${
-                        isActive ? "active" : ""
+                      `nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem ${isActive ? "active" : ""
                       }`
                     }
                   >
@@ -78,9 +77,9 @@ function Layout() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <a className="dropdown-item  text-primary-1 " href="#">
+                        <Link className="dropdown-item  text-primary-1 " to={`/users/${user.id}`}>
                           會員中心
-                        </a>
+                        </Link>
                       </li>
                       <li>
                         <hr className="dropdown-divider" />

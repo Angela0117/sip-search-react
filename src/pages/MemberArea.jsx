@@ -1,7 +1,7 @@
 import React from "react";
-import {useEffect ,useState, useRef } from "react";
+import {useEffect ,useState} from "react";
 import { useUser } from "../contexts/UserContext";
-import { Link, useParams } from "react-router-dom";
+import { Outlet,Link, useParams } from "react-router-dom";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 //import 'swiper/css/scrollbar';
@@ -12,7 +12,7 @@ import "swiper/css/bundle";
 
 function MemberArea(){
   const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
-  const { user, dataAxios } = useUser();
+  const { dataAxios } = useUser();
   const { id } = useParams();
   const [userDetail, setUserDetail] = useState({});//預設頁面為null
   //const swiperRef = useRef(null);
@@ -20,10 +20,10 @@ function MemberArea(){
 
  //左側選單陣列 (count之後要套用api)
  const menuItems = [
-  { id: 'profile', label: '個人檔案' },
-  { id: 'recipes', label: '收藏酒譜', count:`${userDetail.favorite_recipes?.length}` },
-  { id: 'bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`},
-  { id: 'reviews', label: '歷史評論', count: 2 },
+  { id: 'profile', label: '個人檔案'  ,link: ""},
+  { id: 'favorite_recipes', label: '收藏酒譜', count:`${userDetail.favorite_recipes?.length}` ,link: 'recipes'},
+  { id: 'favorite_bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`, link: 'bars' },
+  { id: 'comments', label: '歷史評論', count: 2 , link: 'comments'},
   { id: 'coupon', label: '生日優惠券', count: "" },
   //userDetail.favorite_recipes?.length ?? 0
   //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
@@ -104,13 +104,14 @@ function MemberArea(){
           {/*左側功能選單*/}
           <div className="col-lg-3">
             <ul className="member-nav-list text-primary-1 fs-9 fs-md-8 fs-lg-7 ">
+            
             {menuItems.map(item => (
               <li
                 key={item.id}
                 className={`member-nav-item d-none d-md-none d-lg-block ${activeItem === item.id ? 'nav-item-active' : ''}`}
                 onClick={() => setActiveItem(item.id)}
               >
-                <Link to="/memberarea" className="d-flex gap-2 gap-lg-3">
+                <Link to={`/users/${id}/${item.link}`} className="d-flex gap-2 gap-lg-3">
                   <p>{item.label}</p>
                   {item.count && <span className="member-noti-count">{item.count}</span>}
                 </Link>
@@ -210,14 +211,14 @@ function MemberArea(){
               </li>
             </ul>
           </div>
-          
-          {/*右側功能內容*/}
-          <div className="col-lg-8">
+          <Outlet />
+          {/* 右側功能內容 */}
+          {/* <div className="col-lg-8">
             <h2 className=" text-primary-1 fs-9 fs-md-8 fs-lg-6">個人檔案</h2>
-            <div className="profile-header d-flex justify-content-between  align-items-center">
+            <div className="profile-header d-flex justify-content-between  align-items-center"> */}
 
               {/*頭像編輯icon絕對定位 */}              
-              <div className="profile-avatar d-flex align-items-center ">
+              {/* <div className="profile-avatar d-flex align-items-center ">
                 <div className="position-relative">
                   <img src={userDetail.imagesUrl} className="profile-avatar-img" />
                   <Link to="/" className="profile-img-link position-absolute">
@@ -232,10 +233,10 @@ function MemberArea(){
               <Link to="/" className="profile-edit-btn">
                 <p className="fs-9 fs-lg-7">編輯檔案</p>
               </Link>
-            </div>
+            </div> */}
 
             {/*設定內容*/}
-            <div className="account-settings">
+            {/* <div className="account-settings">
               <h3 className="section-title fs-9 fs-lg-7">帳號管理</h3>
               <ul className="setting-list">
                 <li className="setting-item">
@@ -275,7 +276,7 @@ function MemberArea(){
                 </div>
 
                  {/*toggle組件 */}
-                <div>
+                {/* <div>
                   <label className="setting-toggle-label ">
                     <input type="checkbox" name="" id="" className="email-noti-toggle"/>
                     <span className="btn-box ">
@@ -285,7 +286,8 @@ function MemberArea(){
                 </div>
               </div>
             </div>
-          </div>
+          </div> */} 
+          
           {/* 手機版時出現：右側內容的最底部登出按鈕 */}
           <div className="logout-mobile-btn d-block d-lg-none">
             <button className="btn btn-logout">登出</button>

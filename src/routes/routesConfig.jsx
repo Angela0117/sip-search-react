@@ -13,6 +13,10 @@ import BarSearch from "../pages/BarSearch";
 import MemberArea from "../pages/MemberArea";
 
 import Activity from "../pages/Activity";
+import MemberProfile from "../components/MemberProfile";
+import MemberRecipes from "../components/MemberRecipes"; 
+import MemberBars from "../components/MemberBars";
+import MemberComments from "../components/MemberComments"; 
 // 導入其他頁面...
 
 const routesConfig = [
@@ -59,6 +63,24 @@ const routesConfig = [
       {
         path: "users/:id",
         element: <MemberArea />,
+        children:[
+          {
+            index: true,
+            element: <MemberProfile />, // 預設子頁面
+          },
+          {
+            path: "recipes",
+            element: <MemberRecipes />,
+          },
+          {
+            path: "bars",
+            element: <MemberBars />,
+          },
+          {
+            path: "Comments",
+            element: <MemberComments />,
+          },
+        ]
       },
       {
         path: "activity",
