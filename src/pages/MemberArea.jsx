@@ -1,7 +1,7 @@
 import React from "react";
-import {useEffect ,useState} from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { Outlet,Link, useParams } from "react-router-dom";
+import { Outlet, Link, useParams } from "react-router-dom";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 //import 'swiper/css/scrollbar';
@@ -10,7 +10,7 @@ import "swiper/css/bundle";
 
 
 
-function MemberArea(){
+function MemberArea() {
   const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
   const { dataAxios } = useUser();
   const { id } = useParams();
@@ -18,22 +18,22 @@ function MemberArea(){
   //const swiperRef = useRef(null);
   //const swiperInstance = useRef(null); // 儲存 swiper 物件
 
- //左側選單陣列 (count之後要套用api)
- const menuItems = [
-  { id: 'profile', label: '個人檔案'  ,link: ""},
-  { id: 'favorite_recipes', label: '收藏酒譜', count:`${userDetail.favorite_recipes?.length}` ,link: 'recipes'},
-  { id: 'favorite_bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`, link: 'bars' },
-  { id: 'comments', label: '歷史評論', count: 2 , link: 'comments'},
-  { id: 'coupon', label: '生日優惠券', count: "" },
-  //userDetail.favorite_recipes?.length ?? 0
-  //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
- 
-];
- 
-  
-  
+  //左側選單陣列 (count之後要套用api)
+  const menuItems = [
+    { id: 'profile', label: '個人檔案', link: "" },
+    { id: 'favorite_recipes', label: '收藏酒譜', count: `${userDetail.favorite_recipes?.length}`, link: 'recipes' },
+    { id: 'favorite_bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`, link: 'bars' },
+    { id: 'comments', label: '歷史評論', count: 2, link: 'comments' },
+    { id: 'coupon', label: '生日優惠券', count: "" },
+    //userDetail.favorite_recipes?.length ?? 0
+    //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
+
+  ];
+
+
+
   //取得會員資訊
-  useEffect(()=>{
+  useEffect(() => {
     const fetcUserInfo = async () => {
       try {
         const res = await dataAxios.get(`/users/${id}`);
@@ -44,18 +44,18 @@ function MemberArea(){
     };
     fetcUserInfo();
 
-  },[id])
+  }, [id])
 
   //沒載入完成前，顯示 Loading 
   // if (!userDetail) {
   //   return <div>Loading...</div>;
   // }
 
- 
 
-   //Swiper 設定
 
-   useEffect(() => {
+  //Swiper 設定
+
+  useEffect(() => {
     //if (!userDetail) return; // 防止 swiper 提早啟動
     // if (userDetail && swiperRef.current && window.innerWidth <= 992){
     // swiperInstance.current = 
@@ -77,78 +77,78 @@ function MemberArea(){
         },
       },
     });
-  // }
+    // }
 
-  // return () => {
-  //   // 若有初始化過才銷毀
-  //   //swiperInstance.current?.destroy();
-  // };
+    // return () => {
+    //   // 若有初始化過才銷毀
+    //   //swiperInstance.current?.destroy();
+    // };
   }, []); // 只有 userDetail 有資料時才初始化 Swiper
 
 
-  return(
+  return (
     <>
-    <title>會員專區</title>
-    
-    <div
+      <title>會員專區</title>
+
+      <div
         className="container title-bg text-primary-1 d-flex align-items-center  gap-2 gap-lg-3"
       >
         <span className="material-symbols-outlined fs-7 fs-lg-2"> person </span>
         <h1 className="fs-8 fs-md-6 fs-lg-4">會員專區</h1>
-    </div>
+      </div>
 
-    
-    <section className="section-member-content text-neutral-white">
-      <div className="container">
-        <div className="row d-flex justify-content-between">
-          {/*左側功能選單*/}
-          <div className="col-lg-3">
-            <ul className="member-nav-list text-primary-1 fs-9 fs-md-8 fs-lg-7 ">
-            
-            {menuItems.map(item => (
-              <li
-                key={item.id}
-                className={`member-nav-item d-none d-md-none d-lg-block ${activeItem === item.id ? 'nav-item-active' : ''}`}
-                onClick={() => setActiveItem(item.id)}
-              >
-                <Link to={`/users/${id}/${item.link}`} className="d-flex gap-2 gap-lg-3">
-                  <p>{item.label}</p>
-                  {item.count && <span className="member-noti-count">{item.count}</span>}
-                </Link>
-              </li>
-            ))}
 
-            {/* 測試 ref={swiperRef} */}
-            <div className="swiper mySwiper member-nav-swiper ps-3 d-block d-lg-none" >
-              <div className="swiper-wrapper">
-                {menuItems.map((item) => (
-                  <div
+      <section className="section-member-content text-neutral-white">
+        <div className="container">
+          <div className="row d-flex justify-content-between">
+            {/*左側功能選單*/}
+            <div className="col-lg-2">
+              <ul className="member-nav-list text-primary-1 fs-9 fs-md-8 fs-lg-7 ">
+
+                {menuItems.map(item => (
+                  <li
                     key={item.id}
-                    className={`swiper-slide member-nav-item ${activeItem === item.id ? 'nav-item-active' : ''}`}
+                    className={`member-nav-item d-none d-md-none d-lg-block ${activeItem === item.id ? 'nav-item-active' : ''}`}
                     onClick={() => setActiveItem(item.id)}
                   >
-                    <Link to="/memberarea" className="d-flex gap-2 gap-lg-3">
+                    <Link to={`/users/${id}/${item.link}`} className="d-flex gap-2 gap-lg-3">
                       <p>{item.label}</p>
                       {item.count && <span className="member-noti-count">{item.count}</span>}
                     </Link>
-                  </div>
+                  </li>
                 ))}
-              </div>
 
-              {/* Swiper 導覽箭頭 */}
-              <div className="swiper-button-next">
-                <span className="material-symbols-outlined ms-8 nav-icon-next">arrow_forward_ios</span>
-              </div>
-              <div className="swiper-button-prev">
-                <span className="material-symbols-outlined me-6 nav-icon-prev">arrow_back_ios</span>
-              </div>
-            </div>
+                {/* 測試 ref={swiperRef} */}
+                <div className="swiper mySwiper member-nav-swiper ps-3 d-block d-lg-none" >
+                  <div className="swiper-wrapper">
+                    {menuItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className={`swiper-slide member-nav-item ${activeItem === item.id ? 'nav-item-active' : ''}`}
+                        onClick={() => setActiveItem(item.id)}
+                      >
+                        <Link to="/memberarea" className="d-flex gap-2 gap-lg-3">
+                          <p>{item.label}</p>
+                          {item.count && <span className="member-noti-count">{item.count}</span>}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Swiper 導覽箭頭 */}
+                  <div className="swiper-button-next">
+                    <span className="material-symbols-outlined ms-8 nav-icon-next">arrow_forward_ios</span>
+                  </div>
+                  <div className="swiper-button-prev">
+                    <span className="material-symbols-outlined me-6 nav-icon-prev">arrow_back_ios</span>
+                  </div>
+                </div>
 
 
 
 
 
-              {/* 手機版顯示swiper
+                {/* 手機版顯示swiper
               <div className="swiper mySwiper ps-3 d-block d-lg-none" ref={swiperRef} >
                 <div className="swiper-wrapper ">
                   <div className="swiper-slide"> 
@@ -204,21 +204,21 @@ function MemberArea(){
               </div> */}
 
 
-              <li className="member-nav-item member-logout-link  d-none d-lg-block">
-                <Link to="/">
-                  <p>登出</p>
-                </Link>            
-              </li>
-            </ul>
-          </div>
-          <Outlet />
-          {/* 右側功能內容 */}
-          {/* <div className="col-lg-8">
+                <li className="member-nav-item member-logout-link  d-none d-lg-block">
+                  <Link to="/">
+                    <p>登出</p>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <Outlet />
+            {/* 右側功能內容 */}
+            {/* <div className="col-lg-8">
             <h2 className=" text-primary-1 fs-9 fs-md-8 fs-lg-6">個人檔案</h2>
             <div className="profile-header d-flex justify-content-between  align-items-center"> */}
 
-              {/*頭像編輯icon絕對定位 */}              
-              {/* <div className="profile-avatar d-flex align-items-center ">
+            {/*頭像編輯icon絕對定位 */}
+            {/* <div className="profile-avatar d-flex align-items-center ">
                 <div className="position-relative">
                   <img src={userDetail.imagesUrl} className="profile-avatar-img" />
                   <Link to="/" className="profile-img-link position-absolute">
@@ -276,7 +276,7 @@ function MemberArea(){
                 </div>
 
                  {/*toggle組件 */}
-                {/* <div>
+            {/* <div>
                   <label className="setting-toggle-label ">
                     <input type="checkbox" name="" id="" className="email-noti-toggle"/>
                     <span className="btn-box ">
@@ -286,15 +286,15 @@ function MemberArea(){
                 </div>
               </div>
             </div>
-          </div> */} 
-          
-          {/* 手機版時出現：右側內容的最底部登出按鈕 */}
-          <div className="logout-mobile-btn d-block d-lg-none">
-            <button className="btn btn-logout">登出</button>
+          </div> */}
+
+            {/* 手機版時出現：右側內容的最底部登出按鈕 */}
+            <div className="logout-mobile-btn d-block d-lg-none">
+              <button className="btn btn-logout">登出</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section >
+      </section >
 
     </>
   )
