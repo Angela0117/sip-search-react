@@ -5,403 +5,253 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <link rel="stylesheet" href="../assets/font/Web-TT/Flaviotte.css" /> -->
-    
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
     />
-    
 
     <title>會員專區</title>
-    <script type="module" crossorigin src="/sip-search-react/assets/main-587fe782.js"></script>
-    <link rel="stylesheet" href="/sip-search-react/assets/main-4ffd55cc.css">
+    <script type="module" crossorigin src="/sip-search-react/assets/main-a01969c6.js"></script>
+    <link rel="stylesheet" href="/sip-search-react/assets/main-74faacd4.css">
   </head>
 
   <body>
-    <!-- navbae背景跟第一區塊的背景圖相同 -->
-<nav class="navbar navbar-expand-lg border-neutral-3 border-bottom py-lg-4">
-  <!-- 這裡用圖片取代文字 -->
-  <div class="container">
-    <h1>
-      <a class="navbar-brand ms-lg-9 ms-4" href="index.html">sip&search</a>
-    </h1>
-    <!-- 這邊是漢堡 -->
-    <button
-      class="navbar-toggler me-4"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- 目前先設定了hover樣式而已，感覺之後都能夠再修改 -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mb-2 mb-lg-0 mx-auto">
-        <li class="nav-item nav-custom-border">
-          <a
-            class="nav-link active text-primary-1 fs-lg-6 px-lg-7 py-lg-0 navItem"
-            aria-current="page"
-            href="recipessearch.html"
-            >找酒譜</a
-          >
-        </li>
-        <li class="nav-item b nav-custom-border">
-          <a
-            class="nav-link text-primary-1 fs-lg-6 px-lg-7 py-lg-0 navItem"
-            href="barsearch.html"
-            >找酒吧</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link text-primary-1 fs-lg-6 px-lg-7 py-lg-0 navItem"
-            href="#"
-            >最新活動</a
-          >
-        </li>
-      </ul>
-      <div class="log-custom-border">
-        <a
-          class="px-lg-9 py-lg-6 text-primary-1 d-block navItem fs-7"
-          href="member-login.html"
-        >
-          註冊/登入
-          <i class="bi bi-search text-primary-1"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-</nav>
-
     <section class="member-bg">
-        <div class="container text-primary-1 d-flex align-items-center py-8 gap-6">
-            <span class="material-symbols-outlined fs-1"> account_circle </span>
-            <h2 class="fs-5 fs-lg-2">會員專區</h2>
-        </div>
+      <div
+        class="container text-primary-1 d-flex align-items-center py-8 gap-6"
+      >
+        <span class="material-symbols-outlined fs-1"> account_circle </span>
+        <h2 class="fs-5 fs-lg-2">會員專區</h2>
+      </div>
     </section>
 
     <section class="member-content-bg bg-primary-1">
-        <div class="container">
-            <div class="memberinfo pt-8 pt-lg-13 text-primary-4">
-                <!--<div class="memberinfo-list">              
+      <div class="container">
+        <div class="memberinfo pt-8 pt-lg-13 text-primary-4">
+          <!--<div class="memberinfo-list">              
                 </div>
                 <div class="memberinfo-desc"></div>-->
 
-                <div class="row">
-                    <!-- 左側選單 -->
-                    <div class="col-md-3">
-                      <!-- 手風琴元件 -->
-                      <div class="accordion" id="profileAccordion">
-                        <div class="accordion-item ">
-                          <h2 class="accordion-header" id="headingProfile">
-                            <button class="memberinfo-btn accordion-button fw-bold " type="button" data-bs-toggle="collapse" data-bs-target="#collapseProfile" aria-expanded="false" aria-controls="collapseProfile">
-                              個人檔案
-                            </button>
-                          </h2>
-                          <div id="collapseProfile" class="accordion-collapse collapse" aria-labelledby="headingProfile" data-bs-parent="#profileAccordion">
-                            <div class="accordion-body  memberinfo-accordion">
-                              <ul class="nav flex-column memberinfo-list text-center">
-                                <li class="nav-item">
-                                  <a class="nav-link" data-target="account-content">帳號管理</a>
-                                </li>
-                                <li class="nav-item">
-                                  <a class="nav-link" data-target="notification-content">通知</a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                
-                      <!-- 其他選單項目 -->
-                      <ul class="nav flex-column mt-3 fw-bold ">
+          <div class="row">
+            <!-- 左側選單 -->
+            <div class="col-md-3">
+              <!-- 手風琴元件 -->
+              <div class="accordion" id="profileAccordion">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingProfile">
+                    <button
+                      class="memberinfo-btn accordion-button fw-bold"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#collapseProfile"
+                      aria-expanded="false"
+                      aria-controls="collapseProfile"
+                    >
+                      個人檔案
+                    </button>
+                  </h2>
+                  <div
+                    id="collapseProfile"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="headingProfile"
+                    data-bs-parent="#profileAccordion"
+                  >
+                    <div class="accordion-body memberinfo-accordion">
+                      <ul class="nav flex-column memberinfo-list text-center">
                         <li class="nav-item">
-                          <a class="nav-link" data-target="collection-content">收藏酒譜</a>
+                          <a class="nav-link" data-target="account-content"
+                            >帳號管理</a
+                          >
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" data-target="bar-content">收藏酒吧</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-target="reviews-content">查看評論</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-target="logout-content">登出</a>
+                          <a class="nav-link" data-target="notification-content"
+                            >通知</a
+                          >
                         </li>
                       </ul>
                     </div>
-                
-                    <!-- 右側內容區 -->
-                    <div class="col-md-9">
-                      <div id="profile-content" class="content-section active-section">
-                        <h3 class="fs-8 fs-lg-5 mb-10 fw-bold mt-5">個人檔案</h3>
-                        <section class="profile-img d-flex gap-12">
-                            <div class="profile-box-1 d-flex flex-column align-items-center gap-8 ">
-                                <img class="profile-userimg" src="/sip-search-react/assets/Ellipse 5-7b8a6ed2.png" alt="">
-                                <p class="eng-font text-primary-1 fs-10 fs-lg-7">emma</p>
-                                <a class="profile-img-btn d-block text-center p-1" href="#">
-                                    <p class="profile-img-btn-text fs-10 fs-lg-7">編輯檔案</p>
-                                </a>
-                            </div>
-                            <ul class="d-flex flex-column profile-record  fs-9 fs-lg-6 gap-2">
-                                <li>
-                                    <a href="">收藏酒譜(10)</a>
-                                </li>
-                                <li>
-                                    <a href="">收藏酒吧(3)</a>
-                                </li>
-                                <li>
-                                    <a href="">歷史評論(4)</a>
-                                </li>
-                                <li>
-                                    <a href="">生日優惠券(2)</a>
-                                </li>
-                            </ul>
-                        </section>
-                      </div>
+                  </div>
+                </div>
+              </div>
 
-                      <!-- 帳號管理 -->
+              <!-- 其他選單項目 -->
+              <ul class="nav flex-column mt-3 fw-bold">
+                <li class="nav-item">
+                  <a class="nav-link" data-target="collection-content"
+                    >收藏酒譜</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="bar-content">收藏酒吧</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="reviews-content">查看評論</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-target="logout-content">登出</a>
+                </li>
+              </ul>
+            </div>
 
-                      <section class="account-mg mt-10 mb-12">
-                        <div class="account-title bg-primary-4 p-3 mb-4">
-                          <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold ">帳號管理</h3>
-                        </div>
+            <!-- 右側內容區 -->
+            <div class="col-md-9">
+              <div id="profile-content" class="content-section active-section">
+                <h3 class="fs-8 fs-lg-5 mb-10 fw-bold mt-5">個人檔案</h3>
+                <section class="profile-img d-flex gap-12">
+                  <div
+                    class="profile-box-1 d-flex flex-column align-items-center gap-8"
+                  >
+                    <img
+                      class="profile-userimg"
+                      src="/sip-search-react/assets/Ellipse 5-7b8a6ed2.png"
+                      alt=""
+                    />
+                    <p class="eng-font text-primary-1 fs-10 fs-lg-7">emma</p>
+                    <a class="profile-img-btn d-block text-center p-1" href="#">
+                      <p class="profile-img-btn-text fs-10 fs-lg-7">編輯檔案</p>
+                    </a>
+                  </div>
+                  <ul
+                    class="d-flex flex-column profile-record fs-9 fs-lg-6 gap-2"
+                  >
+                    <li>
+                      <a href="">收藏酒譜(10)</a>
+                    </li>
+                    <li>
+                      <a href="">收藏酒吧(3)</a>
+                    </li>
+                    <li>
+                      <a href="">歷史評論(4)</a>
+                    </li>
+                    <li>
+                      <a href="">生日優惠券(2)</a>
+                    </li>
+                  </ul>
+                </section>
+              </div>
 
-                        <div class="account-content fs-9 fs-lg-6">
-                          <form class="d-flex flex-column ">
-                            <label class="fw-bold" for="email">當前信箱</label>
+              <!-- 帳號管理 -->
 
-                            <div class="position-relative">
-                              <input class="account-content-box d-block w-50 p-1 mt-4 mb-10" type="email" name="email" id="email" value="123456@gmail.com">
+              <section class="account-mg mt-10 mb-12">
+                <div class="account-title bg-primary-4 p-3 mb-4">
+                  <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">帳號管理</h3>
+                </div>
 
-                              <a href="#" class=" account-icon ">
-                                <span class="material-symbols-outlined fs-8 fs-lg-6">
-                                edit_square
-                                </span>
-                              </a>      
+                <div class="account-content fs-9 fs-lg-6">
+                  <form class="d-flex flex-column">
+                    <label class="fw-bold" for="email">當前信箱</label>
 
-                            </div>
-                                               
-                          </form>
+                    <div class="position-relative">
+                      <input
+                        class="account-content-box d-block w-50 p-1 mt-4 mb-10"
+                        type="email"
+                        name="email"
+                        id="email"
+                        value="123456@gmail.com"
+                      />
 
-                          <div class="account-security mb-15">
-                            <h6 class="fs-9 fs-lg-6 fw-bold">安全設定</h6>
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <p>密碼</p>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">變更密碼</a>
-                            </div>
-                          </div>
+                      <a href="#" class="account-icon">
+                        <span class="material-symbols-outlined fs-8 fs-lg-6">
+                          edit_square
+                        </span>
+                      </a>
+                    </div>
+                  </form>
 
-                          <div class="mb-10">                          
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <h6 class="fs-9 fs-lg-6 fw-bold">停用帳號</h6>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">停用帳號</a>
-                            </div>
-                            <p class="fs-10 fs-lg-7 mt-4">停用帳號將會關閉您的個人檔案以及您分享過的所有訊息。
-                            <br>
-                            重新登入您的帳號將會啟用被停用的帳號</p>
-                          </div>
-
-                          <div class="mb-10">                          
-                            <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
-                              <h6 class="fs-9 fs-lg-6 fw-bold">刪除帳號</h6>
-                              <a href="#" class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1">刪除帳號</a>
-                            </div>
-                            <p class="fs-10 fs-lg-7 mt-4">將帳號永久刪除。 
-                            <br>
-                            在帳號被刪除後，你將無法重新恢復你的帳號，也無法再取得你張貼過的任何資訊。</p>
-                          </div>
-                          
-
-
-                        </div>
-
-                        <div class=" bg-primary-4 p-3 mb-4">
-                          <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">通知</h3>
-                        </div>
-                        <div class="notify-content">
-                            <label for="email-toggle" class="toggle-label fs-9 fs-lg-6">電子郵件通知</label>
-                            <div class="notify-toggle-switch mt-1">
-                              <input type="checkbox" id="email-toggle">
-                              <span class="slider"></span>
-                            </div>                                                
-                        </div>
-                        <p class="fs-10 fs-lg-7 mt-4">接收最新的酒吧活動訊息</p>
-
-
-                      </section>
-
-
-
-
-
-
-                      <!-- 帳號管理 -->
-                      <div id="account-content" class="content-section">
-                        <h3 class="fs-9 fs-lg-6">帳號管理</h3>
-                        <p>錨點跳至帳號管理的區塊</p>
-                      </div>
-                      <div id="notification-content" class="content-section">
-                        <h3>通知</h3>
-                        <p>錨點跳至通知的區塊</p>
-                      </div>
-                      <div id="collection-content" class="content-section">
-                        <h3>收藏酒譜</h3>
-                        <p>內容以卡片方式呈現</p>
-                      </div>
-                      <div id="bar-content" class="content-section">
-                        <h3>收藏酒吧</h3>
-                        <p>內容以卡片方式呈現</p>
-                      </div>
-                      <div id="reviews-content" class="content-section">
-                        <h3>查看評論</h3>
-                        <p>內容以列表方式呈現</p>
-                      </div>
-                      <div id="logout-content" class="content-section">
-                        <h3>登出</h3>
-                        <p>可做一個modal</p>
-                      </div>
+                  <div class="account-security mb-15">
+                    <h6 class="fs-9 fs-lg-6 fw-bold">安全設定</h6>
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <p>密碼</p>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >變更密碼</a
+                      >
                     </div>
                   </div>
 
+                  <div class="mb-10">
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <h6 class="fs-9 fs-lg-6 fw-bold">停用帳號</h6>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >停用帳號</a
+                      >
+                    </div>
+                    <p class="fs-10 fs-lg-7 mt-4">
+                      停用帳號將會關閉您的個人檔案以及您分享過的所有訊息。
+                      <br />
+                      重新登入您的帳號將會啟用被停用的帳號
+                    </p>
+                  </div>
 
+                  <div class="mb-10">
+                    <div class="d-flex align-items-center fs-10 fs-lg-7 mt-4">
+                      <h6 class="fs-9 fs-lg-6 fw-bold">刪除帳號</h6>
+                      <a
+                        href="#"
+                        class="account-password-btn d-block bg-primary-4 ms-4 text-primary-1 text-center p-1"
+                        >刪除帳號</a
+                      >
+                    </div>
+                    <p class="fs-10 fs-lg-7 mt-4">
+                      將帳號永久刪除。
+                      <br />
+                      在帳號被刪除後，你將無法重新恢復你的帳號，也無法再取得你張貼過的任何資訊。
+                    </p>
+                  </div>
+                </div>
 
+                <div class="bg-primary-4 p-3 mb-4">
+                  <h3 class="text-primary-1 fs-8 fs-lg-5 fw-bold">通知</h3>
+                </div>
+                <div class="notify-content">
+                  <label for="email-toggle" class="toggle-label fs-9 fs-lg-6"
+                    >電子郵件通知</label
+                  >
+                  <div class="notify-toggle-switch mt-1">
+                    <input type="checkbox" id="email-toggle" />
+                    <span class="slider"></span>
+                  </div>
+                </div>
+                <p class="fs-10 fs-lg-7 mt-4">接收最新的酒吧活動訊息</p>
+              </section>
 
-
-
-
-
-
-
-
+              <!-- 帳號管理 -->
+              <div id="account-content" class="content-section">
+                <h3 class="fs-9 fs-lg-6">帳號管理</h3>
+                <p>錨點跳至帳號管理的區塊</p>
+              </div>
+              <div id="notification-content" class="content-section">
+                <h3>通知</h3>
+                <p>錨點跳至通知的區塊</p>
+              </div>
+              <div id="collection-content" class="content-section">
+                <h3>收藏酒譜</h3>
+                <p>內容以卡片方式呈現</p>
+              </div>
+              <div id="bar-content" class="content-section">
+                <h3>收藏酒吧</h3>
+                <p>內容以卡片方式呈現</p>
+              </div>
+              <div id="reviews-content" class="content-section">
+                <h3>查看評論</h3>
+                <p>內容以列表方式呈現</p>
+              </div>
+              <div id="logout-content" class="content-section">
+                <h3>登出</h3>
+                <p>可做一個modal</p>
+              </div>
             </div>
+          </div>
         </div>
-
-       
-
-      
-
+      </div>
     </section>
 
-
-
-
-
-
-
-    <div class="section-f bg-neutral-3">
-  <div class="container">
-    <h3 class="text-white text-center mb-0 py-lg-5 py-2 fs-lg-3 fs-9">
-      未滿18歲禁止飲酒
-      <img
-        class="ban"
-        src="/sip-search-react/assets/image-banned-6a42b105.png"
-        alt="image-banned"
-      />
-      禁止酒駕
-    </h3>
-  </div>
-</div>
-<div class="section-f1 bg-neutral-4 border-neutral-3 border-bottom">
-  <div class="container py-lg-10 py-3">
-    <div class="row">
-      <a class="d-flex justify-content-center" href="#"
-        ><img class="pic1" src="/sip-search-react/assets/image-f2f2676b.png" alt="pic1"
-      /></a>
-    </div>
-  </div>
-</div>
-<div class="section-f2 bg-neutral-4 border-neutral-3 border-bottom">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-12 pb-16 pt-lg-14 ps-lg-11 border-line">
-        <div class="mb-lg-15 d-md-none d-none d-lg-block">
-          <h3 class="text-primary-1 eng-font">加入 Sip & Search 會員</h3>
-          <h3 class="text-primary-1">解鎖每月專屬微醺體驗</h3>
-        </div>
-        <div class="d-lg-none mt-8 d-flex flex-column align-items-center">
-          <p class="text-primary-1 fs-7">加入會員</p>
-          <p class="text-primary-1 fs-7">解鎖每月專屬微醺體驗</p>
-        </div>
-        <div>
-          <form
-            class="d-flex align-items-center flex-lg-row flex-column"
-            action="index.html"
-          >
-            <div class="form-floating">
-              <input
-                type="email"
-                class="form-control text-primary-1 input1 rounded-0"
-                id="floatingInput"
-                placeholder="name@example.com"
-              />
-              <label class="text-primary-1 align-top" for="floatingInput"
-                ><span class="material-symbols-outlined align-top"> mail </span>
-                請輸入您的Email</label
-              >
-            </div>
-
-            <input
-              class="btn-rs-primary-4 border-0 rounded-0 ms-lg-9 py-lg-3 px-lg-9 mt-4 mt-lg-0 fs-lg-6 fs-8"
-              type="submit"
-              value="加入會員"
-            />
-          </form>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-12 mt-lg-14 mb-lg-9 mb-5 ps-lg-11 mt-5">
-        <div class="d-flex flex-column content1">
-          <a class="navItem" href="about.html"
-            ><h5 class="text-primary-1 mb-lg-9 fs-8 fs-md-5">關於我們</h5></a
-          >
-          <a class="navItem" href="#"
-            ><h5 class="text-primary-1 mb-lg-9 fs-8 fs-md-5">
-              聯絡/追蹤我們
-            </h5></a
-          >
-        </div>
-        <div class="d-flex content2">
-          <a class="navItem" href="#"
-            ><img
-              class="pic-icon"
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAAXNSR0IArs4c6QAABaBJREFUeAHtnd1x1DAQgF0CJVACHZAOQgfQQegg6SB0kBJSgmekY3jMIw+JrQcemMnZqIQwa59grUj2StZ67w4yk5Es6/bns37Wki6pKsEfax7edE/qgzX6qjO7u67Vdd8qA79dq1/wb99q27f6AepA3d7o6/2jvgAZgi5sqxqc3Rt90ZvdbQgSBpaS79ud6eEBDA/jDIECtM7oe2hFKWBy6wJMaJ3bNo/C2obW1uibraCFYEPLtGb38aS6+TGA82ECyP2jvincRsqLgzEIjPUdOJZr1yLLe75SojXf3nZG18cCatEOo+/B5pVul/n4vtl9lhznFmF54RCqb2F8LEMhQwqMdV2jvyCDJnHbqZRDSJXh/rqPQPPv2x0EtScJzbcbAvTNuvQB3tFOFD4c6vU4wTCPi+cKz0FmhXju8Fgh/ivw2CCe04ThIC2lw8TyUK9f6TmHUGUJVuz+6hCne1KfYsI3Lq97o6+eTf3OJLaKtXbuG/U5K+gbx71tlp+iTjbq7uf3etUrV1Q2PYa1wCIZIqzfFVCeGWgrY416n2x04AOFfKgDouNFol23Ufep3TTuSVUVAvgCK01zeib3xJakGnU/MaTARSmAQ5BNGX/3jb4ppTRNjjIlW55jn2bD/Lt93+hrJzeYWlO/kWp9ayeLoENVwS48TjrWzrVCsbGvUXcxAGvLS7ZAkDXbCs+t9QH80gC7VtvgQx22HumxUWZ4Ehxj0kKEoPXxQgaAL8Et02FjWgAgvGHE3V9/hwMgxMgTy2DyYFFEeCClAuaJQ+iCya/pZAJBIpOixa4+O6shEDgLr1awCyi5mTXpxlLdFx4aBkPJH8U7+jAbq7+bUVKzbw7AX6Lv6HgSVGZ44JLjXw5AqaEmpHcYfgTDl2F8pHRbXCfkiFiZ+XpZwUFFMQMyxkBJW33dQwgmOYGAQbh1UfK+E6LXZndXSR8KokDDdUSBvY5r6+pw7ngxXuMyHMOh5LnsyJOrDLxsb3LsNmYgBRquE5MjUz4CFGt94DSGQ8nLgMLx3zTPsdyT9EAo0HCdfw4gdl4izw2cvQVKQMM62QGW/MJLyFjsjEQ+ZFPBMlv9BzidFFLg7lv9wB5IS7Q6rDMFSEbduuJ+lcPOSOQzoNCjCHiVgxdiTiUS0LBOTt9gIabiXs7HzkjkOQEO+zncC6oS0LBOToB/TlNwzsTYGYk8H8DDkj441Rt1y6VIAhrWyeVXh4+jcC7rY2ck8mwAYTnf/RzGQZFlLWcDNWUD8nqxdDacebWf3TUyR3qp4Fy9owCIu68zjLMbzznt9FPTOVmb3cPdFxsusTqN9VPym0GKdmk0+/oGS2xx+jYsXYsDnPuStsRksgTMvy8LUJk/wbNvmLveuhU6vdRUEuDs8V7nwNgKX//pJS7DnV5qymXHstyZsc83nnuBARvr6166xp/dND839oWM3urEQkj3XNmm0NxM3HhHeucMdPdgsNwirHH6qOn2AJVdnDhixsNXPbkNjumOlXPb48vvm5WH4PuGb6UGjI2BipX7DnJeg+8xO8jlMCtzHkAiG3KoyAkMyx523FKNi9Ufx0Oe0CamM1aOneTLEwLmmIGxci6IMX2xcj5obn+YAZ5zhgOik01NeQEywnMOlobo5FJTPoAbwHNOAsRSE4uTSU05AMKEAT5RbShWr0SIk2pMaYDgA8c35cl+PY9/WyZ7P4Ws6FCxHEBlVwfJqcbH6g/jYqPgD2nPbsSE7sdkxspDMjLKapEuG3PKlY+tMS1edJ+lphmw0ENVpktdVaEaVrLeuChLA5mqNw/g0F2vRce6VEehPqVFpspNA3ii4Hwo9od6D0chQs77dZeuQzKmZcrCHjf3N+GX7GS5D13IGnU5why7eKqiKaxx0oLDUftG3YLsk+umqQBw/Rxnh5Xy8d9hXB0DsN+uoJOrDAupZAAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC"
-              alt="fb" /></a
-          ><a class="navItem" href="#"
-            ><img
-              class="pic-icon mx-lg-9 mx-3"
-              src="data:image/png;base64,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"
-              alt="ig"
-          /></a>
-          <a class="navItem" href="#"
-            ><img
-              class="pic-icon"
-              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAAAXNSR0IArs4c6QAABDJJREFUeAHtnE1u2zAQhX0EHyE3aW7S3qC5SXqDHEWAJKBLL7toJS4L1BZ0hBR0QpRRR3oaUj+k/QIEomdG5MxHSs+WbB0O/CMBEiABEiABEiABEiABEiABEiABEiABEiABEiABEiABEiCBAYGzqR47Uz93bWkubfXK/+q1a6tTZ+qX3nx/GOBa7mVvTsdLU30j8OlFZxfnctS9nrq2PhH+NHzHxx4R/ak4evjimlz588C7CbDbxY4Ee17zO2Z7/mScf1aPcUv/cDhYcSH0+dB9Vl1TxuuBPZ/5nbKtmYzSRB8Bl7bqCV0D/WPsEhMw+V7/z6/yy+UuPxOUpjflJ7Q4V58AO0BviqM936FkbsVvazXvbzNRTZtMgBvk94/i4caPhsKuelev3SY1AS6xc1M+3ZZ2lH3XVF9dff42yQmwCV6Phqa8hbewha3Fh+63k50Al2S+Iv0msq6OsW3yE2ATz02kfZEdA+/sWUyASzYDkf5PZF3uY9vdJyDkOnh6Ij0usmPgr9fITFXsPgHvCfQW6liykj0hkZ4UWSn3c1M/dTOvEEj7q2xohn1/19ZGe1doP5GeJ7I+LHs38DJj1ftM/P2D2n5nc9v2WrjmhsTWIq0RWQst5m5gEHR/p7nQh3FvR0P92e8LtTcQabXIXu+Bt3Xw/W9UM/QPwWpfpyHS64ks4gEBowA0wEz/niK9qsii+hFf6EcDaPzbivQ2Iovqh4BRABogxL+2SG8psqh+xBf60QCh/pVEenORRfVDwCgADRDrX0ak9xNZVD/iC/1ogIX8MSK9q8ii+iFgFIAGWNIfItIof98f8kk2tj5//KB2bAIh+2tFGhUW80k2JH9/H5Qb9PudbdkOEWmpmNhPsrE1SzmpbLEJxO4fItK2wLmXi2PzQ/urYEvBaICN/CqR1lwuXjt/ianKtnaCmv6RSO8hsih/FWwpGA2wh38o0nuKLKpfYqqyoQH28juR3ltkUf0q2FIwGoD+j1/GHfKQmKpsww75ehr4kI8KthQ87JCvOQGTX5dPbYFIi1plS62g3PJRwZaCcys4tXwlpipbagXllo8KthScW8Gp5SsxVdlSKyi3fFSwpeDcCk4tX4mpypZaQbnlo4ItBedWcGr5SkxVttQKyi0fFWwpOLeCU8tXYqqypVZQbvmoYEvBuRWcWr4SU5UttYJyy0cFWwrOreDU8pWYqmypFZRbPirYUnBuBaeWr8RUZUutoNzyUcGWgvmAVt0tSH+BnNvqJDFV2TpzPw9i8uEt0m7KFxVsKfj6bTM+ojjoPvTUY24k1qM2+5urRVbEHU2kZTYKVOu4/pKdj6+cfRQscu6XJolHAhZk7S80Jc6TNveUEz7Q9d9k2HeK56Z8Hj7QbxIknSRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAiRAAndD4C/DLxQbznmjkgAAAA5lWElmTU0AKgAAAAgAAAAAAAAA0lOTAAAAAElFTkSuQmCC"
-              alt="mail"
-          /></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="section-f3 bg-neutral-4 py-lg-15 py-5">
-  <div class="container">
-    <div class="col">
-      <p class="fs-lg-7 fs-10 text-primary-1 text-center eng-font">
-        Copyright @ Sip & Search 微醺指南
-      </p>
-    </div>
-  </div>
-</div>
-
     
-     
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-     
 
-     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </body>
 </html>
