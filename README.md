@@ -16,7 +16,7 @@
 - React
 - JavaScript (ES6+)
 - SCSS、Bootstrap
-- Swiper（行動裝置切換效果）
+- Swiper
 
 ### 開發與工具
 - Vite（專案建構工具）
@@ -26,7 +26,7 @@
 - Render（雲端部署）
 - Miro（流程與畫面規劃）
 
-## 🌐 專案連結
+## 專案連結
 - 前台測試帳密：ryan39@gmail.com / ryan39
 - [網站 Demo 頁面](https://angela0117.github.io/sip-search-react/)
 - [GitHub Repo](https://github.com/Angela0117/sip-search-react)
