@@ -276,6 +276,7 @@ function BarContent() {
 
   return (
     <>
+      <title>酒吧詳情</title>
       <section className="section section-breadcrumb">
         <div className="container">
           <ol className="breadcrumb fs-8 fs-lg-7 ps-lg-11">

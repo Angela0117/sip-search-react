@@ -58,6 +58,7 @@ export default function BarSearch() {
 
   return (
     <>
+      <title>最新活動</title>
       <section
         className="section section-bar-search-banner text-center text-primary-1"
         style={{

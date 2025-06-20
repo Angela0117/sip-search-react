@@ -257,7 +257,7 @@ function RecipesSearch() {
 
   return (
     <>
-
+      <title>找酒譜</title>
       <div className="section-rs1">
         <div className="container">
           <div className="banner-rs">

@@ -78,7 +78,7 @@ function Layout() {
                     <ul className="dropdown-menu">
                       <li>
                         <Link className="dropdown-item  text-primary-1 " to={`/users/${user.id}`}>
-                          會員中心
+                          會員專區
                         </Link>
                       </li>
                       <li>
@@ -225,7 +225,7 @@ function Layout() {
           <div className="container">
             <div className="col">
               <p className="fs-lg-7 fs-10 text-primary-1 text-center eng-font">
-                Copyright @ Sip & Search 微醺指南
+                Copyright @ Sip & Search 微醺指南 | 本網站無商業用途且僅供作品展示
               </p>
             </div>
           </div>

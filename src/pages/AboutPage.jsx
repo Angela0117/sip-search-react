@@ -4,11 +4,12 @@ import { useEffect } from "react";
 
 function AboutPage() {
   useEffect(() => {
-      window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
-    }, []);
+    window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
+  }, []);
 
   return (
     <>
+      <title>關於我們</title>
       <div className="section-ab1">
         <div className="banner">
           <div className="container ps-10">
@@ -18,7 +19,7 @@ function AboutPage() {
               </h2>
             </div>
             <div className="pb-lg-13 pb-10">
-              <p className="text-primary-1 fs-lg-6">「sip&search 微醺酒吧」</p>
+              <p className="text-primary-1 fs-lg-6">「sip&search 微醺指南」</p>
               <p className="text-primary-1 fs-lg-7">
                 是您探索調酒與酒吧的最佳夥伴。在這裡,您可以輕鬆搜尋豐富的酒譜,無論是簡單的家常調酒,還是精緻的專業配方,我們應有盡有。
               </p>

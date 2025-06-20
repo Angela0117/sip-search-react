@@ -24,7 +24,7 @@ function MemberArea() {
     { id: 'favorite_recipes', label: '收藏酒譜', count: `${userDetail.favorite_recipes?.length}`, link: 'recipes' },
     { id: 'favorite_bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`, link: 'bars' },
     { id: 'comments', label: '歷史評論', count: 2, link: 'comments' },
-    { id: 'coupon', label: '生日優惠券', count: "" },
+    { id: 'coupon', label: '生日優惠券', count: "", link: 'coupons' },
     //userDetail.favorite_recipes?.length ?? 0
     //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
 
@@ -89,7 +89,6 @@ function MemberArea() {
   return (
     <>
       <title>會員專區</title>
-
       <div
         className="container title-bg text-primary-1 d-flex align-items-center  gap-2 gap-lg-3"
       >
