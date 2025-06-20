@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { glob } from "glob";
 
-import liveReload from "vite-plugin-live-reload";
+//import liveReload from "vite-plugin-live-reload";
 
 import react from "@vitejs/plugin-react";
 
@@ -26,10 +26,8 @@ function moveOutputPlugin() {
 
 export default defineConfig({
   base: process.env.NODE_ENV === "production" ? "/sip-search-react/" : "/",
-  plugins: [react()],
   // base 的寫法：
   // base: '/Repository 的名稱/'
-  base: process.env.NODE_ENV === "production" ? "/sip-search-react/" : "/",
   // base: "/sip-search-react/",
   plugins: [
     react(),

@@ -257,6 +257,7 @@ function RecipesSearch() {
 
   return (
     <>
+
       <div className="section-rs1">
         <div className="container">
           <div className="banner-rs">
@@ -351,9 +352,8 @@ function RecipesSearch() {
                           <button
                             key={tag}
                             type="button"
-                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedTags.includes(tag) ? "active" : ""
-                            }`}
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedTags.includes(tag) ? "active" : ""
+                              }`}
                             onClick={() => handleTagSelect(tag)}
                           >
                             {tag}
@@ -413,9 +413,8 @@ function RecipesSearch() {
                           <button
                             key={tag}
                             type="button"
-                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedTags.includes(tag) ? "active" : ""
-                            }`}
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedTags.includes(tag) ? "active" : ""
+                              }`}
                             onClick={() => handleTagSelect(tag)}
                           >
                             {tag}
@@ -481,9 +480,8 @@ function RecipesSearch() {
                           <button
                             key={tag}
                             type="button"
-                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedTags.includes(tag) ? "active" : ""
-                            }`}
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedTags.includes(tag) ? "active" : ""
+                              }`}
                             onClick={() => handleTagSelect(tag)}
                           >
                             {tag}
@@ -535,11 +533,10 @@ function RecipesSearch() {
                   <p className="text-white me-lg-4 me-3 d-none d-md-block">
                     <button
                       type="button"
-                      className={`btn-no-bg ${
-                        activeSort === "favorite"
-                          ? "text-primary-3"
-                          : "text-primary-1"
-                      }`}
+                      className={`btn-no-bg ${activeSort === "favorite"
+                        ? "text-primary-3"
+                        : "text-primary-1"
+                        }`}
                       onClick={() => handleSort("favorite")}
                     >
                       熱門程度
@@ -548,11 +545,10 @@ function RecipesSearch() {
                   <p className="text-neutral-3 border-0 border-start border-neutral-3 ps-lg-4 d-none d-md-block">
                     <button
                       type="button"
-                      className={`btn-no-bg ${
-                        activeSort === "likes"
-                          ? "text-primary-3"
-                          : "text-primary-1"
-                      }`}
+                      className={`btn-no-bg ${activeSort === "likes"
+                        ? "text-primary-3"
+                        : "text-primary-1"
+                        }`}
                       onClick={() => handleSort("likes")}
                     >
                       按讚數
@@ -622,11 +618,10 @@ function RecipesSearch() {
                       <button
                         key={page + 1}
                         type="button"
-                        className={`pageBtn btn ${
-                          currentPage === page + 1
-                            ? "btn-primary-3"
-                            : "btn-neutral-3"
-                        } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
+                        className={`pageBtn btn ${currentPage === page + 1
+                          ? "btn-primary-3"
+                          : "btn-neutral-3"
+                          } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
                         onClick={() => handlePageChange(page + 1)}
                       >
                         {page + 1}

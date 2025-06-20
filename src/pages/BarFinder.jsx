@@ -283,6 +283,7 @@ function BarFinder() {
 
   return (
     <>
+
       <div className="section-bf1">
         <div className="container">
           <div className="banner-bf">
@@ -380,11 +381,10 @@ function BarFinder() {
                           <button
                             key={region}
                             type="button"
-                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedFilters.region.includes(region)
-                                ? "active"
-                                : ""
-                            }`}
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedFilters.region.includes(region)
+                              ? "active"
+                              : ""
+                              }`}
                             onClick={() => handleTagSelect("region", region)}
                           >
                             {region}
@@ -439,11 +439,10 @@ function BarFinder() {
                             <button
                               key={type}
                               type="button"
-                              className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                                selectedFilters.type.includes(type)
-                                  ? "active"
-                                  : ""
-                              }`}
+                              className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedFilters.type.includes(type)
+                                ? "active"
+                                : ""
+                                }`}
                               onClick={() => handleTagSelect("type", type)}
                             >
                               {type}
@@ -502,13 +501,12 @@ function BarFinder() {
                           <button
                             key={range.label}
                             type="button"
-                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${
-                              selectedFilters.minimum_spend &&
+                            className={`wineBtn wineBtn-outline rounded-pill me-lg-6 fs-lg-8 fs-10 py-lg-2 px-lg-4 me-1 ${selectedFilters.minimum_spend &&
                               selectedFilters.minimum_spend.min === range.min &&
                               selectedFilters.minimum_spend.max === range.max
-                                ? "active"
-                                : ""
-                            }`}
+                              ? "active"
+                              : ""
+                              }`}
                             onClick={() =>
                               handleTagSelect("minimum_spend", {
                                 min: range.min,
@@ -597,11 +595,10 @@ function BarFinder() {
                   <p className="text-white me-lg-4 me-3 d-none d-md-block">
                     <button
                       type="button"
-                      className={`btn-no-bg ${
-                        activeSort === "favoriteCount"
-                          ? "text-primary-3"
-                          : "text-primary-1"
-                      }`}
+                      className={`btn-no-bg ${activeSort === "favoriteCount"
+                        ? "text-primary-3"
+                        : "text-primary-1"
+                        }`}
                       onClick={() => handleSort("favoriteCount")}
                     >
                       熱門程度
@@ -610,11 +607,10 @@ function BarFinder() {
                   <p className="text-neutral-3 border-0 border-start border-neutral-3 ps-lg-4 d-none d-md-block">
                     <button
                       type="button"
-                      className={`btn-no-bg ${
-                        activeSort === "likeCount"
-                          ? "text-primary-3"
-                          : "text-primary-1"
-                      }`}
+                      className={`btn-no-bg ${activeSort === "likeCount"
+                        ? "text-primary-3"
+                        : "text-primary-1"
+                        }`}
                       onClick={() => handleSort("likeCount")}
                     >
                       按讚數
@@ -693,11 +689,10 @@ function BarFinder() {
                     <button
                       key={page + 1}
                       type="button"
-                      className={`pageBtn btn ${
-                        currentPage === page + 1
-                          ? "btn-primary-3"
-                          : "btn-neutral-3"
-                      } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
+                      className={`pageBtn btn ${currentPage === page + 1
+                        ? "btn-primary-3"
+                        : "btn-neutral-3"
+                        } text-primary-1 fs-lg-8 fs-9 me-lg-2 me-2 d-flex align-items-center`}
                       onClick={() => handlePageChange(page + 1)}
                     >
                       {page + 1}
