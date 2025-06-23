@@ -261,6 +261,13 @@ $line-thickness: 1px;
   min-width: 0px;
 }
 
+.cross-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-right: 32px; //讓favorite-icon與cross-line的margin相同
+}
+
 //酒譜中的卡片hover
 .card-container {
   position: relative;

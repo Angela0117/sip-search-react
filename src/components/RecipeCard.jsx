@@ -8,16 +8,24 @@ const RecipeCard = ({ recipe }) => {
       <div data-aos="fade-up" className="card-container">
         <div className="card position-relative">
           <div className="card-content mt-6 mt-md-9 mt-lg-0">
-            <div className="cross-container">
-              <div className="cross-1">
-                <div className="cross-line horizontal"></div>
-                <div className="cross-line vertical"></div>
+
+            <div className="cross-card-header">
+              <div className="cross-container">
+                <div className="cross-1">
+                  <div className="cross-line horizontal"></div>
+                  <div className="cross-line vertical"></div>
+                </div>
+                <div className="cross-2">
+                  <div className="cross-line horizontal"></div>
+                  <div className="cross-line vertical"></div>
+                </div>
               </div>
-              <div className="cross-2">
-                <div className="cross-line horizontal"></div>
-                <div className="cross-line vertical"></div>
-              </div>
+              <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
+                favorite
+              </span>
             </div>
+
+
             <div className="card-body text-center">
               <h6 className="card-title text-primary-4 mb-lg-3 fw-bold">
                 {recipe.title}
@@ -42,16 +50,22 @@ const RecipeCard = ({ recipe }) => {
         </div>
         <div className="card-hover">
           <div className="card-hover-content ">
-            <div className="cross-container">
-              <div className="cross-1">
-                <div className="cross-line horizontal"></div>
-                <div className="cross-line vertical"></div>
+            <div className="cross-card-header">
+              <div className="cross-container">
+                <div className="cross-1">
+                  <div className="cross-line horizontal"></div>
+                  <div className="cross-line vertical"></div>
+                </div>
+                <div className="cross-2">
+                  <div className="cross-line horizontal"></div>
+                  <div className="cross-line vertical"></div>
+                </div>
               </div>
-              <div className="cross-2">
-                <div className="cross-line horizontal"></div>
-                <div className="cross-line vertical"></div>
-              </div>
+              <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
+                favorite
+              </span>
             </div>
+
             <div className="card-body m-lg-6 m-4 pt-lg-3">
               <h4 className="text-primary-4 fs-6 eng-font ">
                 {recipe.title_en}
