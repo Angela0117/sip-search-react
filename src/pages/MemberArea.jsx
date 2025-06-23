@@ -126,7 +126,7 @@ function MemberArea() {
                         className={`swiper-slide member-nav-item ${activeItem === item.id ? 'nav-item-active' : ''}`}
                         onClick={() => setActiveItem(item.id)}
                       >
-                        <Link to="/memberarea" className="d-flex gap-2 gap-lg-3">
+                        <Link to={`/users/${id}/${item.link}`} className="d-flex gap-2 gap-lg-3">
                           <p>{item.label}</p>
                           {item.count && <span className="member-noti-count">{item.count}</span>}
                         </Link>
