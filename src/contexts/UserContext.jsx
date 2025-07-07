@@ -46,14 +46,14 @@ export function UserProvider({ children }) {
   }, [user]);
 
   const login = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));// 存到瀏覽器
     setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
-    delete axios.defaults.headers.common["Authorization"];
-    setUser(null);
+    localStorage.removeItem("user");// 清空
+    delete axios.defaults.headers.common["Authorization"];// 移除 token
+    setUser(null);// 清空狀態
   };
 
   return (

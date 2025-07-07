@@ -551,9 +551,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -581,9 +580,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -599,9 +597,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -617,9 +614,8 @@ function IndexPage() {
                             <li key={tag} className="w-25">
                               <button
                                 type="button"
-                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${
-                                  selectedBarTags.includes(tag) ? "active" : ""
-                                }`}
+                                className={`btn btn-outline-primary-1 rounded-pill fs-7 mb-4 ${selectedBarTags.includes(tag) ? "active" : ""
+                                  }`}
                                 onClick={() => handleBarTagSelect(tag)}
                               >
                                 {tag}
@@ -929,7 +925,7 @@ function IndexPage() {
                   </p>
                   <div className="btn-md">
                     <Link
-                      to={`/ barsearch`}
+                      to={`/barsearch`}
                       className="btn-search btn-index-primary1 d-flex"
                     >
                       我想找酒吧

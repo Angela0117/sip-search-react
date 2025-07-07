@@ -14,7 +14,7 @@ function MemberBars() {
     getFavoriteBars();
   }, []);
 
-  // 取得所有產品
+  // 取得所有酒吧
   const getFavoriteBars = async () => {
     try {
       const res = await dataAxios.get(`/bars`); // 取得所有資料
