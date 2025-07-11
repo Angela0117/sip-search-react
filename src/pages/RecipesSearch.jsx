@@ -597,7 +597,7 @@ function RecipesSearch() {
                 <RecipeCard key={recipe.id} recipe={recipe} />
               ))
             ) : (
-              <p>沒有找到產品</p>
+              <p className="text-primary-1">沒有找到產品</p>
             )}
           </div>
 

@@ -1,30 +1,50 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
 import BarCard from "../components/BarCard";
 
 function MemberBars() {
   const { dataAxios } = useUser(); // 添加 useUser hook
+  const { id } = useParams();
   const [favoriteBars, setFavoriteBars] = useState([]);
 
 
+  // useEffect(() => {
+  //   getFavoriteBars();
+  // }, []);
 
-
+  // // 取得所有酒吧
+  // const getFavoriteBars = async () => {
+  //   try {
+  //     const res = await dataAxios.get(`/bars`); // 取得所有資料
+  //     console.log("取得所有產品成功", res.data);
+  //     setFavoriteBars(res.data);
+  //   } catch (error) {
+  //     console.error("取得產品失敗", error);
+  //     alert("取得產品失敗");
+  //   }
+  // };
 
   useEffect(() => {
+    const getFavoriteBars = async () => {
+      try {
+        const userDetail = await dataAxios.get(`/users/${id}`);
+        const allBars = await dataAxios.get(`/bars`);
+        const favoriteIds = userDetail.data.favorite_bars;
+
+        const favorites = allBars.data.filter(bar =>
+          favoriteIds.includes(bar.id)
+        );
+
+        setFavoriteBars(favorites);
+      } catch (error) {
+        console.error("取得收藏酒吧失敗", error);
+      }
+    };
+
     getFavoriteBars();
   }, []);
 
-  // 取得所有酒吧
-  const getFavoriteBars = async () => {
-    try {
-      const res = await dataAxios.get(`/bars`); // 取得所有資料
-      console.log("取得所有產品成功", res.data);
-      setFavoriteBars(res.data);
-    } catch (error) {
-      console.error("取得產品失敗", error);
-      alert("取得產品失敗");
-    }
-  };
   return (
     <>
       <div className="col-lg-9">
