@@ -5,6 +5,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard"; // 匯入 RecipeCard 元件
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import useFavoriteRecipes from "../hooks/useFavoriteRecipes"; // 引入 hook
+
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -24,6 +26,7 @@ function RecipesSearch() {
     mostLiked: [],
     mostFavorites: [],
   });
+  const { favoriteRecipes, toggleFavorite } = useFavoriteRecipes(); // ✅ 使用 hook
 
   const navigate = useNavigate();
 
@@ -66,44 +69,33 @@ function RecipesSearch() {
     }
   }, [searchParams, allProducts]);
 
-  // 修改 getAllProducts，移除可選的 tag 參數
-  const getAllProducts = async () => {
-    try {
-      const res = await dataAxios.get(`/recipes`);
-      console.log("取得所有產品成功", res.data);
-      setAllProducts(res.data);
+  // 取得所有酒譜產品，修改 getAllProducts，移除可選的 tag 參數
+  useEffect(() => {
+    const getAllProducts = async () => {
+      try {
+        const res = await dataAxios.get(`/recipes`);
+        //console.log("取得所有產品成功", res.data);
+        setAllProducts(res.data);
 
-      // 如果有 tagFromUrl，就篩選產品
-      if (tagFromUrl) {
-        const filteredProducts = res.data.filter((product) =>
-          product.tags.includes(tagFromUrl)
-        );
-        setProducts(filteredProducts.slice(0, cardsPerPage));
-      } else {
-        // 沒有 tag 時顯示所有產品
-        setProducts(res.data.slice(0, cardsPerPage));
+        // 如果有 tagFromUrl，就篩選產品
+        if (tagFromUrl) {
+          const filteredProducts = res.data.filter((product) =>
+            product.tags.includes(tagFromUrl)
+          );
+          setProducts(filteredProducts.slice(0, cardsPerPage));
+        } else {
+          // 沒有 tag 時顯示所有產品
+          setProducts(res.data.slice(0, cardsPerPage));
+        }
+        // 獲取熱門資料
+        getTopRecipes(res.data);
+      } catch (error) {
+        console.error("取得產品失敗", error);
+        alert("取得產品失敗");
       }
-      // 獲取熱門資料
-      getTopRecipes(res.data);
-    } catch (error) {
-      console.error("取得產品失敗", error);
-      alert("取得產品失敗");
-    }
-  };
-
-  // 取得所有產品
-  // const getAllProducts = async (tag) => {
-  //   try {
-  //     const res = await axios.get(`${baseUrl}/recipes`); // 取得所有資料
-  //     console.log("取得所有產品成功", res.data);
-  //     setAllProducts(res.data);
-
-  //     setProducts(res.data.slice(0, cardsPerPage)); // 預設顯示第一頁
-  //   } catch (error) {
-  //     console.error("取得產品失敗", error);
-  //     alert("取得產品失敗");
-  //   }
-  // };
+    };
+    getAllProducts();
+  }, []);
 
   // 搜尋功能
   const handleSearch = () => {
@@ -208,9 +200,7 @@ function RecipesSearch() {
     });
   };
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+
 
   //swiper
   useEffect(() => {
@@ -594,7 +584,12 @@ function RecipesSearch() {
           <div className="row gx-lg-11 gy-lg-11 gy-md-6 gy-0 gx-md-6 mb-lg-3 mx-lg-12 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar">
             {products && products.length > 0 ? (
               products.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
+                <RecipeCard
+                  key={recipe.id}
+                  recipe={recipe}
+                  onFavorite={() => toggleFavorite(recipe.id)} //  用 hook 方法
+                  isFavorite={favoriteRecipes.includes(recipe.id)} //  用 hook 狀態
+                />
               ))
             ) : (
               <p className="text-primary-1">沒有找到產品</p>
