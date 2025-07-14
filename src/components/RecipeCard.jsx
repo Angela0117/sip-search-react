@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const RecipeCard = ({ recipe }) => {
+const RecipeCard = ({ recipe, onFavorite, isFavorite }) => {
   return (
     <div className="col-lg-4 col-md-6 col-9 overflow-hidden">
       <div data-aos="fade-up" className="card-container">
@@ -20,9 +20,21 @@ const RecipeCard = ({ recipe }) => {
                   <div className="cross-line vertical"></div>
                 </div>
               </div>
-              <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
+              {/* <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
                 favorite
-              </span>
+              </span> */}
+              <button
+                className={`material-symbols-outlined text-primary-3 fs-8 fs-lg-6 btn-no-bg ${isFavorite ? "active" : ""
+                  }`}
+                onClick={onFavorite}
+              >
+                <span
+                  className="material-symbols-outlined text-primary-3"
+                  style={isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}
+                >
+                  favorite
+                </span>
+              </button>
             </div>
 
 
@@ -61,9 +73,21 @@ const RecipeCard = ({ recipe }) => {
                   <div className="cross-line vertical"></div>
                 </div>
               </div>
-              <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
+              {/* <span className="material-symbols-outlined text-primary-3 fs-8 fs-lg-6" >
                 favorite
-              </span>
+              </span> */}
+              <button
+                className={`material-symbols-outlined text-primary-3 fs-8 fs-lg-6 btn-no-bg ${isFavorite ? "active" : ""
+                  }`}
+                onClick={onFavorite}
+              >
+                <span
+                  className="material-symbols-outlined text-primary-3"
+                  style={isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}
+                >
+                  favorite
+                </span>
+              </button>
             </div>
 
             <div className="card-body m-lg-6 m-4 pt-lg-3">
