@@ -8,20 +8,18 @@ import "swiper/css/bundle";
 
 function MemberArea() {
   const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
-  const { dataAxios } = useUser();
+  const { user, } = useUser();
   const { id } = useParams();
-  const [userDetail, setUserDetail] = useState({});//預設頁面為null
-  //const swiperRef = useRef(null);
-  //const swiperInstance = useRef(null); // 儲存 swiper 物件
 
-  //左側選單陣列 (count之後要套用api)
+
+  //左側選單陣列 
   const menuItems = [
     { id: 'profile', label: '個人檔案', link: "" },
-    { id: 'favorite_recipes', label: '收藏酒譜', count: `${userDetail.favorite_recipes?.length}`, link: 'recipes' },
-    { id: 'favorite_bars', label: '收藏酒吧', count: `${userDetail.favorite_bars?.length}`, link: 'bars' },
+    { id: 'favorite_recipes', label: '收藏酒譜', count: `${user?.favorite_recipes?.length || 0}`, link: 'recipes' },
+    { id: 'favorite_bars', label: '收藏酒吧', count: `${user?.favorite_bars?.length || 0}`, link: 'bars' },
     { id: 'comments', label: '歷史評論', count: "", link: 'comments' },
     { id: 'coupon', label: '生日優惠券', count: "", link: 'coupons' },
-    //userDetail.favorite_recipes?.length ?? 0
+    //user?.favorite_recipes?.length || 0
     //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
 
   ];
@@ -30,8 +28,8 @@ function MemberArea() {
   useEffect(() => {
     const fetcUserInfo = async () => {
       try {
-        const res = await dataAxios.get(`/users/${id}`);
-        setUserDetail(res.data);
+        //const res = await dataAxios.get(`/users/${id}`);
+        //setUserDetail(res.data);
       } catch (error) {
         console.error("取得用戶資料失敗", error);
       }
@@ -44,9 +42,7 @@ function MemberArea() {
   //Swiper 設定
 
   useEffect(() => {
-    //if (!userDetail) return; // 防止 swiper 提早啟動
-    // if (userDetail && swiperRef.current && window.innerWidth <= 992){
-    // swiperInstance.current = 
+
     new Swiper(".member-nav-swiper", {
       slidesPerView: 3,//預設顯示3個預設
       //spaceBetween: 0,
@@ -54,10 +50,7 @@ function MemberArea() {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      //   draggable: true, // 使用者可以拖拉滾動條移動 slide
-      // },
+
       breakpoints: {
         // 當螢幕寬度大於等於 480px 時，顯示4個項目
         480: {
@@ -65,14 +58,8 @@ function MemberArea() {
         },
       },
     });
-    // }
 
-    // return () => {
-    //   // 若有初始化過才銷毀
-    //   //swiperInstance.current?.destroy();
-    // };
-  }, []); // 只有 userDetail 有資料時才初始化 Swiper
-
+  }, []);
 
   return (
     <>
@@ -104,7 +91,7 @@ function MemberArea() {
                   </li>
                 ))}
 
-                {/* 測試 ref={swiperRef} */}
+                {/* 行動板使用Swiper切換欄位*/}
                 <div className="swiper mySwiper member-nav-swiper ps-3 d-block d-lg-none" >
                   <div className="swiper-wrapper">
                     {menuItems.map((item) => (
