@@ -30,7 +30,10 @@ const RecipeCard = ({ recipe, onFavorite, isFavorite }) => {
               >
                 <span
                   className="material-symbols-outlined text-primary-3"
-                  style={isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}
+                  style={{
+                    fontFamily: "Material Symbols Outlined",
+                    fontVariationSettings: isFavorite ? "'FILL' 1" : "'FILL' 0",
+                  }}
                 >
                   favorite
                 </span>
@@ -81,9 +84,16 @@ const RecipeCard = ({ recipe, onFavorite, isFavorite }) => {
                   }`}
                 onClick={onFavorite}
               >
-                <span
+                {/* <span
                   className="material-symbols-outlined text-primary-3"
                   style={isFavorite ? { fontVariationSettings: "'FILL' 1" } : {}}
+                > */}
+                <span
+                  className="material-symbols-outlined text-primary-3"
+                  style={{
+                    fontFamily: "Material Symbols Outlined",
+                    fontVariationSettings: isFavorite ? "'FILL' 1" : "'FILL' 0",
+                  }}
                 >
                   favorite
                 </span>
