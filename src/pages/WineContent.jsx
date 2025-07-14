@@ -4,6 +4,7 @@ import WineCard from "../components/WineCard";
 import RecipeCard from "../components/RecipeCard";
 import images from "../images";
 import { useUser } from "../contexts/UserContext";
+import useFavoriteRecipes from "../hooks/useFavoriteRecipes"; // 引入 hook
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -15,7 +16,8 @@ function WineContent() {
   const [specialsRecipe, setSpecialsRecipe] = useState([]);
   const [newComment, setNewComment] = useState(""); // 新評論的內容
   const [isLiked, setIsLiked] = useState(false); //點讚
-  const [isFavorite, setIsFavorite] = useState(false); //點收藏
+  //const [isFavorite, setIsFavorite] = useState(false); //點收藏
+  const { favoriteRecipes, toggleFavorite } = useFavoriteRecipes(); // ✅ 使用 hook
 
   //取得商品資訊
   useEffect(() => {
@@ -78,17 +80,17 @@ function WineContent() {
   }, []);
 
   // 檢查使用者是否已點讚與收藏
-  useEffect(() => {
-    if (user && recipe) {
-      // 檢查點讚狀態
-      const hasLiked = user.like_recipes.includes(Number(id));
-      setIsLiked(hasLiked);
+  // useEffect(() => {
+  //   if (user && recipe) {
+  //     // 檢查點讚狀態
+  //     const hasLiked = user.like_recipes.includes(Number(id));
+  //     setIsLiked(hasLiked);
 
-      // 檢查收藏狀態
-      const hasFavorited = user.favorite_recipes.includes(Number(id));
-      setIsFavorite(hasFavorited);
-    }
-  }, [user, recipe, id]);
+  //     // 檢查收藏狀態
+  //     const hasFavorited = user.favorite_recipes.includes(Number(id));
+  //     setIsFavorite(hasFavorited);
+  //   }
+  // }, [user, recipe, id]);
 
   // 處理點讚
   const handleLike = async () => {
@@ -123,41 +125,6 @@ function WineContent() {
     } catch (error) {
       console.error("點讚失敗:", error);
       alert("點讚失敗");
-    }
-  };
-  //收藏
-  const handleFavorite = async () => {
-    if (!user) {
-      alert("請先登入");
-      return;
-    }
-
-    try {
-      const updatedUser = { ...user };
-      if (isFavorite) {
-        updatedUser.favorite_recipes = user.favorite_recipes.filter(
-          (recipeId) => recipeId !== Number(id)
-        );
-      } else {
-        updatedUser.favorite_recipes = [...user.favorite_recipes, Number(id)];
-      }
-
-      const updatedRecipe = {
-        ...recipe,
-        favorite: isFavorite ? recipe.favorite - 1 : recipe.favorite + 1,
-      };
-
-      await Promise.all([
-        dataAxios.patch(`/users/${user.id}`, updatedUser),
-        dataAxios.patch(`/recipes/${id}`, updatedRecipe),
-      ]);
-
-      setRecipe(updatedRecipe);
-      setIsFavorite(!isFavorite);
-      setUser(updatedUser);
-    } catch (error) {
-      console.error("收藏失敗:", error);
-      alert("收藏失敗");
     }
   };
 
@@ -231,7 +198,7 @@ function WineContent() {
 
   return (
     <>
-     <title>酒譜詳情</title>
+      <title>酒譜詳情</title>
       {/* 第一區 */}
       <div className="container">
         <section className="wine-content-intro">
@@ -248,9 +215,11 @@ function WineContent() {
             key={recipe.id}
             recipe={recipe}
             onLike={handleLike}
-            onFavorite={handleFavorite}
+            // onFavorite={handleFavorite}
+            onFavorite={() => toggleFavorite(recipe.id)} //  用 hook 方法
             isLiked={isLiked}
-            isFavorite={isFavorite}
+            // isFavorite={isFavorite}
+            isFavorite={favoriteRecipes.includes(recipe.id)} //  用 hook 狀態
           />
         </section>
       </div>
