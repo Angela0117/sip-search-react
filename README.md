@@ -15,8 +15,10 @@
 ### 前端技術
 - React
 - JavaScript (ES6+)
-- SCSS、Bootstrap
+- CSS(SCSS)、Bootstrap
+- HTML
 - Swiper
+
 
 ### 開發與工具
 - Vite（專案建構工具）
@@ -24,10 +26,11 @@
 - JSON Server（模擬後端 API）
 - Git & GitHub（版本控制）
 - Render（雲端部署）
+- Sweetalert (alert套件)
 - Miro（流程與畫面規劃）
 
 ## 專案連結
-- 前台測試帳密：ryan39@gmail.com / ryan39
+- 前台測試帳密：angelatest123@gmail.com / angelatest123
 - [網站 Demo 頁面](https://angela0117.github.io/sip-search-react/)
 - [GitHub Repo](https://github.com/Angela0117/sip-search-react)
 
@@ -35,9 +38,14 @@
   - assets # 靜態資源放置處
     - images # 圖片放置處
     - scss # SCSS 的樣式放置處
-  - layout # ejs 模板放置處
-  - pages # 頁面放置處
-- JavaScript 程式碼可寫在 main.js 檔案
+  - pages # HTML 頁面放置處
+  - public # favicon圖片放置處
+  - src # JSX檔案放置處
+    - components # 元件放置處
+    - context # Context 資料放置處
+    - hooks #  Custom Hook 放置處
+    - pages # JSX 頁面放置處
+    - routes # 路由建置
 
 ### 注意事項
 - 已將 pages 資料夾內的 index.html 預設為首頁，建議不要任意修改 index.html 的檔案名稱
