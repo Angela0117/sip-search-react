@@ -10,6 +10,17 @@ function Layout() {
     logout();
   };
 
+  // 點選navbar欄位後關閉選單
+  const handleCloseMenu = () => {
+    const navbarToggler = document.querySelector(".navbar-toggler");
+    const navbarCollapse = document.getElementById("navbarSupportedContent");
+
+    // 如果選單是展開狀態，就模擬點一下漢堡按鈕
+    if (navbarCollapse.classList.contains("show") && navbarToggler) {
+      navbarToggler.click();
+    }
+  };
+
   return (
     <div>
       <header>
@@ -39,6 +50,7 @@ function Layout() {
                 <li className="nav-item nav-custom-border">
                   <NavLink
                     to="/recipessearch"
+                    onClick={handleCloseMenu}
                     className={({ isActive }) =>
                       `nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem ${isActive ? "active" : ""
                       }`
@@ -51,6 +63,7 @@ function Layout() {
                   <NavLink
                     className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
                     to="/barfinder"
+                    onClick={handleCloseMenu}
                   >
                     找酒吧
                   </NavLink>
@@ -59,6 +72,7 @@ function Layout() {
                   <NavLink
                     className="nav-link text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
                     to="/barsearch"
+                    onClick={handleCloseMenu}
                   >
                     最新活動
                   </NavLink>
@@ -68,7 +82,7 @@ function Layout() {
                 {user ? (
                   <div className="dropdown">
                     <button
-                      className="btn  dropdown-toggle btn-no-bg text-primary-1 mx-lg-5 mx-2 fs-8 fs-md-6 fs-lg-8"
+                      className="btn  dropdown-toggle btn-no-bg text-primary-1 mx-lg-5 mx-2 text-primary-1 fs-lg-8 px-lg-7 py-lg-0 navItem"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
@@ -77,7 +91,7 @@ function Layout() {
                     </button>
                     <ul className="dropdown-menu">
                       <li>
-                        <Link className="dropdown-item  text-primary-1 " to={`/users/${user.id}`}>
+                        <Link className="dropdown-item  text-primary-1 " to={`/users/${user.id}`} onClick={handleCloseMenu}>
                           會員專區
                         </Link>
                       </li>
@@ -85,12 +99,16 @@ function Layout() {
                         <hr className="dropdown-divider" />
                       </li>
                       <li>
-                        <a
-                          className="dropdown-item text-primary-1 "
-                          onClick={handleLogout}
+                        <Link
+                          className="dropdown-item text-primary-1"
+                          to="/"
+                          onClick={() => {
+                            handleCloseMenu(); //關閉漢堡選單
+                            handleLogout();
+                          }}
                         >
                           登出
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -98,6 +116,7 @@ function Layout() {
                   <Link
                     className="px-lg-5 py-lg-6 text-primary-1 d-block navItem fs-8 ps-5"
                     to="/memberlogin"
+                    onClick={handleCloseMenu}
                   >
                     註冊/登入
                     <i className="bi bi-search text-primary-1"></i>
