@@ -48,6 +48,7 @@ const useFavoriteRecipes = () => {
     Toast.fire({
       icon: isFavorite ? "error" : "success",
       title: isFavorite ? "已取消收藏" : "加入成功，可至收藏酒譜查看",
+      background: "#f7f0e1ff",
     });
   };
 
