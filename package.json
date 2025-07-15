@@ -32,6 +32,7 @@
     "react-router-dom": "^7.1.5",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
+    "sweetalert2": "^11.22.2",
     "swiper": "^11.2.4",
     "vite-plugin-live-reload": "^3.0.2"
   }

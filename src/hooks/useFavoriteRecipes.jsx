@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
+import Swal from 'sweetalert2'
 
 const useFavoriteRecipes = () => {
   const { user, setUser, dataAxios } = useUser(); // 取得登入使用者
@@ -31,6 +32,23 @@ const useFavoriteRecipes = () => {
 
     // 同步更新全域 user 狀態（context 裡的 user）
     setUser({ ...user, favorite_recipes: updatedFavorites });
+
+    //alert 提示
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: isFavorite ? "error" : "success",
+      title: isFavorite ? "已取消收藏" : "加入成功，可至收藏酒譜查看",
+    });
   };
 
   return {
