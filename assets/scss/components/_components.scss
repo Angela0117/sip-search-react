@@ -99,17 +99,34 @@
 
 .cardBtn-primary-4 {
   color: #fbfbfb;
-  background-color: $primary-4;
+  background-color: $primary-3;
   transition: 0.5s;
 
   &:hover {
-    background-color: $primary-3;
-    color: #fbfbfb;
+    background-color: #fbfbfb;
+    color: $primary-3;
   }
 
   &:active {
     background-color: $primary-3;
     opacity: 0.8;
+  }
+}
+
+.cardBtn-primary-3 {
+  background-color: $primary-1;
+  transition: 0.5s;
+
+  .material-symbols-outlined {
+    color: $primary-3;
+  }
+
+  &:hover {
+    background-color: $primary-3;
+
+    .material-symbols-outlined {
+      color: $primary-1;
+    }
   }
 }
 

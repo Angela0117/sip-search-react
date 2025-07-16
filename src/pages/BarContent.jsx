@@ -4,10 +4,12 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import BarContentCard from "../components/BarContentCard";
 import images from "../images";
 import { useUser } from "../contexts/UserContext";
+import useFavoriteBars from "../hooks/useFavoriteBars";
+import Swal from 'sweetalert2'
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
-function BarContent() {
+function BarContent(onFavorite, isFavorite) {
   const { id } = useParams();
   const { user, dataAxios } = useUser(); // 添加 useUser hook
   const [newComment, setNewComment] = useState(""); // 添加評論內容狀態
@@ -19,7 +21,8 @@ function BarContent() {
   const [copySuccess, setCopySuccess] = useState(false);
   const [googleMapIframeUrl, setGoogleMapIframeUrl] = useState(""); //地圖
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+  //const [isFavorite, setIsFavorite] = useState(false);
+  const { favoriteBars, toggleFavoriteBars } = useFavoriteBars(); // 使用收藏酒吧的hook
 
   const navigate = useNavigate();
 
@@ -78,10 +81,10 @@ function BarContent() {
     navigate(`/barfinder?tags=${tag}`);
   };
 
-  //每次跳轉都在頁面上方
+  //當id改變(點選下方推薦酒譜)，轉跳到這個頁面時視窗回到頂部
   useEffect(() => {
-    window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
-  }, []);
+    window.scrollTo(0, 0);
+  }, [id]);
 
   //取得商品資訊
   useEffect(() => {
@@ -216,7 +219,22 @@ function BarContent() {
   // 處理點讚功能
   const handleLike = async () => {
     if (!user) {
-      alert("請先登入");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning",
+        title: "請先登入",
+        background: "#f7f0e1ff",
+      });
       return;
     }
     try {
@@ -233,28 +251,43 @@ function BarContent() {
     }
   };
   // 處理收藏功能
-  const handleFavorite = async () => {
-    if (!user) {
-      alert("請先登入");
-      return;
-    }
+  // const handleFavorite = async () => {
+  //   if (!user) {
+  //     const Toast = Swal.mixin({
+  //       toast: true,
+  //       position: "top-end",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //       timerProgressBar: true,
+  //       didOpen: (toast) => {
+  //         toast.onmouseenter = Swal.stopTimer;
+  //         toast.onmouseleave = Swal.resumeTimer;
+  //       }
+  //     });
+  //     Toast.fire({
+  //       icon: "warning",
+  //       title: "請先登入",
+  //       background: "#f7f0e1ff",
+  //     });
+  //     return;
+  //   }
 
-    try {
-      const updatedBar = {
-        ...bar,
-        favoriteCount: isFavorite
-          ? bar.favoriteCount - 1
-          : bar.favoriteCount + 1,
-      };
+  //   try {
+  //     const updatedBar = {
+  //       ...bar,
+  //       favoriteCount: isFavorite
+  //         ? bar.favoriteCount - 1
+  //         : bar.favoriteCount + 1,
+  //     };
 
-      await dataAxios.patch(`/bars/${id}`, updatedBar);
-      setBar(updatedBar);
-      setIsFavorite(!isFavorite);
-    } catch (error) {
-      console.error("收藏失敗:", error);
-      alert("收藏失敗");
-    }
-  };
+  //     await dataAxios.patch(`/bars/${id}`, updatedBar);
+  //     setBar(updatedBar);
+  //     setIsFavorite(!isFavorite);
+  //   } catch (error) {
+  //     console.error("收藏失敗:", error);
+  //     alert("收藏失敗");
+  //   }
+  // };
 
   // 生成 Google Maps iframe URL
   useEffect(() => {
@@ -310,16 +343,20 @@ function BarContent() {
                   className={`btn-no-bg ${isLiked ? "active" : ""}`}
                   onClick={handleLike}
                 >
-                  <span className="material-symbols-outlined">thumb_up</span>
+                  <span className="material-symbols-outlined text-primary-1">thumb_up</span>
                 </button>
                 <span>{bar.likeCount}</span>
               </li>
               <li className="icon-item">
                 <button
-                  className={`btn-no-bg ${isFavorite ? "active" : ""}`}
-                  onClick={handleFavorite}
+                  className={`material-symbols-outlined text-primary-1 fs-8 fs-lg-6 btn-no-bg ${isFavorite ? "active" : ""
+                    }`}
+                  onClick={() => toggleFavoriteBars(bar.id)}
                 >
-                  <span className="material-symbols-outlined">favorite</span>
+                  <span
+                    className="material-symbols-outlined text-primary-1"
+                    style={favoriteBars.includes(bar.id) ? { fontVariationSettings: "'FILL' 1" } : {}}
+                  >favorite</span>
                 </button>
                 <span>{bar.favoriteCount}</span>
               </li>

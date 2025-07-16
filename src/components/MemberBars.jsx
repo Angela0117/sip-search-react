@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
 import BarCard from "../components/BarCard";
+import useFavoriteBars from "../hooks/useFavoriteBars";
 
 function MemberBars() {
-  const { dataAxios } = useUser(); // 添加 useUser hook
-  const { id } = useParams();
-  const [favoriteBars, setFavoriteBars] = useState([]);
+  const { user, dataAxios } = useUser(); // 添加 useUser hook
+  const [userFavoriteBars, setUserFavoriteBars] = useState([]);//會員收藏酒吧資料
+  const { favoriteBars, toggleFavoriteBars } = useFavoriteBars(); // 使用收藏酒吧的hook
 
 
   // useEffect(() => {
@@ -28,22 +28,21 @@ function MemberBars() {
   useEffect(() => {
     const getFavoriteBars = async () => {
       try {
-        const userDetail = await dataAxios.get(`/users/${id}`);
         const allBars = await dataAxios.get(`/bars`);
-        const favoriteIds = userDetail.data.favorite_bars;
-
         const favorites = allBars.data.filter(bar =>
-          favoriteIds.includes(bar.id)
+          user?.favorite_bars.includes(bar.id)
         );
 
-        setFavoriteBars(favorites);
+        setUserFavoriteBars(favorites);
       } catch (error) {
         console.error("取得收藏酒吧失敗", error);
       }
     };
 
-    getFavoriteBars();
-  }, []);
+    if (user?.favorite_bars) {
+      getFavoriteBars();
+    }
+  }, [user.favorite_bars]);
 
   return (
     <>
@@ -52,7 +51,13 @@ function MemberBars() {
         <div className="row gx-lg-6 gy-lg-6 gy-md-3 gx-md-6 flex-md-wrap flex-nowrap overflow-x-scroll scrollBar pb-10 pb-lg-13"
           data-aos="zoom-in">
           {favoriteBars && favoriteBars.length > 0 ? (
-            favoriteBars.map((bar) => <BarCard key={bar.id} bar={bar} />)
+            userFavoriteBars.map((bar) => (
+              <BarCard
+                key={bar.id}
+                bar={bar}
+                onFavorite={() => toggleFavoriteBars(bar.id)} //  用 hook 方法
+                isFavorite={favoriteBars.includes(bar.id)} //  用 hook 狀態
+              />))
           ) : (
             <p>沒有找到產品</p>
           )}

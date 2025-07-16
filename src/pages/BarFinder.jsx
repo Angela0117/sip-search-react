@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import BarCard from "../components/BarCard";
 import { useUser } from "../contexts/UserContext";
 import { useNavigate } from "react-router-dom";
+import useFavoriteBars from "../hooks/useFavoriteBars";
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -23,6 +24,8 @@ function BarFinder() {
     type: [],
     minimum_spend: null, //範圍值
   });
+
+  const { favoriteBars, toggleFavoriteBars } = useFavoriteBars(); // 使用收藏酒吧的hook 
 
   const navigate = useNavigate();
 
@@ -664,7 +667,13 @@ function BarFinder() {
           </div>
           <div className="row row-cols-2 row-cols-lg-3 gy-lg-9 gy-6 ps-lg-11 mb-lg-9 mb-8">
             {products && products.length > 0 ? (
-              products.map((bar) => <BarCard key={bar.id} bar={bar} />)
+              products.map((bar) => (
+                <BarCard
+                  key={bar.id}
+                  bar={bar}
+                  onFavorite={() => toggleFavoriteBars(bar.id)} //  用 hook 方法
+                  isFavorite={favoriteBars.includes(bar.id)} //  用 hook 狀態
+                />))
             ) : (
               <p>沒有找到產品</p>
             )}

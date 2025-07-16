@@ -5,6 +5,7 @@ import RecipeCard from "../components/RecipeCard";
 import images from "../images";
 import { useUser } from "../contexts/UserContext";
 import useFavoriteRecipes from "../hooks/useFavoriteRecipes"; // 引入 hook
+import Swal from 'sweetalert2'
 
 // const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -17,7 +18,7 @@ function WineContent() {
   const [newComment, setNewComment] = useState(""); // 新評論的內容
   const [isLiked, setIsLiked] = useState(false); //點讚
   //const [isFavorite, setIsFavorite] = useState(false); //點收藏
-  const { favoriteRecipes, toggleFavorite } = useFavoriteRecipes(); // ✅ 使用 hook
+  const { favoriteRecipes, toggleFavorite } = useFavoriteRecipes(); //  使用 hook
 
   //取得商品資訊
   useEffect(() => {
@@ -79,23 +80,25 @@ function WineContent() {
     getRecipeCard();
   }, []);
 
-  // 檢查使用者是否已點讚與收藏
-  // useEffect(() => {
-  //   if (user && recipe) {
-  //     // 檢查點讚狀態
-  //     const hasLiked = user.like_recipes.includes(Number(id));
-  //     setIsLiked(hasLiked);
-
-  //     // 檢查收藏狀態
-  //     const hasFavorited = user.favorite_recipes.includes(Number(id));
-  //     setIsFavorite(hasFavorited);
-  //   }
-  // }, [user, recipe, id]);
-
   // 處理點讚
   const handleLike = async () => {
     if (!user) {
-      alert("請先登入");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning",
+        title: "請先登入",
+        background: "#f7f0e1ff",
+      });
       return;
     }
 
@@ -186,10 +189,10 @@ function WineContent() {
     setNewComment(e.target.value);
   };
 
-  //每次跳轉都在頁面上方
+  //當id改變(點選下方推薦酒譜)，轉跳到這個頁面時視窗回到頂部
   useEffect(() => {
-    window.scrollTo(0, 0); // 轉跳到這個頁面時，視窗回到頂部
-  }, []);
+    window.scrollTo(0, 0);
+  }, [id]);
 
   //如果沒取到產品
   if (!recipe) {
@@ -342,7 +345,12 @@ function WineContent() {
           data-aos="zoom-in"
         >
           {specialsRecipe.map((recipe) => (
-            <RecipeCard key={recipe.id} recipe={recipe} />
+            <RecipeCard
+              key={recipe.id}
+              recipe={recipe}
+              onFavorite={() => toggleFavorite(recipe.id)}
+              isFavorite={favoriteRecipes.includes(recipe.id)}
+            />
           ))}
         </div>
       </div>
