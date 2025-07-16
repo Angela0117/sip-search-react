@@ -17,6 +17,25 @@ const useFavoriteRecipes = () => {
 
   // 點收藏或取消收藏
   const toggleFavorite = async (recipeId) => {
+    if (!user) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "warning",
+        title: "請先登入",
+        background: "#f7f0e1ff",
+      });
+      return;
+    }
     const isFavorite = favoriteRecipes.includes(recipeId);
     const updatedFavorites = isFavorite
       ? favoriteRecipes.filter((id) => id !== recipeId) // 移除
@@ -32,13 +51,11 @@ const useFavoriteRecipes = () => {
 
     // 同步更新全域 user 狀態（context 裡的 user）
     setUser({ ...user, favorite_recipes: updatedFavorites });
-
-    //alert 提示
     const Toast = Swal.mixin({
       toast: true,
       position: "top-end",
       showConfirmButton: false,
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       didOpen: (toast) => {
         toast.onmouseenter = Swal.stopTimer;

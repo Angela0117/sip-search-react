@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
+import Swal from 'sweetalert2'
 
 // const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -58,6 +59,22 @@ function MemberLogin() {
         };
         login(userData);
         navigate("/");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "登入成功",
+          background: "#f7f0e1ff",
+        });
       } else {
         alert("登入失敗");
       }
@@ -113,8 +130,7 @@ function MemberLogin() {
                     </label>
                     <input
                       type="password"
-                      className={`form-control text-primary-1 mb-10 ${
-                        account.password &&
+                      className={`form-control text-primary-1 mb-10 ${account.password &&
                         (errors.password ? "is-invalid" : "is-valid")
                       }`}
                       id="exampleInputPassword1"

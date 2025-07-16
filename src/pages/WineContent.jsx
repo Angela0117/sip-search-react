@@ -178,6 +178,22 @@ function WineContent() {
       }
 
       setNewComment("");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "success",
+        title: "評論成功",
+        background: "#f7f0e1ff",
+      });
     } catch (error) {
       console.error("發布評論失敗", error);
       alert("發布評論失敗");
