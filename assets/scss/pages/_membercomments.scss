@@ -1,0 +1,209 @@
+// 定義變數
+$medium: 768px;
+$large: 992px;
+$x-large: 1200px;
+
+@mixin respond-to($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+// *,
+// *::after,
+// *::before {
+//   outline: #06a555 1px solid;
+// }
+
+// .commentscharge {
+//   width: 150px;
+//   //height: 30px;
+//   border-width: 1.5px;
+//   border: 1px solid $primary-1;
+
+//   border-radius: 5px;
+
+//   background-color: transparent;
+//   color: $primary-1;
+//   font-size: 16px;
+//   padding: 5px;
+// }
+
+//測試
+.custom-select-wrapper {
+  position: relative;
+  font-size: 16px;
+  color: $primary-1;
+  z-index: 10;
+
+  .custom-select-selected {
+    padding: 6px 12px;
+    //border: 1.5px solid $primary-1;
+    // border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
+    // background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 0.3em solid;
+      border-right: 0.3em solid transparent;
+      border-bottom: 0;
+      border-left: 0.3em solid transparent;
+      transition: transform 0.2s ease;
+    }
+
+    &.open::after {
+      // 轉向：上箭頭（只需旋轉180度）
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+
+  .custom-select-options {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    width: 100%;
+    background-color: transparent;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1.5px solid $primary-1;
+    border-radius: 5px;
+
+    li {
+      text-align: center;
+      width: 100%;
+      padding: 6px 12px;
+      cursor: pointer;
+      background-color: transparent;
+      color: $primary-1;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+
+//結束
+
+
+.comment-card {
+  //border: 1px solid $primary-4;
+  border-width: 1.5px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #ffc93d, #b5650e) 1;
+  //background: $neutral-4;
+}
+
+.comment-card-btn button {
+  width: 60px;
+  border-radius: 5%;
+}
+
+//測試圖片
+
+.comment-card-body {
+  justify-content: space-between;
+  //align-items: flex-start; // 保持上對齊
+  //gap: 1rem;
+  flex-wrap: wrap;
+}
+
+// ✅ 圖片容器（定比例、可RWD、保持一致）
+.comment-img {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 100px; // 可依視覺調整大小
+  //border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+// 文字區塊占滿空間
+.comment-card-content {
+  flex: 1; // 撐滿剩餘空間
+}
+
+// SweetAlert2 自訂樣式
+.custom-swal-popup {
+  padding: 1.2rem;
+  border-radius: 10px;
+  //font-family: inherit;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: rgb(249, 250, 226); // $neutral-4
+}
+
+.custom-swal-title {
+  font-size: 16px;
+  color: #6c2b00; // $primary-4
+}
+
+.custom-swal-text {
+  font-size: 10px;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+.custom-swal-confirm,
+.custom-swal-cancel {
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.custom-swal-confirm {
+  //background-color: #ff6e6e;
+  background: #f32e2eba;
+  color: #ffffff;
+
+  &:hover {
+    background: #f20404;
+  }
+}
+
+.custom-swal-cancel {
+  background-color: #fff;
+  color: #6c2b00;
+  border: 1px solid #ddd;
+
+  &:hover {
+    background-color: $primary-3;
+    color: #fff;
+  }
+}
+
+//刪除後的提示視窗
+.custom-swal-success-btn {
+  background-color: $primary-3;
+  color: $primary-1;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 6px 16px;
+  border-radius: 6px;
+  box-shadow: none;
+
+  &:hover {
+    background-color: $primary-4;
+    color: #fff;
+  }
+}
