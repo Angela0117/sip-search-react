@@ -1,21 +1,34 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUser } from "../contexts/UserContext";
 import { Link, useParams } from "react-router-dom";
 
 function MemberProfile() {
 
-  const { dataAxios } = useUser();
+  const { user } = useUser();
   const { id } = useParams();
-  const [userDetail, setUserDetail] = useState({});//預設頁面為null
+  //const [userDetail, setUserDetail] = useState({});//預設頁面為null
 
 
+  //取得會員資訊
+  // useEffect(() => {
+  //   const fetcUserInfo = async () => {
+  //     try {
+  //       const res = await dataAxios.get(`/users/${id}`);
+  //       setUserDetail(res.data);
+  //     } catch (error) {
+  //       console.error("取得用戶資料失敗", error);
+  //     }
+  //   };
+  //   fetcUserInfo();
+
+  // }, [id])
   //取得會員資訊
   useEffect(() => {
     const fetcUserInfo = async () => {
       try {
-        const res = await dataAxios.get(`/users/${id}`);
-        setUserDetail(res.data);
+        //const res = await dataAxios.get(`/users/${id}`);
+        //setUserDetail(res.data);
       } catch (error) {
         console.error("取得用戶資料失敗", error);
       }
@@ -38,7 +51,7 @@ function MemberProfile() {
           {/*頭像編輯icon絕對定位 */}
           <div className="profile-avatar d-flex align-items-center ">
             <div className="position-relative">
-              <img src={userDetail.imagesUrl} className="profile-avatar-img" />
+              <img src={user.imagesUrl} className="profile-avatar-img" />
               <Link to="/" className="profile-img-link position-absolute">
                 <span className="material-symbols-outlined d-block profile-img-icon">
                   edit_square
@@ -46,7 +59,7 @@ function MemberProfile() {
               </Link>
             </div>
 
-            <h3 className="profile-name fs-9 fs-md-8 fs-lg-6 ms-3 ms-lg-5">{userDetail.nickname}</h3>
+            <h3 className="profile-name fs-9 fs-md-8 fs-lg-6 ms-3 ms-lg-5">{user.nickname}</h3>
           </div>
           <Link to="/" className="profile-edit-btn">
             <p className="fs-9 fs-lg-7">編輯檔案</p>
@@ -59,7 +72,7 @@ function MemberProfile() {
           <ul className="setting-list">
             <li className="setting-item">
               <h4 className="fs-9 fs-lg-7">信箱</h4>
-              <span className="fs-10 fs-lg-8">{userDetail.email}</span>
+              <span className="fs-10 fs-lg-8">{user.email}</span>
             </li>
             <li className="setting-item">
               <h4 className="fs-9 fs-lg-7">密碼</h4>
