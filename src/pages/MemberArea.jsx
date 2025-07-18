@@ -1,48 +1,90 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { Outlet, Link, useParams } from "react-router-dom";
+import { Outlet, Link, useParams, useLocation } from "react-router-dom";
 import Swiper from "swiper/bundle";
 import "swiper/css/bundle";
 
 
 function MemberArea() {
-  const [activeItem, setActiveItem] = useState('profile');//預設頁面為個人檔案
-  const { user, } = useUser();
+  const location = useLocation();//取得目前的網址，判斷是 recipes, bars, comments, coupons 或空字串，來動態設定 activeItem。
+  const [activeItem, setActiveItem] = useState("");//預設頁面為個人檔案
+  const { user, dataAxios } = useUser();
   const { id } = useParams();
+  const [commentCount, setCommentCount] = useState(0);
+
+  //const [userDetail, setUserDetail] = useState({});//預設頁面為null
+  //const swiperRef = useRef(null);
+  //const swiperInstance = useRef(null); // 儲存 swiper 物件
 
 
-  //左側選單陣列 
+  // 動態設定當前 nav active 狀態
+  useEffect(() => {
+    const path = location.pathname;
+    if (path.includes("/recipes")) {
+      setActiveItem("favorite_recipes");
+    } else if (path.includes("/bars")) {
+      setActiveItem("favorite_bars");
+    } else if (path.includes("/comments")) {
+      setActiveItem("comments");
+    } else if (path.includes("/coupons")) {
+      setActiveItem("coupon");
+    } else {
+      setActiveItem("profile");
+    }
+  }, [location]);
+  //左側選單陣列 (count之後要套用api)
   const menuItems = [
     { id: 'profile', label: '個人檔案', link: "" },
     { id: 'favorite_recipes', label: '收藏酒譜', count: `${user?.favorite_recipes?.length || 0}`, link: 'recipes' },
     { id: 'favorite_bars', label: '收藏酒吧', count: `${user?.favorite_bars?.length || 0}`, link: 'bars' },
-    { id: 'comments', label: '歷史評論', count: "", link: 'comments' },
+    { id: 'comments', label: '歷史評論', count: `${commentCount}`, link: 'comments' },
     { id: 'coupon', label: '生日優惠券', count: "", link: 'coupons' },
     //user?.favorite_recipes?.length || 0
     //如果還沒拿到會員資料 ➜ 回傳 0，拿到資料 ➜ 顯示正確數量
 
   ];
 
-  //取得會員資訊
+  //評論資料
   useEffect(() => {
-    const fetcUserInfo = async () => {
+    const fetchUserComments = async () => {
       try {
-        //const res = await dataAxios.get(`/users/${id}`);
-        //setUserDetail(res.data);
+        const res = await dataAxios.get("/userComments");
+        const filtered = res.data.filter(
+          (comment) => comment.userId === user?.id
+        );
+        setCommentCount(filtered.length);
       } catch (error) {
-        console.error("取得用戶資料失敗", error);
+        console.error("取得評論數失敗", error);
       }
     };
-    fetcUserInfo();
 
-  }, [id])
+    if (user?.id) {
+      fetchUserComments();
+    }
+  }, [user]);
+
+  // //取得會員資訊
+  // useEffect(() => {
+  //   const fetcUserInfo = async () => {
+  //     try {
+  //       //const res = await dataAxios.get(`/users/${id}`);
+  //       //setUserDetail(res.data);
+  //     } catch (error) {
+  //       console.error("取得用戶資料失敗", error);
+  //     }
+  //   };
+  //   fetcUserInfo();
+
+  // }, [id])
 
 
   //Swiper 設定
 
   useEffect(() => {
-
+    //if (!userDetail) return; // 防止 swiper 提早啟動
+    // if (userDetail && swiperRef.current && window.innerWidth <= 992){
+    // swiperInstance.current = 
     new Swiper(".member-nav-swiper", {
       slidesPerView: 3,//預設顯示3個預設
       //spaceBetween: 0,
@@ -50,7 +92,10 @@ function MemberArea() {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
-
+      // scrollbar: {
+      //   el: '.swiper-scrollbar',
+      //   draggable: true, // 使用者可以拖拉滾動條移動 slide
+      // },
       breakpoints: {
         // 當螢幕寬度大於等於 480px 時，顯示4個項目
         480: {
@@ -58,8 +103,14 @@ function MemberArea() {
         },
       },
     });
+    // }
 
-  }, []);
+    // return () => {
+    //   // 若有初始化過才銷毀
+    //   //swiperInstance.current?.destroy();
+    // };
+  }, []); // 只有 userDetail 有資料時才初始化 Swiper
+
 
   return (
     <>
@@ -91,7 +142,7 @@ function MemberArea() {
                   </li>
                 ))}
 
-                {/* 行動板使用Swiper切換欄位*/}
+                {/* 測試 ref={swiperRef} */}
                 <div className="swiper mySwiper member-nav-swiper ps-3 d-block d-lg-none" >
                   <div className="swiper-wrapper">
                     {menuItems.map((item) => (
