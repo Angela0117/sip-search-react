@@ -13,11 +13,6 @@ function MemberArea() {
   const { id } = useParams();
   const [commentCount, setCommentCount] = useState(0);
 
-  //const [userDetail, setUserDetail] = useState({});//預設頁面為null
-  //const swiperRef = useRef(null);
-  //const swiperInstance = useRef(null); // 儲存 swiper 物件
-
-
   // 動態設定當前 nav active 狀態
   useEffect(() => {
     const path = location.pathname;
@@ -45,6 +40,11 @@ function MemberArea() {
 
   ];
 
+  // 提供 callback 給 Outlet 子頁面（例如 MemberComments）
+  const contextValue = {
+    setCommentCount,
+  };
+
   //評論資料
   useEffect(() => {
     const fetchUserComments = async () => {
@@ -64,38 +64,17 @@ function MemberArea() {
     }
   }, [user]);
 
-  // //取得會員資訊
-  // useEffect(() => {
-  //   const fetcUserInfo = async () => {
-  //     try {
-  //       //const res = await dataAxios.get(`/users/${id}`);
-  //       //setUserDetail(res.data);
-  //     } catch (error) {
-  //       console.error("取得用戶資料失敗", error);
-  //     }
-  //   };
-  //   fetcUserInfo();
-
-  // }, [id])
-
 
   //Swiper 設定
 
   useEffect(() => {
-    //if (!userDetail) return; // 防止 swiper 提早啟動
-    // if (userDetail && swiperRef.current && window.innerWidth <= 992){
-    // swiperInstance.current = 
     new Swiper(".member-nav-swiper", {
       slidesPerView: 3,//預設顯示3個預設
-      //spaceBetween: 0,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
-      // scrollbar: {
-      //   el: '.swiper-scrollbar',
-      //   draggable: true, // 使用者可以拖拉滾動條移動 slide
-      // },
+
       breakpoints: {
         // 當螢幕寬度大於等於 480px 時，顯示4個項目
         480: {
@@ -103,13 +82,8 @@ function MemberArea() {
         },
       },
     });
-    // }
 
-    // return () => {
-    //   // 若有初始化過才銷毀
-    //   //swiperInstance.current?.destroy();
-    // };
-  }, []); // 只有 userDetail 有資料時才初始化 Swiper
+  }, []);
 
 
   return (
@@ -168,61 +142,6 @@ function MemberArea() {
                   </div>
                 </div>
 
-                {/* 手機版顯示swiper
-              <div className="swiper mySwiper ps-3 d-block d-lg-none" ref={swiperRef} >
-                <div className="swiper-wrapper ">
-                  <div className="swiper-slide"> 
-                    <li className="member-nav-item ">
-                      <Link to="/memberarea"  className="d-flex  gap-2 gap-lg-3">
-                        <p>個人檔案</p>
-                      </Link>            
-                    </li>
-                  </div>
-                  <div className="swiper-slide">
-                      <li className="member-nav-item">
-                        <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                          <p>收藏酒譜</p>
-                          <span className="member-noti-count">{userDetail.favorite_recipes?.length ?? 0}</span>
-                        </Link>            
-                      </li>
-                  </div>
-                  <div className="swiper-slide">
-                      <li className="member-nav-item">
-                        <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                          <p>收藏酒吧</p>
-                          <span className="member-noti-count">{userDetail.favorite_bars?.length ?? 0}</span>
-                        </Link>            
-                      </li>
-                  </div>
-                  <div className="swiper-slide">
-                      <li className="member-nav-item">
-                        <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                          <p>歷史評論</p>
-                          <span className="member-noti-count">5</span>
-                        </Link>            
-                      </li>
-                  </div>
-                  <div className="swiper-slide"> 
-                      <li className="member-nav-item">
-                        <Link to="/"  className="d-flex  gap-2 gap-lg-3">
-                          <p>生日優惠券</p>
-                        </Link>            
-                      </li>
-                  </div>
-                </div>
-                  <div className="swiper-button-next">
-                    <span className="material-symbols-outlined ms-8 nav-icon-next">
-                    arrow_forward_ios
-                    </span>
-                  </div>
-                  <div className="swiper-button-prev">
-                    <span className="material-symbols-outlined me-6 nav-icon-prev">
-                    arrow_back_ios
-                    </span>
-                  </div>
-                  <div className="swiper-scrollbar member-nav-swiper-scrollbar"></div>
-              </div> */}
-
                 <li className="member-nav-item member-logout-link  d-none d-lg-block">
                   <Link to="/">
                     <p>登出</p>
@@ -230,7 +149,7 @@ function MemberArea() {
                 </li>
               </ul>
             </div>
-            <Outlet />
+            <Outlet context={contextValue} />
 
             {/* 手機版時出現：右側內容的最底部登出按鈕 */}
             <div className="logout-mobile-btn d-block d-lg-none">

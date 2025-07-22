@@ -1,17 +1,15 @@
 
 import React, { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
-
-
-//import images from "../images";
 
 function MemberComments() {
   const { user, dataAxios } = useUser();
   const [userComments, setUserComments] = useState([]);//會員評論資料
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("all");//預設頁面為全部評論
+  const { setCommentCount } = useOutletContext();
 
   //下拉選單選項
   const options = [
@@ -26,7 +24,6 @@ function MemberComments() {
     bar: "bar"       // bar 保持不變
   };
 
-
   //取得會員評論資料
   useEffect(() => {
     const getUserComments = async () => {
@@ -35,10 +32,9 @@ function MemberComments() {
         const userComments = allCommentsRes.data.filter((comment) =>
           user?.id === comment.userId)
         setUserComments(userComments);
-
+        setCommentCount(userComments.length); // 即時更新評論筆數
       } catch (error) {
         console.error("取得會員評論失敗", error);
-
       }
     }
     getUserComments();
@@ -89,9 +85,12 @@ function MemberComments() {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        setUserComments((prev) =>
-          prev.filter((comment) => comment.id !== commentId)
+        const updatedComments = userComments.filter(
+          (comment) => comment.id !== commentId
         );
+
+        setUserComments(updatedComments);         // 重新渲染畫面
+        setCommentCount(updatedComments.length);  // 同步更新nav數字
 
         Swal.fire({
           title: "已刪除！",
@@ -112,8 +111,6 @@ function MemberComments() {
     });
   };
 
-
-
   return (
     <>
       <div className="col-lg-9">
@@ -122,7 +119,7 @@ function MemberComments() {
 
           {/* {下拉選單功能} */}
           <div className="custom-select-wrapper">
-            <div className={`custom-select-selected d-flex justify-content-center align-items-center g-5 ${isDropdownOpen ? "open" : ""}`} onClick={toggleDropdown}>
+            <div className={`custom-select-selected fs-9 fs-md-8 fs-lg-6 ${isDropdownOpen ? "open" : ""}`} onClick={toggleDropdown}>
               {options.find(opt => opt.value === selectedOption)?.label}
 
             </div>
@@ -130,6 +127,7 @@ function MemberComments() {
               <ul className="custom-select-options">
                 {options.map((opt, idx) => (
                   <li
+                    className="text-primary-1 fs-9 fs-md-8 fs-lg-7"
                     key={idx}
                     onClick={() => {
                       setSelectedOption(opt.value);
@@ -151,62 +149,34 @@ function MemberComments() {
             <li
               key={comment.id}
               className="comment-card p-7">
-              <p className="text-primary-1 fs-10 fs-md-9 fs-lg-8 mb-3">{comment.createdAt}</p>
-              <div className="row comment-card-body d-flex">
-                <div className=" col-lg-9 comment-card-content d-flex gap-6">
-                  <div className="">
-                    <div className="comment-img">
-                      <img src={comment.targetImage} alt="商品圖片" />
-                    </div>
+              <p className="text-primary-1 fs-9 fs-md-8 fs-lg-7 mb-md-3 px-5 px-md-0">{comment.createdAt}</p>
+              <div className="comment-card-body d-flex">
+                <div className="comment-card-content">
+                  <div className="comment-img">
+                    <img src={comment.targetImage} alt="商品圖片" />
                   </div>
-                  <div className="">
-                    <h3 className="text-primary-3 fs-9 fs-md-8 fs-lg-7 mb-3">{comment.targetName}</h3>
-                    <p className="text-primary-1 fs-10 fs-md-9 fs-lg-8">{comment.comment}</p>
+                  <div>
+                    <h3 className="text-primary-3 fs-8 fs-md-7 fs-lg-6 mb-3">{comment.targetName}</h3>
+                    <p className="text-primary-1 fs-9 fs-lg-8">{comment.comment}</p>
                   </div>
                 </div>
 
-                <div className="col-lg-2 comment-card-btn d-flex flex-column justify-content-center align-items-end gap-4 ">
-                  <Link to={`/${routeMap[comment.targetType]}/${comment.targetId}`}>
-                    <button className="btn btn-primary-3 text-primary-1 fs-10 fs-lg-9 fw-bold">查看
-                    </button>
+                <div className=" comment-card-btn-section ">
+                  <Link
+                    to={`/${routeMap[comment.targetType]}/${comment.targetId}`}
+                    className="comment-card-btn btn btn-primary-3 text-primary-1 fs-9 fs-lg-8 fw-bold"
+                  >
+                    查看
                   </Link>
 
                   <button onClick={() => handleDeleteComment(comment.id)}
-                    className="btn btn-primary-1 fs-10 fs-lg-9 fw-bold">刪除</button>
+                    className="comment-card-btn btn btn-primary-1 fs-9 fs-lg-8 fw-bold">刪除</button>
                 </div>
               </div>
             </li>
-
           ))}
-
-          {/* <li className="comment-card my-lg-10 p-7">
-            userComments
-            <p className="text-primaty-2 fs-10 fs-md-9 fs-lg-8 mb-3">2025.07.07</p>
-            <div className="comment-card-body d-flex">
-              <div className="row comment-card-content d-flex justify-content-center">
-                <div className="comment-img col-lg-2">
-                  <img src={images["bar-nearby-1"]} alt="商品圖片" />
-                </div>
-                <div className="col-lg-9">
-                  <h3 className="text-primary-1 fs-10 fs-md-9 fs-lg-8">茶館名稱</h3>
-                  <p className="text-neutral-white fs-10 fs-md-9 fs-lg-8">評論內容評論內容評論內容評論內容評論內容評論內容評論內容評論內容評論內容評論內容評論內容評論內容</p>
-                </div>
-
-
-              </div>
-              <div className="comment-card-btn d-flex flex-column gap-2">
-                <button className="btn btn-primary-1 fs-10 fs-lg-10">編輯</button>
-                <button className="btn btn-primary-1 fs-10 fs-lg-10">刪除</button>
-              </div>
-
-            </div>
-
-          </li> */}
-
         </ul>
-
       </div>
-
     </>
   )
 }
