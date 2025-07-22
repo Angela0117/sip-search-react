@@ -113,7 +113,7 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
           data-aos-duration="1000"
         >
           <div className="methods-item-2-text">
-            <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-10">
+            <div className="methods-tags fs-10 fs-md-8 text-primary-3 d-flex mt-md-8">
               {recipe.tags?.map((tag, index) => (
                 <a
                   key={index}
@@ -124,7 +124,7 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
                 </a>
               ))}
             </div>
-            <p className="fs-9 fs-md-8 text-neutral-1 mt-2 mt-md-10">
+            <p className="fs-9 fs-md-8 text-neutral-1 mt-2 mt-md-8">
               {recipe.content}
             </p>
           </div>
