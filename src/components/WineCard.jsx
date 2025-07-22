@@ -60,7 +60,7 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
         </h1>
       </div>
 
-      <div className="wine-content-methods d-flex pb-lg-10">
+      <div className="wine-content-methods pb-lg-10">
         <div
           className="methods-item-1 ms-lg-11"
           data-aos="flip-right"
@@ -68,16 +68,15 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
         >
           <img
             className="methods-item-1-img"
-            src={recipe.imagesUrl[0]}
+            src={recipe.imagesUrl[1]}
             alt={recipe.title}
           />
 
           <ul className="methods-icon fs-9 fs-md-8 bg-primary-3 text-neutral-1 d-flex">
             <li className="methods-icon-item d-flex">
               <button
-                className={`methods-icon-btn btn-no-bg ${
-                  isLiked ? "active" : ""
-                }`}
+                className={`methods-icon-btn btn-no-bg ${isLiked ? "active" : ""
+                  }`}
                 onClick={onLike}
               >
                 <span className="material-symbols-outlined">thumb_up</span>
@@ -87,9 +86,8 @@ const WineCard = ({ recipe, onLike, onFavorite, isLiked, isFavorite }) => {
 
             <li className="methods-icon-item d-flex">
               <button
-                className={`methods-icon-btn btn-no-bg ${
-                  isFavorite ? "active" : ""
-                }`}
+                className={`methods-icon-btn btn-no-bg ${isFavorite ? "active" : ""
+                  }`}
                 onClick={onFavorite}
               >
                 <span className="material-symbols-outlined">favorite</span>
