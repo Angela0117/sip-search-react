@@ -26,7 +26,7 @@
 - Git & GitHub（版本控制）
 - Render（雲端部署）
 - Sweetalert (彈窗套件)
-- Miro（流程與畫面規劃
+- Miro（繪製線稿圖與流程圖)
 
 ## 專案連結
 - 測試帳密：angelatest123@gmail.com / angelatest123
@@ -42,7 +42,7 @@
   - src 
     - components # 共用元件
     - context # Context 管理
-    - hooks #  Custom Hook 
+    - hooks # Custom Hook 
     - pages # JSX 頁面
     - routes # 路由設定
 
