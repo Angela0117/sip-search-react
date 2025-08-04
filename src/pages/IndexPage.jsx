@@ -1227,8 +1227,9 @@ function IndexPage() {
                   <p className="comments-list-item-text fs-9 fs-lg-7 mb-lg-8 mb-6">
                     {comment.content}
                   </p>
+                  {/* 酒譜路由為wine/id */}
                   <Link
-                    to={`/recipe/${comment.recipeId}`}
+                    to={`/wine/${comment.recipeId}`}
                     className="comments-list-item-btn d-flex"
                   >
                     <p className="fs-9 fs-lg-6">查看更多</p>
