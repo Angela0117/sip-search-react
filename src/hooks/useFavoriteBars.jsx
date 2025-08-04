@@ -15,7 +15,7 @@ const useFavoriteBars = () => {
   }, [user]);
 
   // 點收藏或取消收藏
-  const toggleFavoriteBars = async (recipeId) => {
+  const toggleFavoriteBars = async (barId) => {
     if (!user) {
       const Toast = Swal.mixin({
         toast: true,
@@ -35,14 +35,14 @@ const useFavoriteBars = () => {
       });
       return;
     }
-    const isFavorite = favoriteBars.includes(recipeId);
+    const isFavorite = favoriteBars.includes(barId);
     const updatedFavorites = isFavorite
-      ? favoriteBars.filter((id) => id !== recipeId) // 移除
-      : [...favoriteBars, recipeId]; // 加入
+      ? favoriteBars.filter((id) => id !== barId) // 移除
+      : [...favoriteBars, barId]; // 加入
 
     // 寫入後端
     await dataAxios.patch(`/users/${user.id}`, {
-      favorite_recipes: updatedFavorites,
+      favorite_bars: updatedFavorites,
     });
 
     // 更新 hook 裡的收藏狀態
@@ -69,6 +69,7 @@ const useFavoriteBars = () => {
   };
 
   return {
+    // 回傳下方函式，讓其他頁面可以套用此功能
     favoriteBars,     // 收藏清單
     toggleFavoriteBars,      // 切換收藏
   };

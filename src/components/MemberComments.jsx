@@ -86,7 +86,7 @@ function MemberComments() {
     }).then((result) => {
       if (result.isConfirmed) {
         const updatedComments = userComments.filter(
-          (comment) => comment.id !== commentId
+          (comment) => comment.id !== commentId //此筆要刪除的id資料
         );
 
         setUserComments(updatedComments);         // 重新渲染畫面
